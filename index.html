@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Les Aventuriers du Lys</title>
+  <style>
+    :root{
+      --bg0:#050612;
+      --panel:rgba(10,15,30,.72);
+      --panel2:rgba(15,23,42,.86);
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --line:rgba(148,163,184,.18);
+      --accent:#22d3ee;
+      --accent2:#a78bfa;
+      --gold:#fbbf24;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --radius:16px;
+      --radius2:22px;
+      --shadow: 0 18px 45px rgba(0,0,0,.55);
+      --max:1140px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:var(--font);
+      color:var(--text);
+      line-height:1.55;
+      background:
+        linear-gradient(rgba(5,6,18,.28), rgba(5,6,18,.65)),
+        url("table-fantasy.png"),
+        linear-gradient(180deg, #0b1230, var(--bg0));
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:18px}
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(5,6,18,.85), rgba(5,6,18,.55), transparent);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .sigil{
+      width:40px;height:40px;border-radius:999px;
+      background:
+        radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%),
+        linear-gradient(135deg, rgba(0,0,0,.2), rgba(0,0,0,0));
+      box-shadow: 0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+      border:1px solid rgba(148,163,184,.35);
+    }
+    .brand h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+    .brand p{font-size:12px;color:var(--muted);margin-top:-2px}
+    .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .chip{
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.28);
+      background:rgba(2,6,23,.48);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .chip:hover{border-color:rgba(34,211,238,.55);color:var(--text)}
+    .cta{
+      padding:9px 14px;border-radius:999px;
+      background:linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+      color:#06101f;font-weight:900;border:0;cursor:pointer;
+      box-shadow: 0 14px 30px rgba(34,211,238,.16);
+      font-size:13px;
+    }
+    .cta:hover{filter:brightness(1.06);transform:translateY(-1px)}
+    .langBtn{
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.28);
+      background:rgba(2,6,23,.55);
+      color:var(--text);
+      cursor:pointer;
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .hero{
+      margin-top:18px;
+      background:var(--panel);
+      border:1px solid rgba(148,163,184,.22);
+      border-radius:var(--radius2);
+      box-shadow:var(--shadow);
+      padding:18px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;inset:-40px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(251,191,36,.08), transparent 48%),
+        radial-gradient(circle at 60% 70%, rgba(255,255,255,.03), transparent 55%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 1px, transparent 1px, transparent 6px);
+      mix-blend-mode: overlay;
+      opacity:.55;
+      pointer-events:none;
+      transform: rotate(-2deg);
+    }
+    .hero > *{position:relative;z-index:1}
+    .kicker{
+      color:rgba(34,211,238,.95);
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:12px;
+      margin-bottom:10px;
+    }
+    h2{
+      font-family:var(--fontDisplay);
+      font-size:32px;line-height:1.12;margin-bottom:10px;
+      letter-spacing:.01em;
+    }
+    h2 span{
+      background:linear-gradient(to right, var(--gold), var(--accent2), var(--accent));
+      -webkit-background-clip:text;color:transparent;
+    }
+    .lead{color:var(--muted);font-size:14px;margin-bottom:14px;max-width:86ch}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px}
+    .badge{
+      font-size:12px;color:var(--muted);
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.45);
+    }
+    .note{color:var(--muted);font-size:13px}
+
+    .sectionTitle{
+      margin-top:14px;
+      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    }
+    .sectionTitle h3{font-size:18px}
+    .sectionTitle p{color:var(--muted);font-size:13px}
+
+    .filters{
+      display:grid;
+      grid-template-columns: repeat(7, minmax(0,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .card2{
+      background:var(--panel2);
+      border:1px solid rgba(148,163,184,.22);
+      border-radius:var(--radius2);
+      box-shadow: 0 12px 30px rgba(0,0,0,.40);
+      padding:18px;
+    }
+    .field label{
+      display:block;color:var(--muted);font-size:12px;margin:0 0 6px 2px;
+    }
+    select,input{
+      width:100%;
+      padding:10px 10px;
+      border-radius:12px;
+      border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.55);
+      color:var(--text);
+      outline:none;
+    }
+    input::placeholder{color:rgba(148,163,184,.6)}
+    .filters .wide{grid-column: span 2;}
+    .filters .btnRow{display:flex;gap:10px;align-items:flex-end}
+    .btn{
+      padding:10px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.25);
+      background:rgba(15,23,42,.9);color:var(--text);cursor:pointer;font-weight:800;
+    }
+    .btn:hover{border-color:rgba(34,211,238,.55);color:var(--accent)}
+    .btnPrimary{
+      padding:10px 12px;border-radius:12px;border:0;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#06101f;cursor:pointer;font-weight:950;
+    }
+
+    .list{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    .row{
+      border-radius:16px;
+      border:1px solid rgba(148,163,184,.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(167,139,250,.10), transparent 42%),
+        radial-gradient(circle at 100% 0%, rgba(34,211,238,.10), transparent 46%),
+        rgba(15,23,42,.82);
+      padding:12px;
+      display:grid;
+      grid-template-columns: 1.35fr 1.05fr .9fr .95fr;
+      gap:10px;
+      align-items:center;
+    }
+    .row:hover{border-color:rgba(34,211,238,.45)}
+    .title{display:flex;flex-direction:column;gap:2px}
+    .title strong{font-size:14px}
+    .title small{color:var(--muted);font-size:12px}
+
+    .meta{color:var(--muted);font-size:12px}
+    .meta strong{color:#dbeafe}
+
+    .pill{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.40);
+      color:var(--muted);font-size:12px;
+      width:max-content;
+      gap:6px;
+      margin-right:6px;
+      margin-top:6px;
+    }
+    .dot{width:7px;height:7px;border-radius:999px;display:inline-block}
+    .rowActions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+    .mini{
+      padding:8px 10px;border-radius:12px;border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.55);color:var(--text);cursor:pointer;font-weight:900;font-size:12px
+    }
+    .mini:hover{border-color:rgba(34,211,238,.55);color:var(--accent)}
+    .miniPrimary{
+      padding:8px 10px;border-radius:12px;border:0;
+      background:linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+      color:#06101f;cursor:pointer;font-weight:950;font-size:12px
+    }
+    .miniDisabled{
+      padding:8px 10px;border-radius:12px;border:1px solid rgba(148,163,184,.18);
+      background:rgba(2,6,23,.25);color:rgba(229,231,235,.45);
+      cursor:not-allowed;font-weight:900;font-size:12px
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      margin-top:24px;
+      padding:18px 0 30px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    /* Modal */
+    .modalBackdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,.55);
+      display:none;align-items:center;justify-content:center;
+      padding:18px;z-index:200;
+    }
+    .modal{
+      width:min(980px, 100%);
+      border-radius:22px;
+      border:1px solid rgba(148,163,184,.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(167,139,250,.12), transparent 50%),
+        radial-gradient(circle at 100% 0%, rgba(34,211,238,.12), transparent 55%),
+        rgba(15,23,42,.97);
+      box-shadow: 0 22px 60px rgba(0,0,0,.65);
+      overflow:hidden;
+    }
+    .modalHeader{
+      padding:14px 16px;
+      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(to bottom, rgba(251,191,36,.08), rgba(34,211,238,.08), transparent);
+    }
+    .modalHeader h4{
+      font-family:var(--fontDisplay);
+      font-size:16px;margin-bottom:4px
+    }
+    .modalHeader .sub{color:var(--muted);font-size:12px}
+    .close{
+      border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.45);
+      color:var(--text);
+      border-radius:12px;
+      padding:8px 10px;
+      cursor:pointer;
+      font-weight:950;
+      font-size:12px;
+    }
+    .modalBody{
+      padding:16px;
+      display:grid;
+      grid-template-columns: 1.2fr .95fr;
+      gap:14px;
+    }
+    .box{
+      padding:12px;border-radius:16px;
+      border:1px solid rgba(148,163,184,.22);
+      background:rgba(2,6,23,.35);
+    }
+    .box h5{font-size:13px;margin-bottom:8px;color:#dbeafe}
+    .box p{color:var(--muted);font-size:13px}
+    .kv{display:grid;grid-template-columns: 1fr 1fr;gap:10px;margin-top:10px}
+    .kv .k{color:var(--muted);font-size:12px}
+    .kv .v{font-size:12px}
+    .modalActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .divider{height:1px;background:var(--line);margin:10px 0}
+
+    @media (max-width: 980px){
+      .filters{grid-template-columns: repeat(2, minmax(0,1fr));}
+      .filters .wide{grid-column: span 2;}
+      .row{grid-template-columns:1fr;gap:8px}
+      .rowActions{justify-content:flex-start}
+      .modalBody{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="sigil"></div>
+        <div>
+          <h1>Les Aventuriers du Lys</h1>
+          <p>Site MVP (statique) — prêt à mettre en ligne</p>
+        </div>
+      </div>
+      <div class="nav">
+        <a href="#explore" class="chip">Explorer</a>
+        <a href="#how" class="chip">Comment ça marche</a>
+        <button class="langBtn" id="langBtn">FR</button>
+        <button class="cta" onclick="alert('Démo : création de compte à venir (v2).')">Créer un compte</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">Fantasy • Horreur • Gothique • Superhéros • Techno</div>
+    <h2>Trouvez une table, <span>réservez</span>, jouez.</h2>
+    <p class="lead">
+      Cette version est un <strong>vrai site statique</strong> (fichier HTML + image), donc tu peux déjà le publier en ligne.
+      Les boutons “Réserver/Annuler” sont une simulation locale (pas de comptes ni paiement encore).
+    </p>
+    <div class="badges">
+      <div class="badge">Prix : / joueur / séance</div>
+      <div class="badge">Min requis + Max joueurs</div>
+      <div class="badge">Devise : CAD (USD/EUR possible)</div>
+      <div class="badge">Langue de table : FR/EN/BIL</div>
+      <div class="badge">Fuseau horaire visible + filtrable</div>
+      <div class="badge">Plateformes : texte libre</div>
+    </div>
+    <p class="note">
+      Prochaine étape (quand tu voudras) : comptes + vraies réservations + paiements (Stripe) + commission.
+    </p>
+  </section>
+
+  <section id="explore">
+    <div class="sectionTitle">
+      <div>
+        <h3>Explorer les parties</h3>
+        <p>Filtre, puis clique “Voir” ou “Réserver”.</p>
+      </div>
+      <div class="pill" id="countPill"><span class="dot" style="background:var(--accent)"></span>0 parties affichées</div>
+    </div>
+
+    <div class="filters card2">
+      <div class="field">
+        <label>Système</label>
+        <select id="f_system">
+          <option value="all">Tous</option>
+          <option value="DND">D&D</option>
+          <option value="PF">Pathfinder</option>
+          <option value="VTM">VtM</option>
+          <option value="COC">Cthulhu</option>
+          <option value="HERO">Marvel/DC</option>
+          <option value="SR">Shadowrun</option>
+          <option value="OTHER">Autre</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Format</label>
+        <select id="f_format">
+          <option value="all">Tous</option>
+          <option value="ONE_SHOT">One-shot</option>
+          <option value="CAMPAIGN">Campagne</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Langue</label>
+        <select id="f_lang">
+          <option value="all">Toutes</option>
+          <option value="FR">FR</option>
+          <option value="EN">EN</option>
+          <option value="BIL">BIL</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Devise</label>
+        <select id="f_currency">
+          <option value="all">Toutes</option>
+          <option value="CAD">CAD</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Fuseau</label>
+        <select id="f_tz">
+          <option value="all">Tous</option>
+          <option value="America/Montreal">America/Montreal</option>
+          <option value="America/New_York">America/New_York</option>
+          <option value="Europe/Paris">Europe/Paris</option>
+          <option value="Europe/London">Europe/London</option>
+          <option value="UTC">UTC</option>
+        </select>
+      </div>
+      <div class="field wide">
+        <label>Recherche</label>
+        <input id="f_q" placeholder="ex: gothique, enquête, cyberpunk, débutants..." />
+      </div>
+      <div class="btnRow">
+        <button class="btn" id="resetBtn">Réinitialiser</button>
+        <button class="btnPrimary" id="applyBtn">Appliquer</button>
+      </div>
+    </div>
+
+    <div class="list" id="list"></div>
+  </section>
+
+  <section id="how" class="card2" style="margin-top:16px">
+    <div class="kicker">MVP (ce que ça fait / ne fait pas)</div>
+    <p class="note">
+      ✅ Affiche des parties, filtres, détails, prix par joueur, min/max, statut, fuseau horaire.<br>
+      ✅ Peut être publié tout de suite (site statique).<br>
+      ⚠️ Ne gère pas encore : comptes, réservations réelles, paiement, messages automatiques.
+    </p>
+  </section>
+
+  <footer class="wrap">
+    © <span id="year"></span> Les Aventuriers du Lys — MVP statique
+  </footer>
+</main>
+
+<!-- Modal -->
+<div class="modalBackdrop" id="modalBackdrop" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div>
+        <h4 id="m_title">Titre</h4>
+        <div class="sub" id="m_sub">Système • Format • Langue</div>
+      </div>
+      <button class="close" id="closeModal">Fermer</button>
+    </div>
+    <div class="modalBody">
+      <div class="box">
+        <h5>Description</h5>
+        <p id="m_desc"></p>
+        <div class="divider"></div>
+        <h5>À quoi s’attendre</h5>
+        <p id="m_expect"></p>
+      </div>
+
+      <div class="box">
+        <h5>Détails</h5>
+        <div class="kv">
+          <div><div class="k">Maître scénariste</div><div class="v" id="m_dm"></div></div>
+          <div><div class="k">Prix</div><div class="v" id="m_price"></div></div>
+          <div><div class="k">Quand</div><div class="v" id="m_when"></div></div>
+          <div><div class="k">Fuseau</div><div class="v" id="m_tz"></div></div>
+          <div><div class="k">Durée</div><div class="v" id="m_dur"></div></div>
+          <div><div class="k">Joueurs</div><div class="v" id="m_seats"></div></div>
+          <div><div class="k">Plateformes</div><div class="v" id="m_plat"></div></div>
+        </div>
+
+        <div class="divider"></div>
+        <div id="m_tags"></div>
+        <div class="divider"></div>
+        <div id="m_status_row"></div>
+
+        <div class="modalActions">
+          <button class="miniPrimary" id="m_book">Réserver (+1)</button>
+          <button class="mini" id="m_cancel">Annuler (-1)</button>
+          <button class="mini" id="m_toggle">Fermer/Ouvrir (MJ démo)</button>
+        </div>
+
+        <div style="margin-top:10px" class="note">
+          MVP : paiement hors site. Plus tard : paiement intégré + commission.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Data (simulation locale)
+  const games = [
+    {
+      id:"g1",
+      title_fr:"La Crypte des Brumes",
+      title_en:"The Mist Crypt",
+      system:"DND",
+      format:"ONE_SHOT",
+      lang:"FR",
+      price_per_player:20, currency:"CAD",
+      when_fr:"Samedi 19:00", when_en:"Saturday 19:00",
+      tz:"America/Montreal",
+      duration:"3h30",
+      min_players:3, max_players:6,
+      booked:2, is_open:true,
+      platforms:["Discord","Roll20"],
+      tags:["Fantasy","Horreur","Gothique"],
+      dm:"Le Sage Licorne (profil démo)",
+      desc_fr:"Horreur gothique légère, exploration et enquête. Idéal pour débutants : explications au fil de l’eau.",
+      desc_en:"Light gothic horror, exploration and investigation. Beginner-friendly: rules explained as we go.",
+      expect_fr:"Ambiance sombre mais safe. X-card, lignes/veiles. Roleplay encouragé, combats rapides.",
+      expect_en:"Spooky but safe. X-card, lines/veils. Roleplay encouraged, fast-paced combats."
+    },
+    {
+      id:"g2",
+      title_fr:"Chroniques du Lys — Mascarade",
+      title_en:"Lys Chronicles — Masquerade",
+      system:"VTM",
+      format:"CAMPAIGN",
+      lang:"BIL",
+      price_per_player:18, currency:"CAD",
+      when_fr:"Mercredi 20:00", when_en:"Wednesday 20:00",
+      tz:"America/Montreal",
+      duration:"3h",
+      min_players:4, max_players:5,
+      booked:4, is_open:true,
+      platforms:["Discord"],
+      tags:["Gothique","Horreur"],
+      dm:"Maître scénariste : Églantine Noire (démo)",
+      desc_fr:"Intrigues, politique vampirique, secrets. Session zéro incluse.",
+      desc_en:"Intrigue, vampire politics, secrets. Session zero included.",
+      expect_fr:"Thèmes adultes. Consentement + limites claires. Jeu narratif prioritaire.",
+      expect_en:"Adult themes. Consent + clear boundaries. Narrative-first play."
+    },
+    {
+      id:"g3",
+      title_fr:"La Chose sous la Jetée",
+      title_en:"The Thing Under the Pier",
+      system:"COC",
+      format:"ONE_SHOT",
+      lang:"EN",
+      price_per_player:15, currency:"USD",
+      when_fr:"Vendredi 21:00", when_en:"Friday 21:00",
+      tz:"Europe/London",
+      duration:"3h",
+      min_players:3, max_players:5,
+      booked:1, is_open:true,
+      platforms:["Discord","Théâtre de l’esprit"],
+      tags:["Horreur"],
+      dm:"Keeper: Night Archivist (demo)",
+      desc_fr:"Horreur d’enquête : indices, paranoïa, révélations.",
+      desc_en:"Investigative horror: clues, paranoia, revelations.",
+      expect_fr:"Rythme tendu, décisions lourdes. Outils de sécurité.",
+      expect_en:"Tense pace, heavy choices. Safety tools."
+    },
+    {
+      id:"g4",
+      title_fr:"Néon & Cendres — District 13",
+      title_en:"Neon & Ash — District 13",
+      system:"SR",
+      format:"CAMPAIGN",
+      lang:"BIL",
+      price_per_player:12, currency:"EUR",
+      when_fr:"Dimanche 14:00", when_en:"Sunday 14:00",
+      tz:"Europe/Paris",
+      duration:"4h",
+      min_players:3, max_players:6,
+      booked:6, is_open:true,
+      platforms:["Foundry VTT","Discord"],
+      tags:["Tech","Cyberpunk"],
+      dm:"Maître scénariste : HexWire (démo)",
+      desc_fr:"Runs, corporations, magie & chrome. Missions rapides, conséquences persistantes.",
+      desc_en:"Runs, corps, magic & chrome. Fast missions, lasting consequences.",
+      expect_fr:"Planification + action. Fiches préfaites possibles.",
+      expect_en:"Planning + action. Pregens available."
+    },
+    {
+      id:"g5",
+      title_fr:"Les Sentinelles du Lys",
+      title_en:"Lily Sentinels",
+      system:"HERO",
+      format:"ONE_SHOT",
+      lang:"FR",
+      price_per_player:10, currency:"CAD",
+      when_fr:"Lundi 19:30", when_en:"Monday 19:30",
+      tz:"America/New_York",
+      duration:"2h30",
+      min_players:2, max_players:6,
+      booked:2, is_open:false,
+      platforms:["Discord"],
+      tags:["Superhéros"],
+      dm:"Maître scénariste : Skylight (démo)",
+      desc_fr:"Action superhéroïque : enquête + combat cinématique, ton Marvel/DC.",
+      desc_en:"Superhero action: investigation + cinematic combat, Marvel/DC tone.",
+      expect_fr:"Dynamique, fun, accessible. Zéro prérequis.",
+      expect_en:"Dynamic, fun, accessible. No prerequisites."
+    }
+  ];
+
+  // i18n light
+  let lang = "fr";
+  const T = {
+    fr:{
+      count:(n)=>`${n} parties affichées`,
+      pricePPS:"/ joueur / séance",
+      seatsLine:(b,min,max)=>`Joueurs : ${b}/${max} (min ${min})`,
+      status:{CLOSED:"Fermé", FULL:"Complet", WAIT:"En attente du minimum", OPEN:"Ouvert"},
+      btn:{view:"Voir", book:"Réserver (+1)", cancel:"Annuler (-1)"},
+      labels:{schedule:"Horaire", cost:"Coût", seats:"Places", tz:"Fuseau"}
+    },
+    en:{
+      count:(n)=>`${n} sessions shown`,
+      pricePPS:"/ player / session",
+      seatsLine:(b,min,max)=>`Players: ${b}/${max} (min ${min})`,
+      status:{CLOSED:"Closed", FULL:"Full", WAIT:"Waiting for minimum", OPEN:"Open"},
+      btn:{view:"View", book:"Book (+1)", cancel:"Cancel (-1)"},
+      labels:{schedule:"Schedule", cost:"Cost", seats:"Seats", tz:"Time zone"}
+    }
+  };
+
+  function sysLabel(s){
+    if(s==="DND") return "D&D";
+    if(s==="PF") return "Pathfinder";
+    if(s==="VTM") return "VtM";
+    if(s==="COC") return "Cthulhu";
+    if(s==="HERO") return "Marvel/DC";
+    if(s==="SR") return "Shadowrun";
+    return (lang==="fr"?"Autre":"Other");
+  }
+  function formatLabel(f){
+    if(f==="ONE_SHOT") return "One-shot";
+    return (lang==="fr"?"Campagne":"Campaign");
+  }
+
+  function tagPill(tag){
+    const map = {
+      "Fantasy":["var(--gold)", "Fantasy"],
+      "Horreur":["var(--good)", lang==="fr"?"Horreur":"Horror"],
+      "Gothique":["var(--accent2)", lang==="fr"?"Gothique":"Gothic"],
+      "Superhéros":["#60a5fa", lang==="fr"?"Superhéros":"Superhero"],
+      "Tech":["var(--accent)", lang==="fr"?"Techno":"Tech"],
+      "Cyberpunk":["var(--accent)", "Cyberpunk"]
+    };
+    const [c,label] = map[tag] || ["rgba(148,163,184,.8)", tag];
+    return `<span class="pill"><span class="dot" style="background:${c}"></span>${label}</span>`;
+  }
+
+  function computeStatus(g){
+    if(!g.is_open) return "CLOSED";
+    if(g.booked >= g.max_players) return "FULL";
+    if(g.booked < g.min_players) return "WAIT";
+    return "OPEN";
+  }
+  function statusPill(g){
+    const st = computeStatus(g);
+    const label = T[lang].status[st];
+    let color = "var(--accent)";
+    if(st==="CLOSED") color="var(--bad)";
+    if(st==="FULL") color="var(--warn)";
+    if(st==="WAIT") color="var(--accent2)";
+    if(st==="OPEN") color="var(--good)";
+    return `<span class="pill"><span class="dot" style="background:${color}"></span>${label}</span>`;
+  }
+  function canBook(g){ return g.is_open && g.booked < g.max_players; }
+  function canCancel(g){ return g.booked > 0; }
+
+  function matches(g,f){
+    if(f.system!=="all" && g.system!==f.system) return false;
+    if(f.format!=="all" && g.format!==f.format) return false;
+    if(f.lang!=="all" && g.lang!==f.lang) return false;
+    if(f.currency!=="all" && g.currency!==f.currency) return false;
+    if(f.tz!=="all" && g.tz!==f.tz) return false;
+
+    const q=f.q.trim().toLowerCase();
+    if(q){
+      const hay = [
+        g.title_fr,g.title_en,g.desc_fr,g.desc_en,g.expect_fr,g.expect_en,
+        g.platforms.join(" "), g.tags.join(" "), sysLabel(g.system), formatLabel(g.format), g.tz
+      ].join(" ").toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  }
+
+  function render(){
+    const f = {
+      system: document.getElementById("f_system").value,
+      format: document.getElementById("f_format").value,
+      lang: document.getElementById("f_lang").value,
+      currency: document.getElementById("f_currency").value,
+      tz: document.getElementById("f_tz").value,
+      q: document.getElementById("f_q").value
+    };
+
+    const filtered = games.filter(g=>matches(g,f));
+    document.getElementById("countPill").innerHTML =
+      `<span class="dot" style="background:var(--accent)"></span>${T[lang].count(filtered.length)}`;
+
+    const list = document.getElementById("list");
+    list.innerHTML = filtered.map(g=>{
+      const title = (lang==="fr") ? g.title_fr : g.title_en;
+      const when = (lang==="fr") ? g.when_fr : g.when_en;
+      const price = `${g.price_per_player} ${g.currency} ${T[lang].pricePPS}`;
+      const tags = g.tags.map(tagPill).join("");
+
+      const bookBtn = canBook(g)
+        ? `<button class="miniPrimary" onclick="book('${g.id}')">${T[lang].btn.book}</button>`
+        : `<button class="miniDisabled">${T[lang].btn.book}</button>`;
+
+      const cancelBtn = canCancel(g)
+        ? `<button class="mini" onclick="cancel('${g.id}')">${T[lang].btn.cancel}</button>`
+        : `<button class="miniDisabled">${T[lang].btn.cancel}</button>`;
+
+      return `
+        <div class="row">
+          <div class="title">
+            <strong>${title}</strong>
+            <small>${formatLabel(g.format)} • ${sysLabel(g.system)} • ${g.platforms.join(", ")}</small>
+            <div>${tags}</div>
+          </div>
+
+          <div class="meta">
+            <strong>${T[lang].labels.schedule}:</strong><br>${when}
+            <div style="margin-top:6px">${statusPill(g)} <span class="pill"><span class="dot" style="background:#60a5fa"></span>${T[lang].labels.tz}: ${g.tz}</span></div>
+          </div>
+
+          <div class="meta">
+            <strong>${T[lang].labels.cost}:</strong><br>${price}
+            <div style="margin-top:6px"><strong>${T[lang].labels.seats}:</strong> ${g.booked}/${g.max_players} • <span style="color:var(--muted)">min ${g.min_players}</span></div>
+          </div>
+
+          <div class="rowActions">
+            <button class="mini" onclick="openModal('${g.id}')">${T[lang].btn.view}</button>
+            ${bookBtn}
+            ${cancelBtn}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // Simulation actions
+  function findGame(id){ return games.find(x=>x.id===id); }
+  function book(id){
+    const g = findGame(id);
+    if(!g || !canBook(g)) return;
+    g.booked += 1;
+    render();
+    if(currentModalId===id) openModal(id,true);
+  }
+  function cancel(id){
+    const g = findGame(id);
+    if(!g || !canCancel(g)) return;
+    g.booked -= 1;
+    render();
+    if(currentModalId===id) openModal(id,true);
+  }
+  function toggleOpen(id){
+    const g = findGame(id);
+    if(!g) return;
+    g.is_open = !g.is_open;
+    render();
+    if(currentModalId===id) openModal(id,true);
+  }
+
+  // Modal
+  let currentModalId = null;
+  function openModal(id, focusBook=false){
+    const g = findGame(id);
+    if(!g) return;
+    currentModalId = id;
+
+    document.getElementById("m_title").textContent = (lang==="fr") ? g.title_fr : g.title_en;
+    document.getElementById("m_sub").textContent = `${sysLabel(g.system)} • ${formatLabel(g.format)} • ${g.lang}`;
+
+    document.getElementById("m_desc").textContent = (lang==="fr") ? g.desc_fr : g.desc_en;
+    document.getElementById("m_expect").textContent = (lang==="fr") ? g.expect_fr : g.expect_en;
+
+    document.getElementById("m_dm").textContent = g.dm;
+    document.getElementById("m_price").textContent = `${g.price_per_player} ${g.currency} ${T[lang].pricePPS}`;
+    document.getElementById("m_when").textContent = (lang==="fr") ? g.when_fr : g.when_en;
+    document.getElementById("m_tz").textContent = g.tz;
+    document.getElementById("m_dur").textContent = g.duration;
+    document.getElementById("m_seats").textContent = `${g.booked}/${g.max_players} (min ${g.min_players})`;
+    document.getElementById("m_plat").textContent = g.platforms.join(", ");
+
+    document.getElementById("m_tags").innerHTML = g.tags.map(tagPill).join("");
+
+    document.getElementById("m_status_row").innerHTML =
+      `${statusPill(g)} <span class="pill"><span class="dot" style="background:rgba(148,163,184,.8)"></span>${T[lang].seatsLine(g.booked,g.min_players,g.max_players)}</span>`;
+
+    const bookBtn = document.getElementById("m_book");
+    const cancelBtn = document.getElementById("m_cancel");
+    const toggleBtn = document.getElementById("m_toggle");
+
+    bookBtn.onclick = ()=>book(id);
+    cancelBtn.onclick = ()=>cancel(id);
+    toggleBtn.onclick = ()=>toggleOpen(id);
+
+    bookBtn.className = canBook(g) ? "miniPrimary" : "miniDisabled";
+    bookBtn.disabled = !canBook(g);
+
+    cancelBtn.className = canCancel(g) ? "mini" : "miniDisabled";
+    cancelBtn.disabled = !canCancel(g);
+
+    document.getElementById("modalBackdrop").style.display = "flex";
+    if(focusBook && canBook(g)) bookBtn.focus();
+  }
+  function closeModal(){
+    currentModalId = null;
+    document.getElementById("modalBackdrop").style.display = "none";
+  }
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+  document.getElementById("modalBackdrop").addEventListener("click", (e)=>{
+    if(e.target.id==="modalBackdrop") closeModal();
+  });
+
+  // Filters
+  document.getElementById("applyBtn").addEventListener("click", render);
+  document.getElementById("resetBtn").addEventListener("click", ()=>{
+    document.getElementById("f_system").value="all";
+    document.getElementById("f_format").value="all";
+    document.getElementById("f_lang").value="all";
+    document.getElementById("f_currency").value="all";
+    document.getElementById("f_tz").value="all";
+    document.getElementById("f_q").value="";
+    render();
+  });
+
+  // Language toggle
+  document.getElementById("langBtn").addEventListener("click", ()=>{
+    lang = (lang==="fr") ? "en" : "fr";
+    document.getElementById("langBtn").textContent = (lang==="fr") ? "FR" : "EN";
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
