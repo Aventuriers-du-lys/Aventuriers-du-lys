@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Publier une partie – Aventuriers du Lys</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  color:white;
+  background:
+    linear-gradient(rgba(5,6,18,.35), rgba(5,6,18,.75)),
+    url("table-fantasy.png");
+  background-size:cover;
+  background-position:center;
+}
+
+.container{
+  max-width:900px;
+  margin:60px auto;
+  background:rgba(10,15,30,.85);
+  padding:40px;
+  border-radius:18px;
+}
+
+h1{margin-top:0}
+
+label{
+  display:block;
+  margin-top:18px;
+  font-size:14px;
+}
+
+input, textarea, select{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border-radius:10px;
+  border:0;
+}
+
+button{
+  margin-top:25px;
+  padding:12px 18px;
+  border-radius:12px;
+  border:0;
+  background:#4fd1c5;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Publier une partie</h1>
+
+<form action="mailto:flag2670@gmail.com" method="post" enctype="text/plain">
+
+<label>Titre de la partie</label>
+<input name="Titre">
+
+<label>Système</label>
+<select name="Système">
+<option>D&D</option>
+<option>Pathfinder</option>
+<option>VtM</option>
+<option>Cthulhu</option>
+<option>Marvel/DC</option>
+<option>Shadowrun</option>
+<option>Autre</option>
+</select>
+
+<label>Langue de la table</label>
+<select name="Langue">
+<option>FR</option>
+<option>EN</option>
+<option>BIL</option>
+</select>
+
+<label>Prix par joueur / séance</label>
+<input name="Prix">
+
+<label>Horaire + fuseau horaire</label>
+<input name="Horaire">
+
+<label>Plateformes utilisées</label>
+<input name="Plateformes">
+
+<label>Description</label>
+<textarea name="Description" rows="5"></textarea>
+
+<button type="submit">Envoyer la demande</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
