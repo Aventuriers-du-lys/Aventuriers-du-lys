@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Profil public — Les Aventuriers du Lys</title>
+<style>
+  :root{
+    --bg0:#050612; --text:#e5e7eb; --muted:#94a3b8; --line:rgba(148,163,184,.18);
+    --accent:#22d3ee; --accent2:#a78bfa; --gold:#fbbf24;
+    --panel:rgba(10,15,30,.78); --panel2:rgba(15,23,42,.90);
+    --radius2:22px; --shadow:0 18px 45px rgba(0,0,0,.55);
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font);
+    color:var(--text);
+    line-height:1.55;
+    background:
+      linear-gradient(rgba(5,6,18,.26), rgba(5,6,18,.78)),
+      url("table-fantasy.png"),
+      linear-gradient(180deg, #0b1230, var(--bg0));
+    background-size:cover;background-position:center;background-attachment:fixed;
+    min-height:100vh;
+  }
+  a{color:inherit}
+  .wrap{max-width:980px;margin:0 auto;padding:18px}
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter: blur(14px);
+    background: linear-gradient(to bottom, rgba(5,6,18,.85), rgba(5,6,18,.55), transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .sigil{
+    width:40px;height:40px;border-radius:999px;
+    background: radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%);
+    box-shadow: 0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+    border:1px solid rgba(148,163,184,.35);
+  }
+  .brand h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+  .brand p{font-size:12px;color:var(--muted);margin-top:-2px}
+  .nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .chip{
+    padding:8px 12px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.28);
+    background:rgba(2,6,23,.48);
+    color:var(--muted);font-size:13px;text-decoration:none;
+  }
+  .chip:hover{border-color:rgba(34,211,238,.55);color:var(--text)}
+  .card{
+    margin-top:18px;
+    background:var(--panel);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    box-shadow:var(--shadow);
+    padding:18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::after{
+    content:"";
+    position:absolute;inset:-40px;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(251,191,36,.08), transparent 48%),
+      radial-gradient(circle at 60% 70%, rgba(255,255,255,.03), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 1px, transparent 1px, transparent 6px);
+    mix-blend-mode: overlay; opacity:.55; pointer-events:none; transform: rotate(-2deg);
+  }
+  .card > *{position:relative;z-index:1}
+  .kicker{color:rgba(34,211,238,.95);text-transform:uppercase;letter-spacing:.18em;font-size:12px;margin-bottom:10px}
+  h2{font-family:var(--fontDisplay);font-size:30px;line-height:1.12;margin-bottom:10px}
+  h2 span{background:linear-gradient(to right, var(--gold), var(--accent2), var(--accent));-webkit-background-clip:text;color:transparent}
+  .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}
+  .panel{
+    background:var(--panel2);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    padding:16px;
+  }
+  .panel h3{font-size:16px;margin-bottom:10px}
+  .muted{color:var(--muted);font-size:13px}
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .k{color:var(--muted);font-size:12px}
+  .v{font-size:13px}
+  .pill{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:6px 10px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.40);
+    color:var(--muted);font-size:12px;
+    width:max-content;gap:6px;margin-right:6px;margin-top:6px;
+  }
+  .dot{width:7px;height:7px;border-radius:999px;display:inline-block}
+  @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="sigil"></div>
+        <div>
+          <h1>Les Aventuriers du Lys</h1>
+          <p>Profil public (MVP)</p>
+        </div>
+      </div>
+      <div class="nav">
+        <a class="chip" href="index.html">Accueil</a>
+        <a class="chip" href="profil.html">Mon profil</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card">
+    <div class="kicker" id="kicker">Profil</div>
+    <h2 id="name">Profil <span>public</span></h2>
+    <p class="muted" id="bio">—</p>
+
+    <div class="grid">
+      <div class="panel">
+        <h3>Détails</h3>
+        <div class="kv" id="kv"></div>
+        <div style="margin-top:10px" id="tags"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Lien</h3>
+        <p class="muted">Si le créateur du profil a fourni un lien personnel, il apparaît ici.</p>
+        <div style="margin-top:10px" id="linkArea"></div>
+        <div style="margin-top:14px" class="muted">
+          Note : ce profil est rendu via un lien généré (MVP). Plus tard : vrais comptes.
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  function b64UrlToB64(s){ return s.replace(/-/g,'+').replace(/_/g,'/'); }
+  function decodeB64UrlUtf8(b64url){
+    const b64 = b64UrlToB64(b64url);
+    const pad = '='.repeat((4 - (b64.length % 4)) % 4);
+    const bin = atob(b64 + pad);
+    const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
+  }
+
+  function pill(label, color){
+    return `<span class="pill"><span class="dot" style="background:${color}"></span>${label}</span>`;
+  }
+
+  function render(data){
+    const name = data.displayName?.trim() || "Profil public";
+    const mode = data.mode || "player";
+
+    document.getElementById("kicker").textContent = mode === "gm" ? "Maître scénariste" : "Joueur";
+    document.getElementById("name").innerHTML = `${name} — <span>profil public</span>`;
+    document.getElementById("bio").textContent = (data.bio && data.bio.trim()) ? data.bio.trim() : "—";
+
+    const kv = [];
+    kv.push({k:"Langue", v:data.lang || "—"});
+    kv.push({k:"Fuseau", v:data.tz || "—"});
+
+    if(mode==="player"){
+      kv.push({k:"Systèmes", v:data.pSystems || "—"});
+      kv.push({k:"Style", v:data.pStyle || "—"});
+      kv.push({k:"Expérience", v:data.pLevel || "—"});
+      kv.push({k:"Dispos", v:data.pAvailability || "—"});
+    } else {
+      kv.push({k:"Expérience", v:data.gmExp || "—"});
+      kv.push({k:"Tarif", v:(data.gmRate && data.gmCurrency) ? `${data.gmRate} ${data.gmCurrency} / joueur / séance` : "—"});
+      kv.push({k:"Plateformes", v:data.gmPlatforms || "—"});
+      kv.push({k:"Sécurité", v:data.gmSafety || "—"});
+    }
+
+    document.getElementById("kv").innerHTML = kv.map(x=>`
+      <div><div class="k">${x.k}</div><div class="v">${escapeHtml(x.v)}</div></div>
+    `).join("");
+
+    const tags = [];
+    tags.push(pill(mode==="gm" ? "Maître scénariste" : "Joueur", "var(--accent)"));
+    if(data.lang) tags.push(pill(data.lang, "var(--accent2)"));
+    if(data.tz) tags.push(pill(data.tz, "var(--gold)"));
+    document.getElementById("tags").innerHTML = tags.join("");
+
+    const link = (data.publicLink || "").trim();
+    const linkArea = document.getElementById("linkArea");
+    if(link){
+      const safe = sanitizeUrl(link);
+      linkArea.innerHTML = safe
+        ? `<a class="chip" style="display:inline-block" href="${safe}" target="_blank" rel="noopener">Ouvrir le lien personnel</a>`
+        : `<span class="muted">Lien fourni, mais format invalide.</span>`;
+    } else {
+      linkArea.innerHTML = `<span class="muted">—</span>`;
+    }
+  }
+
+  function sanitizeUrl(u){
+    try{
+      const url = new URL(u.startsWith("http") ? u : ("https://" + u));
+      if(url.protocol === "http:" || url.protocol === "https:") return url.toString();
+      return null;
+    }catch(e){ return null; }
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  // Load from URL (public)
+  const params = new URLSearchParams(location.search);
+  const dataParam = params.get("data");
+
+  if(!dataParam){
+    render({displayName:"Profil public", bio:"Aucune donnée trouvée. Ce lien doit contenir ?data=...", mode:"player"});
+  } else {
+    try{
+      const json = decodeB64UrlUtf8(dataParam);
+      const data = JSON.parse(json);
+      render(data);
+    }catch(e){
+      render({displayName:"Profil public", bio:"Lien invalide ou corrompu.", mode:"player"});
+    }
+  }
+</script>
+</body>
+</html>
