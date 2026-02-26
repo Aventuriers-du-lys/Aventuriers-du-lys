@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Profil — Les Aventuriers du Lys</title>
+<style>
+  :root{
+    --bg0:#050612;
+    --text:#e5e7eb;
+    --muted:#94a3b8;
+    --line:rgba(148,163,184,.18);
+    --accent:#22d3ee;
+    --accent2:#a78bfa;
+    --gold:#fbbf24;
+    --panel:rgba(10,15,30,.78);
+    --panel2:rgba(15,23,42,.88);
+    --radius:16px;
+    --radius2:22px;
+    --shadow: 0 18px 45px rgba(0,0,0,.55);
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font);
+    color:var(--text);
+    line-height:1.55;
+    background:
+      linear-gradient(rgba(5,6,18,.28), rgba(5,6,18,.70)),
+      url("table-fantasy.png"),
+      linear-gradient(180deg, #0b1230, var(--bg0));
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter: blur(14px);
+    background: linear-gradient(to bottom, rgba(5,6,18,.85), rgba(5,6,18,.55), transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .sigil{
+    width:40px;height:40px;border-radius:999px;
+    background:
+      radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%);
+    box-shadow: 0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+    border:1px solid rgba(148,163,184,.35);
+  }
+  .brand h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+  .brand p{font-size:12px;color:var(--muted);margin-top:-2px}
+
+  .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .chip{
+    padding:8px 12px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.28);
+    background:rgba(2,6,23,.48);
+    color:var(--muted);
+    font-size:13px;
+  }
+  .chip:hover{border-color:rgba(34,211,238,.55);color:var(--text)}
+
+  .card{
+    margin-top:18px;
+    background:var(--panel);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    box-shadow:var(--shadow);
+    padding:18px;
+    overflow:hidden;
+    position:relative;
+  }
+  .card::after{
+    content:"";
+    position:absolute;inset:-40px;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(251,191,36,.08), transparent 48%),
+      radial-gradient(circle at 60% 70%, rgba(255,255,255,.03), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 1px, transparent 1px, transparent 6px);
+    mix-blend-mode: overlay;
+    opacity:.55;
+    pointer-events:none;
+    transform: rotate(-2deg);
+  }
+  .card > *{position:relative;z-index:1}
+
+  .kicker{
+    color:rgba(34,211,238,.95);
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:12px;
+    margin-bottom:10px;
+  }
+  h2{
+    font-family:var(--fontDisplay);
+    font-size:28px;line-height:1.12;margin-bottom:10px;
+  }
+  h2 span{
+    background:linear-gradient(to right, var(--gold), var(--accent2), var(--accent));
+    -webkit-background-clip:text;color:transparent;
+  }
+  .lead{color:var(--muted);font-size:14px;margin-bottom:12px;max-width:90ch}
+
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .tab{
+    padding:10px 12px;border-radius:999px;border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.45);color:var(--text);cursor:pointer;font-weight:900;font-size:13px
+  }
+  .tab.active{
+    border-color:rgba(34,211,238,.65);
+    box-shadow: 0 0 0 3px rgba(34,211,238,.10);
+  }
+
+  .grid{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
+  }
+  .panel{
+    background:var(--panel2);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    padding:16px;
+  }
+  .panel h3{font-size:16px;margin-bottom:10px}
+  label{
+    display:block;color:var(--muted);font-size:12px;margin:10px 0 6px 2px;
+  }
+  input, select, textarea{
+    width:100%;
+    padding:10px;
+    border-radius:12px;
+    border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.55);
+    color:var(--text);
+    outline:none;
+  }
+  textarea{min-height:110px;resize:vertical}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .btn{
+    padding:10px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.55);color:var(--text);cursor:pointer;font-weight:900
+  }
+  .btn:hover{border-color:rgba(34,211,238,.55);color:var(--accent)}
+  .btnPrimary{
+    padding:10px 12px;border-radius:12px;border:0;
+    background:linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+    color:#06101f;cursor:pointer;font-weight:950
+  }
+  .note{color:var(--muted);font-size:13px;margin-top:10px}
+  .ok{margin-top:10px;color:#bbf7d0;font-size:13px;display:none}
+  .warn{margin-top:10px;color:#fde68a;font-size:13px;display:none}
+
+  @media (max-width: 900px){
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="sigil"></div>
+        <div>
+          <h1>Les Aventuriers du Lys</h1>
+          <p>Profil (MVP) — sauvegarde locale</p>
+        </div>
+      </div>
+      <div class="nav">
+        <a class="chip" href="index.html">Accueil</a>
+        <a class="chip" href="publier.html">Publier une partie</a>
+        <a class="chip" href="profil.html">Profil</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card">
+    <div class="kicker">Joueur • Maître scénariste</div>
+    <h2>Crée ton <span>profil</span></h2>
+    <p class="lead">
+      MVP : ton profil se sauvegarde dans ton navigateur (sur ton appareil). Plus tard, on le connectera à de vrais comptes.
+    </p>
+
+    <div class="tabs">
+      <button class="tab active" id="tabPlayer" type="button">Profil Joueur</button>
+      <button class="tab" id="tabGM" type="button">Profil Maître scénariste</button>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="panel">
+      <h3>Infos générales</h3>
+
+      <label>Pseudo / nom public</label>
+      <input id="displayName" placeholder="ex: Le Sage Licorne, NightArchivist..." />
+
+      <div class="row2">
+        <div>
+          <label>Langue</label>
+          <select id="lang">
+            <option value="FR">FR</option>
+            <option value="EN">EN</option>
+            <option value="BIL">BIL</option>
+          </select>
+        </div>
+        <div>
+          <label>Fuseau horaire</label>
+          <select id="tz">
+            <option>America/Montreal</option>
+            <option>America/New_York</option>
+            <option>Europe/Paris</option>
+            <option>Europe/London</option>
+            <option>UTC</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Bio</label>
+      <textarea id="bio" placeholder="Quelques lignes sur ton style de jeu, tes préférences, etc."></textarea>
+
+      <div class="actions">
+        <button class="btnPrimary" id="saveBtn" type="button">Enregistrer</button>
+        <button class="btn" id="clearBtn" type="button">Effacer</button>
+      </div>
+
+      <div class="ok" id="okMsg">✅ Profil enregistré.</div>
+      <div class="warn" id="warnMsg">🟡 Rien à effacer (profil vide).</div>
+
+      <div class="note">
+        Conseil : garde le pseudo public (pas ton vrai nom) si tu veux rester discret.
+      </div>
+    </div>
+
+    <div class="panel" id="rolePanel">
+      <!-- contenu injecté JS -->
+    </div>
+  </section>
+
+  <footer class="wrap" style="margin-top:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding:18px 0 30px;">
+    © <span id="year"></span> Les Aventuriers du Lys — Profil MVP
+  </footer>
+</main>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const tabPlayer = document.getElementById("tabPlayer");
+  const tabGM = document.getElementById("tabGM");
+  const rolePanel = document.getElementById("rolePanel");
+
+  const displayName = document.getElementById("displayName");
+  const lang = document.getElementById("lang");
+  const tz = document.getElementById("tz");
+  const bio = document.getElementById("bio");
+
+  const okMsg = document.getElementById("okMsg");
+  const warnMsg = document.getElementById("warnMsg");
+
+  let mode = "player"; // player | gm
+
+  function gmPanelHTML(){
+    return `
+      <h3>Profil Maître scénariste</h3>
+
+      <label>Expérience (texte libre)</label>
+      <input id="gmExp" placeholder="ex: 10 ans, 60 campagnes, etc." />
+
+      <div class="row2">
+        <div>
+          <label>Devise principale</label>
+          <select id="gmCurrency">
+            <option>CAD</option><option>USD</option><option>EUR</option>
+          </select>
+        </div>
+        <div>
+          <label>Tarif typique (/ joueur / séance)</label>
+          <input id="gmRate" placeholder="ex: 20" />
+        </div>
+      </div>
+
+      <label>Plateformes (texte libre)</label>
+      <input id="gmPlatforms" placeholder="ex: Discord, Foundry, Roll20..." />
+
+      <label>Outils de sécurité / règles de table</label>
+      <textarea id="gmSafety" placeholder="ex: X-card, lignes/voiles, ton de la table..."></textarea>
+
+      <div class="note">
+        MVP : ces infos servent à ta page profil. Plus tard : elles alimenteront tes annonces automatiquement.
+      </div>
+    `;
+  }
+
+  function playerPanelHTML(){
+    return `
+      <h3>Profil Joueur</h3>
+
+      <label>Systèmes recherchés</label>
+      <input id="pSystems" placeholder="ex: D&D, VtM, Cthulhu..." />
+
+      <div class="row2">
+        <div>
+          <label>Style</label>
+          <select id="pStyle">
+            <option>Équilibré</option>
+            <option>Roleplay dominant</option>
+            <option>Combat dominant</option>
+            <option>Enquête / intrigue</option>
+          </select>
+        </div>
+        <div>
+          <label>Niveau d’expérience</label>
+          <select id="pLevel">
+            <option>Débutant</option>
+            <option>Intermédiaire</option>
+            <option>Expérimenté</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Disponibilités (texte libre)</label>
+      <textarea id="pAvailability" placeholder="ex: mardi/jeudi soir, week-end après-midi, etc."></textarea>
+
+      <div class="note">
+        MVP : plus tard, ces champs pourront servir à recommander des parties automatiquement.
+      </div>
+    `;
+  }
+
+  function setMode(newMode){
+    mode = newMode;
+    tabPlayer.classList.toggle("active", mode==="player");
+    tabGM.classList.toggle("active", mode==="gm");
+    rolePanel.innerHTML = (mode==="player") ? playerPanelHTML() : gmPanelHTML();
+    load(); // recharge les champs spécifiques au mode
+  }
+
+  function key(){
+    return mode === "player" ? "adl_profile_player" : "adl_profile_gm";
+  }
+
+  function save(){
+    okMsg.style.display = "none";
+    warnMsg.style.display = "none";
+
+    const data = {
+      displayName: displayName.value.trim(),
+      lang: lang.value,
+      tz: tz.value,
+      bio: bio.value.trim(),
+      mode
+    };
+
+    // champs spécifiques
+    if(mode==="player"){
+      data.pSystems = (document.getElementById("pSystems")||{}).value?.trim() || "";
+      data.pStyle = (document.getElementById("pStyle")||{}).value || "Équilibré";
+      data.pLevel = (document.getElementById("pLevel")||{}).value || "Débutant";
+      data.pAvailability = (document.getElementById("pAvailability")||{}).value?.trim() || "";
+    } else {
+      data.gmExp = (document.getElementById("gmExp")||{}).value?.trim() || "";
+      data.gmCurrency = (document.getElementById("gmCurrency")||{}).value || "CAD";
+      data.gmRate = (document.getElementById("gmRate")||{}).value?.trim() || "";
+      data.gmPlatforms = (document.getElementById("gmPlatforms")||{}).value?.trim() || "";
+      data.gmSafety = (document.getElementById("gmSafety")||{}).value?.trim() || "";
+    }
+
+    localStorage.setItem(key(), JSON.stringify(data));
+    okMsg.style.display = "block";
+    setTimeout(()=> okMsg.style.display="none", 2500);
+  }
+
+  function load(){
+    okMsg.style.display = "none";
+    warnMsg.style.display = "none";
+
+    const raw = localStorage.getItem(key());
+    if(!raw){
+      // vide : on garde les valeurs générales telles quelles
+      if(mode==="player"){
+        const el = document.getElementById("pStyle"); if(el) el.value = "Équilibré";
+        const el2 = document.getElementById("pLevel"); if(el2) el2.value = "Débutant";
+      } else {
+        const cur = document.getElementById("gmCurrency"); if(cur) cur.value = "CAD";
+      }
+      return;
+    }
+    const data = JSON.parse(raw);
+
+    displayName.value = data.displayName || "";
+    lang.value = data.lang || "FR";
+    tz.value = data.tz || "America/Montreal";
+    bio.value = data.bio || "";
+
+    if(mode==="player"){
+      const a = document.getElementById("pSystems"); if(a) a.value = data.pSystems || "";
+      const b = document.getElementById("pStyle"); if(b) b.value = data.pStyle || "Équilibré";
+      const c = document.getElementById("pLevel"); if(c) c.value = data.pLevel || "Débutant";
+      const d = document.getElementById("pAvailability"); if(d) d.value = data.pAvailability || "";
+    } else {
+      const a = document.getElementById("gmExp"); if(a) a.value = data.gmExp || "";
+      const b = document.getElementById("gmCurrency"); if(b) b.value = data.gmCurrency || "CAD";
+      const c = document.getElementById("gmRate"); if(c) c.value = data.gmRate || "";
+      const d = document.getElementById("gmPlatforms"); if(d) d.value = data.gmPlatforms || "";
+      const e = document.getElementById("gmSafety"); if(e) e.value = data.gmSafety || "";
+    }
+  }
+
+  function clearData(){
+    okMsg.style.display = "none";
+    warnMsg.style.display = "none";
+
+    const raw = localStorage.getItem(key());
+    if(!raw){ warnMsg.style.display = "block"; setTimeout(()=> warnMsg.style.display="none", 2500); return; }
+
+    localStorage.removeItem(key());
+    // reset champs
+    bio.value = "";
+    if(mode==="player"){
+      const a = document.getElementById("pSystems"); if(a) a.value = "";
+      const d = document.getElementById("pAvailability"); if(d) d.value = "";
+      const b = document.getElementById("pStyle"); if(b) b.value = "Équilibré";
+      const c = document.getElementById("pLevel"); if(c) c.value = "Débutant";
+    } else {
+      const a = document.getElementById("gmExp"); if(a) a.value = "";
+      const c = document.getElementById("gmRate"); if(c) c.value = "";
+      const d = document.getElementById("gmPlatforms"); if(d) d.value = "";
+      const e = document.getElementById("gmSafety"); if(e) e.value = "";
+      const b = document.getElementById("gmCurrency"); if(b) b.value = "CAD";
+    }
+    okMsg.textContent = "✅ Profil effacé.";
+    okMsg.style.display = "block";
+    setTimeout(()=> { okMsg.style.display="none"; okMsg.textContent="✅ Profil enregistré."; }, 2500);
+  }
+
+  tabPlayer.addEventListener("click", ()=>setMode("player"));
+  tabGM.addEventListener("click", ()=>setMode("gm"));
+  document.getElementById("saveBtn").addEventListener("click", save);
+  document.getElementById("clearBtn").addEventListener("click", clearData);
+
+  // init
+  setMode("player");
+  load();
+</script>
+</body>
+</html>
