@@ -119,8 +119,33 @@ button{
       </select>
     </div>
 
-    <label>Horaire + fuseau horaire</label>
-    <input name="Horaire" placeholder="ex: Mercredi 19:00 (America/Montreal)" />
+    <label>Date de début</label>
+<input type="date" name="DateDébut" />
+
+<label>Heure</label>
+<input type="time" name="Heure" />
+
+<label>Fréquence</label>
+<select name="Fréquence">
+  <option value="one-shot">One-shot</option>
+  <option value="hebdomadaire">Hebdomadaire</option>
+  <option value="bi-hebdo">Bi-hebdo (1 semaine sur 2)</option>
+  <option value="mensuel">Mensuel</option>
+  <option value="ponctuel">Ponctuel / irrégulier</option>
+</select>
+
+<label>Fuseau horaire</label>
+<select name="Timezone">
+  <option value="America/Montreal" selected>America/Montreal (Québec)</option>
+  <option value="America/New_York">America/New_York</option>
+  <option value="America/Toronto">America/Toronto</option>
+  <option value="America/Chicago">America/Chicago</option>
+  <option value="America/Denver">America/Denver</option>
+  <option value="America/Los_Angeles">America/Los_Angeles</option>
+  <option value="Europe/Paris">Europe/Paris</option>
+  <option value="Europe/London">Europe/London</option>
+  <option value="UTC">UTC</option>
+</select>
 
     <label>Plateformes utilisées</label>
     <input name="Plateformes" placeholder="ex: Discord + Foundry (ou autre)" />
