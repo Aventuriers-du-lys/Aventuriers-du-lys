@@ -128,6 +128,10 @@
         <h3>Détails</h3>
         <div class="kv" id="kv"></div>
         <div style="margin-top:10px" id="tags"></div>
+        <div style="margin-top:14px">
+  <h3>Parties en cours</h3>
+  <div class="muted" id="gamesPublic">—</div>
+</div>
       </div>
 
       <div class="panel">
@@ -189,6 +193,19 @@
     if(data.lang) tags.push(pill(data.lang, "var(--accent2)"));
     if(data.tz) tags.push(pill(data.tz, "var(--gold)"));
     document.getElementById("tags").innerHTML = tags.join("");
+
+    const games = (data.currentGames || "").trim();
+const el = document.getElementById("gamesPublic");
+if(el){
+  if(!games){
+    el.textContent = "—";
+  } else {
+    const lines = games.split("\n").map(x=>x.trim()).filter(Boolean);
+    el.innerHTML = "<ul style='margin-left:18px;margin-top:8px'>" +
+      lines.map(l=>`<li>${escapeHtml(l)}</li>`).join("") +
+      "</ul>";
+  }
+}
 
     const link = (data.publicLink || "").trim();
     const linkArea = document.getElementById("linkArea");
