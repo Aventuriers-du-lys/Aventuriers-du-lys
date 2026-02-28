@@ -352,6 +352,17 @@ function prettySchedule(x){
   const tz = tzLabel(x.tz);
   return `${d} — ${t} — ${f} (${tz})`;
 }
+
+  function prettyStart(x){
+  const s = prettySchedule(x);
+  return s.split(" — ").slice(0,2).join(" — ");
+}
+
+function prettyFreqTz(x){
+  const s = prettySchedule(x);
+  const parts = s.split(" — ");
+  return parts[2] || "—";
+}
   
   function render(){
     const query = (q.value || "").trim().toLowerCase();
