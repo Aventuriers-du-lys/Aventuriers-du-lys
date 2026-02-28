@@ -314,7 +314,45 @@ frequency:"hebdomadaire",
   function badge(label, color){
     return `<span class="badge"><span class="dot" style="background:${color}"></span>${label}</span>`;
   }
+function frequencyLabel(f){
+  const map = {
+    "one-shot": "One-shot",
+    "hebdomadaire": "Hebdomadaire",
+    "bi-hebdo": "Bi-hebdo",
+    "mensuel": "Mensuel",
+    "ponctuel": "Ponctuel"
+  };
+  return map[f] || (f || "—");
+}
 
+function tzLabel(tz){
+  const map = {
+    "America/Montreal": "Québec",
+    "America/New_York": "New York",
+    "America/Toronto": "Toronto",
+    "America/Chicago": "Chicago",
+    "America/Denver": "Denver",
+    "America/Los_Angeles": "Los Angeles",
+    "Europe/Paris": "Paris",
+    "Europe/London": "Londres",
+    "UTC": "UTC"
+  };
+  return map[tz] || (tz || "—");
+}
+
+function prettySchedule(x){
+  // date en format FR lisible (ex: 18 mars 2026)
+  let d = x.startDate || "—";
+  try{
+    const dt = new Date(x.startDate + "T00:00:00");
+    d = dt.toLocaleDateString("fr-CA", { year:"numeric", month:"long", day:"numeric" });
+  }catch(e){}
+  const t = x.time || "—";
+  const f = frequencyLabel(x.frequency);
+  const tz = tzLabel(x.tz);
+  return `${d} — ${t} — ${f} (${tz})`;
+}
+  
   function render(){
     const query = (q.value || "").trim().toLowerCase();
     const s = system.value;
