@@ -235,6 +235,8 @@
 
       <label>Bio</label>
       <textarea id="bio" placeholder="Quelques lignes sur ton style de jeu, tes préférences, etc."></textarea>
+      <label>Parties en cours (optionnel) — une ligne par partie</label>
+<textarea id="currentGames" placeholder="[MJ] D&amp;D 5e — Mercredi 19:00 (America/Montreal) — 20 CAD/joueur&#10;[Joueur] VtM — Dimanche 14:00 — Campagne"></textarea>
 
       <div class="actions">
         <button class="btnPrimary" id="saveBtn" type="button">Enregistrer</button>
@@ -358,6 +360,7 @@
       tz: tz.value,
       publicLink: publicLink.value.trim(),
       bio: bio.value.trim(),
+      currentGames: (document.getElementById("currentGames")||{}).value?.trim() || "",
       mode
     };
 
@@ -402,7 +405,8 @@
     lang.value = data.lang || "FR";
     tz.value = data.tz || "America/Montreal";
     publicLink.value = data.publicLink || "";
-    bio.value = data.bio || "";
+    bio.value = data.bio || "";const cg = document.getElementById("currentGames");
+if(cg) cg.value = data.currentGames || "";
 
     if(mode==="player"){
       const a = document.getElementById("pSystems"); if(a) a.value = data.pSystems || "";
