@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Annonces — Les Aventuriers du Lys</title>
+
 <style>
   :root{
     --bg0:#050612; --text:#e5e7eb; --muted:#94a3b8; --line:rgba(148,163,184,.18);
@@ -153,10 +154,12 @@
   .kv{display:grid;grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px}
   .k{color:var(--muted);font-size:12px}
   .v{font-size:13px}
+
   @media (max-width: 1100px){ .grid{grid-template-columns: repeat(2, 1fr);} .filters{grid-template-columns:1fr 1fr; } }
   @media (max-width: 720px){ .grid{grid-template-columns:1fr;} .cols{grid-template-columns:1fr;} }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -166,7 +169,7 @@
         <div class="sigil"></div>
         <div>
           <h1>Les Aventuriers du Lys</h1>
-          <p>Annonces (MVP) — exemples + filtres</p>
+          <p>Annonces — MVP</p>
         </div>
       </div>
       <div class="nav">
@@ -183,11 +186,12 @@
   <section class="card">
     <div class="kicker">Trouver une table</div>
     <h2>Explorer les <span>annonces</span></h2>
-    <p class="lead">MVP : les annonces ci-dessous sont des exemples. Plus tard, elles seront publiées automatiquement via comptes.</p>
+    <p class="lead">MVP : annonces “exemples” modifiables dans le code. Filtres + fiche détaillée + contact par email.</p>
 
     <div style="margin-top:12px">
-  <a class="btnPrimary" href="publier.html">Publier une annonce (MJ)</a>
-</div>
+      <a class="btnPrimary" href="publier.html">Publier une annonce (MJ)</a>
+    </div>
+
     <div class="filters">
       <input id="q" placeholder="Recherche (titre, MJ, mots-clés)"/>
       <select id="system">
@@ -205,7 +209,9 @@
       </select>
       <select id="currency">
         <option value="">Devise (toutes)</option>
-        <option value="CAD">CAD</option><option value="USD">USD</option><option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
       </select>
     </div>
   </section>
@@ -234,11 +240,10 @@
         <h3>Détails</h3>
         <div class="kv" id="mKv"></div>
         <div class="btnRow" style="margin-top:12px">
-          <a class="btnPrimary" id="mReserve" href="#">Réserver / Contacter</a>
-          <a class="btn" href="profil.html">Voir profils</a>
+          <a class="btnPrimary" id="mReserve" href="#">Contacter le MJ</a>
         </div>
         <div class="muted" style="margin-top:10px">
-          MVP : “Réserver” ouvre un email. Plus tard : inscription + paiement.
+          MVP : contact par email. Plus tard : inscription + paiement.
         </div>
       </div>
     </div>
@@ -246,7 +251,9 @@
 </div>
 
 <script>
-  // Exemples d'annonces (MVP) — tu peux éditer ces objets pour changer le contenu
+  // =========================
+  // DONNÉES (exemples)
+  // =========================
   const listings = [
     {
       id:"l1",
@@ -256,15 +263,15 @@
       type:"campagne",
       lang:"FR",
       tz:"America/Montreal",
-     startDate:"2026-03-18",
-time:"19:00",
-frequency:"hebdomadaire",
+      startDate:"2026-03-18",
+      time:"19:00",
+      frequency:"hebdomadaire",
       price:20,
       currency:"CAD",
       seats:"2/5",
       platform:"Discord + Foundry",
       vibe:["dark fantasy","exploration","horreur"],
-      desc:"Campagne sombre et cinématique. Accent sur l’ambiance, l’exploration et les choix moraux. Session zéro incluse. Niveau débutant bienvenu."
+      desc:"Campagne sombre et cinématique. Accent sur l’ambiance, l’exploration et les choix moraux. Session zéro incluse. Débutants bienvenus."
     },
     {
       id:"l2",
@@ -275,8 +282,8 @@ frequency:"hebdomadaire",
       lang:"BIL",
       tz:"America/New_York",
       startDate:"2026-03-07",
-time:"20:00",
-frequency:"one-shot",
+      time:"20:00",
+      frequency:"one-shot",
       price:15,
       currency:"USD",
       seats:"3/5",
@@ -293,17 +300,75 @@ frequency:"one-shot",
       lang:"FR",
       tz:"Europe/Paris",
       startDate:"2026-03-12",
-time:"21:00",
-frequency:"hebdomadaire",
+      time:"21:00",
+      frequency:"hebdomadaire",
       price:18,
       currency:"EUR",
       seats:"4/6",
       platform:"Discord + Roll20",
       vibe:["gothique","politique","intrigue"],
-      desc:"Chronique VtM axée sur la politique et les secrets. Lignes/voiles et outils de sécurité discutés en session zéro."
+      desc:"Chronique VtM axée sur la politique et les secrets. Outils de sécurité discutés en session zéro."
     }
   ];
 
+  // =========================
+  // UTILITAIRES FORMAT
+  // =========================
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  function badge(label, color){
+    return `<span class="badge"><span class="dot" style="background:${color}"></span>${escapeHtml(label)}</span>`;
+  }
+
+  function frequencyLabel(f){
+    const map = {
+      "one-shot":"One-shot",
+      "hebdomadaire":"Hebdomadaire",
+      "bi-hebdo":"Bi-hebdo (1 semaine sur 2)",
+      "mensuel":"Mensuel",
+      "ponctuel":"Ponctuel / irrégulier"
+    };
+    return map[f] || (f || "—");
+  }
+
+  function tzLabel(tz){
+    const map = {
+      "America/Montreal":"Québec",
+      "America/New_York":"New York",
+      "America/Toronto":"Toronto",
+      "America/Chicago":"Chicago",
+      "America/Denver":"Denver",
+      "America/Los_Angeles":"Los Angeles",
+      "Europe/Paris":"Paris",
+      "Europe/London":"Londres",
+      "UTC":"UTC"
+    };
+    return map[tz] || (tz || "—");
+  }
+
+  function formatDateFR(dateStr){
+    if(!dateStr) return "—";
+    try{
+      const dt = new Date(dateStr + "T00:00:00");
+      return dt.toLocaleDateString("fr-CA", { year:"numeric", month:"long", day:"numeric" });
+    }catch(e){
+      return dateStr;
+    }
+  }
+
+  function prettyStartTZ(x){
+    return `${formatDateFR(x.startDate)} — ${x.time || "—"} (${tzLabel(x.tz)})`;
+  }
+
+  function prettyFreqOnly(x){
+    return `${frequencyLabel(x.frequency)}`;
+  }
+
+  // =========================
+  // FILTRES + RENDER
+  // =========================
   const grid = document.getElementById("grid");
   const q = document.getElementById("q");
   const system = document.getElementById("system");
@@ -311,59 +376,6 @@ frequency:"hebdomadaire",
   const lang = document.getElementById("lang");
   const currency = document.getElementById("currency");
 
-  function badge(label, color){
-    return `<span class="badge"><span class="dot" style="background:${color}"></span>${label}</span>`;
-  }
-function frequencyLabel(f){
-  const map = {
-    "one-shot": "One-shot",
-    "hebdomadaire": "Hebdomadaire",
-    "bi-hebdo": "Bi-hebdo",
-    "mensuel": "Mensuel",
-    "ponctuel": "Ponctuel"
-  };
-  return map[f] || (f || "—");
-}
-
-function tzLabel(tz){
-  const map = {
-    "America/Montreal": "Québec",
-    "America/New_York": "New York",
-    "America/Toronto": "Toronto",
-    "America/Chicago": "Chicago",
-    "America/Denver": "Denver",
-    "America/Los_Angeles": "Los Angeles",
-    "Europe/Paris": "Paris",
-    "Europe/London": "Londres",
-    "UTC": "UTC"
-  };
-  return map[tz] || (tz || "—");
-}
-
-function prettySchedule(x){
-  // date en format FR lisible (ex: 18 mars 2026)
-  let d = x.startDate || "—";
-  try{
-    const dt = new Date(x.startDate + "T00:00:00");
-    d = dt.toLocaleDateString("fr-CA", { year:"numeric", month:"long", day:"numeric" });
-  }catch(e){}
-  const t = x.time || "—";
-  const f = frequencyLabel(x.frequency);
-  const tz = tzLabel(x.tz);
-  return `${d} — ${t} — ${f} (${tz})`;
-}
-
-  function prettyStart(x){
-  const s = prettySchedule(x);
-  const parts = s.split(" — ");
-  return parts[0] + " — " + parts[1] + " (" + parts[2].split(" (")[1];
-}
-
-function prettyFreq(x){
-  const s = prettySchedule(x);
-  return s.split(" — ")[2].split(" (")[0];
-}
-  
   function render(){
     const query = (q.value || "").trim().toLowerCase();
     const s = system.value;
@@ -384,34 +396,32 @@ function prettyFreq(x){
     grid.innerHTML = filtered.map(x=>`
       <article class="listing">
         <div class="title">${escapeHtml(x.title)}</div>
-        <div class="meta">${escapeHtml(x.system)} • ${x.type==="one-shot"?"One-shot":"Campagne"} • ${escapeHtml(x.lang)} • ${escapeHtml(x.tz)}</div>
+        <div class="meta">${escapeHtml(x.system)} • ${x.type==="one-shot"?"One-shot":"Campagne"} • ${escapeHtml(x.lang)}</div>
 
         <div class="badges">
-  ${badge(x.platform, "var(--accent)")}
-  ${badge(prettyStartTZ(x), "var(--accent2)")}
-  ${badge(prettyFreqOnly(x), "rgba(148,163,184,.9)")}
-  ${badge(`${x.price} ${x.currency} / joueur`, "var(--gold)")}
-  ${badge(`Places: ${x.seats}`, "rgba(148,163,184,.9)")}
-</div>
+          ${badge(x.platform, "var(--accent)")}
+          ${badge(prettyStartTZ(x), "var(--accent2)")}
+          ${badge(prettyFreqOnly(x), "rgba(148,163,184,.9)")}
+          ${badge(`${x.price} ${x.currency} / joueur`, "var(--gold)")}
+          ${badge(`Places: ${x.seats}`, "rgba(148,163,184,.9)")}
+        </div>
 
         <div class="muted">${escapeHtml(x.desc).slice(0, 140)}${x.desc.length>140?"…":""}</div>
 
         <div class="btnRow">
           <button class="btnPrimary" type="button" onclick="openModal('${x.id}')">Voir détails</button>
-          </div>
+        </div>
       </article>
     `).join("");
 
     if(filtered.length===0){
-      grid.innerHTML = `<div class="card"><div class="kicker">Aucun résultat</div><div class="muted">Essaie d’enlever un filtre ou de changer ta recherche.</div></div>`;
+      grid.innerHTML = `<div class="card"><div class="kicker">Aucun résultat</div><div class="muted">Enlève un filtre ou change ta recherche.</div></div>`;
     }
   }
 
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  }
-
-  // Modal
+  // =========================
+  // MODAL
+  // =========================
   const modalBg = document.getElementById("modalBg");
   const mClose = document.getElementById("mClose");
   const mTitle = document.getElementById("mTitle");
@@ -430,20 +440,31 @@ function prettyFreq(x){
 
     const rows = [
       ["MJ", x.gm],
-     ["Horaire", prettySchedule(x)],
+      ["Système", x.system],
+      ["Type", x.type==="one-shot"?"One-shot":"Campagne"],
+      ["Langue", x.lang],
+      ["Date/heure", prettyStartTZ(x)],
+      ["Fréquence", prettyFreqOnly(x)],
       ["Prix", `${x.price} ${x.currency} / joueur / séance`],
       ["Places", x.seats],
       ["Plateforme", x.platform],
       ["Ambiance", (x.vibe||[]).join(", ") || "—"]
     ];
-    mKv.innerHTML = rows.map(([k,v])=>`<div><div class="k">${escapeHtml(k)}</div><div class="v">${escapeHtml(v)}</div></div>`).join("");
 
-    // MVP : mailto pour contacter
-    const subject = encodeURIComponent(`Réservation/Info — ${x.title}`);
+    mKv.innerHTML = rows.map(([k,v])=>`
+      <div>
+        <div class="k">${escapeHtml(k)}</div>
+        <div class="v">${escapeHtml(v)}</div>
+      </div>
+    `).join("");
+
+    // MVP : mailto (contact passe par toi pour l’instant)
+    const subject = encodeURIComponent(`Info — ${x.title}`);
     const body = encodeURIComponent(
       `Bonjour,\n\nJe suis intéressé(e) par : ${x.title}\n`+
-      `Système: ${x.system}\nType: ${x.type}\nLangue: ${x.lang}\n`+
-      `Horaire: ${x.schedule} (${x.tz})\nPrix: ${x.price} ${x.currency} / joueur\n\n`+
+      `MJ: ${x.gm}\nSystème: ${x.system}\nType: ${x.type}\nLangue: ${x.lang}\n`+
+      `Début: ${formatDateFR(x.startDate)}\nHeure: ${x.time}\nTimezone: ${x.tz}\nFréquence: ${x.frequency}\n`+
+      `Prix: ${x.price} ${x.currency} / joueur\n\n`+
       `Mon pseudo:\nMon email:\nMes disponibilités:\nQuestions:\n\nMerci !`
     );
     mReserve.href = `mailto:flag2670@gmail.com?subject=${subject}&body=${body}`;
@@ -459,5 +480,6 @@ function prettyFreq(x){
   [q,system,type,lang,currency].forEach(el=> el.addEventListener("input", render));
   render();
 </script>
+
 </body>
 </html>
