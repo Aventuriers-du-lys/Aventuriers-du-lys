@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Annonces — Les Aventuriers du Lys</title>
+<style>
+  :root{
+    --bg0:#050612; --text:#e5e7eb; --muted:#94a3b8; --line:rgba(148,163,184,.18);
+    --accent:#22d3ee; --accent2:#a78bfa; --gold:#fbbf24;
+    --panel:rgba(10,15,30,.78); --panel2:rgba(15,23,42,.88);
+    --radius2:22px; --shadow: 0 18px 45px rgba(0,0,0,.55);
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font);
+    color:var(--text);
+    line-height:1.55;
+    background:
+      linear-gradient(rgba(5,6,18,.26), rgba(5,6,18,.76)),
+      url("table-fantasy.png"),
+      linear-gradient(180deg, #0b1230, var(--bg0));
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter: blur(14px);
+    background: linear-gradient(to bottom, rgba(5,6,18,.85), rgba(5,6,18,.55), transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .sigil{
+    width:40px;height:40px;border-radius:999px;
+    background: radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%);
+    box-shadow: 0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+    border:1px solid rgba(148,163,184,.35);
+  }
+  .brand h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+  .brand p{font-size:12px;color:var(--muted);margin-top:-2px}
+  .nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .chip{
+    padding:8px 12px;border-radius:999px;border:1px solid rgba(148,163,184,.28);
+    background:rgba(2,6,23,.48);color:var(--muted);font-size:13px
+  }
+  .chip:hover{border-color:rgba(34,211,238,.55);color:var(--text)}
+
+  .card{
+    margin-top:18px;background:var(--panel);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    box-shadow:var(--shadow);
+    padding:18px;
+    position:relative;overflow:hidden;
+  }
+  .card::after{
+    content:"";position:absolute;inset:-40px;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(251,191,36,.08), transparent 48%),
+      radial-gradient(circle at 60% 70%, rgba(255,255,255,.03), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 1px, transparent 1px, transparent 6px);
+    mix-blend-mode: overlay; opacity:.55; pointer-events:none; transform: rotate(-2deg);
+  }
+  .card > *{position:relative;z-index:1}
+
+  .kicker{color:rgba(34,211,238,.95);text-transform:uppercase;letter-spacing:.18em;font-size:12px;margin-bottom:10px}
+  h2{font-family:var(--fontDisplay);font-size:28px;line-height:1.12;margin-bottom:10px}
+  h2 span{background:linear-gradient(to right, var(--gold), var(--accent2), var(--accent));-webkit-background-clip:text;color:transparent}
+  .lead{color:var(--muted);font-size:14px;max-width:90ch}
+
+  .filters{
+    margin-top:12px;
+    display:grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+    gap:10px;
+  }
+  input, select{
+    width:100%;
+    padding:10px;
+    border-radius:12px;
+    border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.55);
+    color:var(--text);
+    outline:none;
+  }
+  .grid{
+    margin-top:12px;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:12px;
+  }
+  .listing{
+    background:var(--panel2);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .title{font-weight:950}
+  .meta{color:var(--muted);font-size:13px}
+  .badges{display:flex;flex-wrap:wrap;gap:6px}
+  .badge{
+    display:inline-flex;gap:6px;align-items:center;
+    padding:6px 10px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.40);
+    color:var(--muted);
+    font-size:12px;
+  }
+  .dot{width:7px;height:7px;border-radius:999px;display:inline-block}
+  .btnRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+  .btn{
+    padding:10px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.55);color:var(--text);cursor:pointer;font-weight:900
+  }
+  .btn:hover{border-color:rgba(34,211,238,.55);color:var(--accent)}
+  .btnPrimary{
+    padding:10px 12px;border-radius:12px;border:0;
+    background:linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+    color:#06101f;cursor:pointer;font-weight:950
+  }
+
+  /* Modal */
+  .modalBg{
+    position:fixed; inset:0; display:none; place-items:center;
+    background:rgba(0,0,0,.6); padding:18px; z-index:1000;
+  }
+  .modal{
+    width:min(920px, 100%);
+    background:rgba(10,15,30,.92);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    padding:18px;
+  }
+  .modalTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .close{cursor:pointer;font-weight:900;color:var(--muted);padding:6px 10px;border-radius:10px;border:1px solid rgba(148,163,184,.22);background:rgba(2,6,23,.45)}
+  .close:hover{color:var(--text);border-color:rgba(34,211,238,.45)}
+  .cols{display:grid;grid-template-columns: 1.15fr .85fr;gap:12px;margin-top:12px}
+  .panel{background:rgba(15,23,42,.88);border:1px solid rgba(148,163,184,.18);border-radius:18px;padding:14px}
+  .panel h3{font-size:15px;margin-bottom:10px}
+  .muted{color:var(--muted);font-size:13px}
+  .kv{display:grid;grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px}
+  .k{color:var(--muted);font-size:12px}
+  .v{font-size:13px}
+  @media (max-width: 1100px){ .grid{grid-template-columns: repeat(2, 1fr);} .filters{grid-template-columns:1fr 1fr; } }
+  @media (max-width: 720px){ .grid{grid-template-columns:1fr;} .cols{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="sigil"></div>
+        <div>
+          <h1>Les Aventuriers du Lys</h1>
+          <p>Annonces (MVP) — exemples + filtres</p>
+        </div>
+      </div>
+      <div class="nav">
+        <a class="chip" href="index.html">Accueil</a>
+        <a class="chip" href="annonces.html">Annonces</a>
+        <a class="chip" href="publier.html">Publier</a>
+        <a class="chip" href="profil.html">Profil</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card">
+    <div class="kicker">Trouver une table</div>
+    <h2>Explorer les <span>annonces</span></h2>
+    <p class="lead">MVP : les annonces ci-dessous sont des exemples. Plus tard, elles seront publiées automatiquement via comptes.</p>
+
+    <div class="filters">
+      <input id="q" placeholder="Recherche (titre, MJ, mots-clés)"/>
+      <select id="system">
+        <option value="">Système (tous)</option>
+        <option>D&D</option><option>Pathfinder</option><option>VtM</option><option>Cthulhu</option><option>Marvel/DC</option><option>Cyberpunk</option><option>Shadowrun</option>
+      </select>
+      <select id="type">
+        <option value="">Type (tous)</option>
+        <option value="one-shot">One-shot</option>
+        <option value="campagne">Campagne</option>
+      </select>
+      <select id="lang">
+        <option value="">Langue (toutes)</option>
+        <option value="FR">FR</option><option value="EN">EN</option><option value="BIL">BIL</option>
+      </select>
+      <select id="currency">
+        <option value="">Devise (toutes)</option>
+        <option value="CAD">CAD</option><option value="USD">USD</option><option value="EUR">EUR</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="grid" id="grid"></section>
+</main>
+
+<!-- Modal -->
+<div class="modalBg" id="modalBg" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modalTop">
+      <div>
+        <div class="kicker" id="mKicker">Annonce</div>
+        <h2 style="margin:0" id="mTitle">—</h2>
+        <div class="muted" id="mSub">—</div>
+      </div>
+      <button class="close" id="mClose" type="button">Fermer</button>
+    </div>
+
+    <div class="cols">
+      <div class="panel">
+        <h3>Description</h3>
+        <div class="muted" id="mDesc">—</div>
+      </div>
+      <div class="panel">
+        <h3>Détails</h3>
+        <div class="kv" id="mKv"></div>
+        <div class="btnRow" style="margin-top:12px">
+          <a class="btnPrimary" id="mReserve" href="#">Réserver / Contacter</a>
+          <a class="btn" href="profil.html">Voir profils</a>
+        </div>
+        <div class="muted" style="margin-top:10px">
+          MVP : “Réserver” ouvre un email. Plus tard : inscription + paiement.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Exemples d'annonces (MVP) — tu peux éditer ces objets pour changer le contenu
+  const listings = [
+    {
+      id:"l1",
+      title:"La Crypte sous Lammas",
+      gm:"Le Sage Licorne",
+      system:"D&D",
+      type:"campagne",
+      lang:"FR",
+      tz:"America/Montreal",
+      schedule:"Mercredi 19:00",
+      price:20,
+      currency:"CAD",
+      seats:"2/5",
+      platform:"Discord + Foundry",
+      vibe:["dark fantasy","exploration","horreur"],
+      desc:"Campagne sombre et cinématique. Accent sur l’ambiance, l’exploration et les choix moraux. Session zéro incluse. Niveau débutant bienvenu."
+    },
+    {
+      id:"l2",
+      title:"Neon Sprawl: Ombres & Dettes",
+      gm:"MJ invité",
+      system:"Cyberpunk",
+      type:"one-shot",
+      lang:"BIL",
+      tz:"America/New_York",
+      schedule:"Samedi 20:00",
+      price:15,
+      currency:"USD",
+      seats:"3/5",
+      platform:"Discord (théâtre de l’esprit)",
+      vibe:["techno","action","investigation"],
+      desc:"One-shot cyberpunk nerveux : infiltration, négociation et course contre la montre. Personnages pré-tirés fournis."
+    },
+    {
+      id:"l3",
+      title:"Cour des Cendres (Camarilla)",
+      gm:"Narrateur",
+      system:"VtM",
+      type:"campagne",
+      lang:"FR",
+      tz:"Europe/Paris",
+      schedule:"Jeudi 21:00",
+      price:18,
+      currency:"EUR",
+      seats:"4/6",
+      platform:"Discord + Roll20",
+      vibe:["gothique","politique","intrigue"],
+      desc:"Chronique VtM axée sur la politique et les secrets. Lignes/voiles et outils de sécurité discutés en session zéro."
+    }
+  ];
+
+  const grid = document.getElementById("grid");
+  const q = document.getElementById("q");
+  const system = document.getElementById("system");
+  const type = document.getElementById("type");
+  const lang = document.getElementById("lang");
+  const currency = document.getElementById("currency");
+
+  function badge(label, color){
+    return `<span class="badge"><span class="dot" style="background:${color}"></span>${label}</span>`;
+  }
+
+  function render(){
+    const query = (q.value || "").trim().toLowerCase();
+    const s = system.value;
+    const t = type.value;
+    const l = lang.value;
+    const c = currency.value;
+
+    const filtered = listings.filter(x=>{
+      const hay = (x.title+" "+x.gm+" "+x.system+" "+x.platform+" "+x.desc+" "+(x.vibe||[]).join(" ")).toLowerCase();
+      if(query && !hay.includes(query)) return false;
+      if(s && x.system !== s) return false;
+      if(t && x.type !== t) return false;
+      if(l && x.lang !== l) return false;
+      if(c && x.currency !== c) return false;
+      return true;
+    });
+
+    grid.innerHTML = filtered.map(x=>`
+      <article class="listing">
+        <div class="title">${escapeHtml(x.title)}</div>
+        <div class="meta">${escapeHtml(x.system)} • ${x.type==="one-shot"?"One-shot":"Campagne"} • ${escapeHtml(x.lang)} • ${escapeHtml(x.tz)}</div>
+
+        <div class="badges">
+          ${badge(x.platform, "var(--accent)")}
+          ${badge(`${x.schedule}`, "var(--accent2)")}
+          ${badge(`${x.price} ${x.currency} / joueur`, "var(--gold)")}
+          ${badge(`Places: ${x.seats}`, "rgba(148,163,184,.9)")}
+        </div>
+
+        <div class="muted">${escapeHtml(x.desc).slice(0, 140)}${x.desc.length>140?"…":""}</div>
+
+        <div class="btnRow">
+          <button class="btnPrimary" type="button" onclick="openModal('${x.id}')">Voir détails</button>
+          <a class="btn" href="publier.html">Je suis MJ</a>
+        </div>
+      </article>
+    `).join("");
+
+    if(filtered.length===0){
+      grid.innerHTML = `<div class="card"><div class="kicker">Aucun résultat</div><div class="muted">Essaie d’enlever un filtre ou de changer ta recherche.</div></div>`;
+    }
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  // Modal
+  const modalBg = document.getElementById("modalBg");
+  const mClose = document.getElementById("mClose");
+  const mTitle = document.getElementById("mTitle");
+  const mSub = document.getElementById("mSub");
+  const mDesc = document.getElementById("mDesc");
+  const mKv = document.getElementById("mKv");
+  const mReserve = document.getElementById("mReserve");
+
+  window.openModal = function(id){
+    const x = listings.find(z=>z.id===id);
+    if(!x) return;
+
+    mTitle.textContent = x.title;
+    mSub.textContent = `${x.gm} • ${x.system} • ${x.type==="one-shot"?"One-shot":"Campagne"} • ${x.lang}`;
+    mDesc.textContent = x.desc;
+
+    const rows = [
+      ["MJ", x.gm],
+      ["Horaire", `${x.schedule} (${x.tz})`],
+      ["Prix", `${x.price} ${x.currency} / joueur / séance`],
+      ["Places", x.seats],
+      ["Plateforme", x.platform],
+      ["Ambiance", (x.vibe||[]).join(", ") || "—"]
+    ];
+    mKv.innerHTML = rows.map(([k,v])=>`<div><div class="k">${escapeHtml(k)}</div><div class="v">${escapeHtml(v)}</div></div>`).join("");
+
+    // MVP : mailto pour contacter
+    const subject = encodeURIComponent(`Réservation/Info — ${x.title}`);
+    const body = encodeURIComponent(
+      `Bonjour,\n\nJe suis intéressé(e) par : ${x.title}\n`+
+      `Système: ${x.system}\nType: ${x.type}\nLangue: ${x.lang}\n`+
+      `Horaire: ${x.schedule} (${x.tz})\nPrix: ${x.price} ${x.currency} / joueur\n\n`+
+      `Mon pseudo:\nMon email:\nMes disponibilités:\nQuestions:\n\nMerci !`
+    );
+    mReserve.href = `mailto:flag2670@gmail.com?subject=${subject}&body=${body}`;
+
+    modalBg.style.display = "grid";
+  }
+
+  function closeModal(){ modalBg.style.display = "none"; }
+  mClose.addEventListener("click", closeModal);
+  modalBg.addEventListener("click", (e)=>{ if(e.target===modalBg) closeModal(); });
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
+
+  [q,system,type,lang,currency].forEach(el=> el.addEventListener("input", render));
+  render();
+</script>
+</body>
+</html>
