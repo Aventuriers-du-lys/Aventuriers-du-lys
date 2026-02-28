@@ -377,7 +377,8 @@ function prettySchedule(x){
 
         <div class="badges">
           ${badge(x.platform, "var(--accent)")}
-         ${badge(`${x.startDate} ${x.time} • ${x.frequency} (${x.tz})`, "var(--accent2)")}
+         ${badge(`${x.startDate || "—"} • ${x.time || "—"} (${x.tz || "—"})`, "var(--accent2)")}
+         ${badge(`${x.frequency || "—"}`, "rgba(148,163,184,.9)")}
           ${badge(`${x.price} ${x.currency} / joueur`, "var(--gold)")}
           ${badge(`Places: ${x.seats}`, "rgba(148,163,184,.9)")}
         </div>
