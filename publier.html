@@ -83,7 +83,29 @@ button{
 </select>
 
 <label>Prix par joueur / séance</label>
-<input name="Prix">
+<div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+  <select name="Prix">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="12.5">12.5</option>
+    <option value="15">15</option>
+    <option value="18">18</option>
+    <option value="20">20</option>
+    <option value="22">22</option>
+    <option value="25">25</option>
+    <option value="30">30</option>
+    <option value="35">35</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
+  </select>
+
+  <select name="Devise">
+    <option value="CAD" selected>CAD</option>
+    <option value="USD">USD</option>
+    <option value="EUR">EUR</option>
+  </select>
+</div>
+  
 
 <label>Horaire + fuseau horaire</label>
 <input name="Horaire">
