@@ -355,13 +355,13 @@ function prettySchedule(x){
 
   function prettyStart(x){
   const s = prettySchedule(x);
-  return s.split(" — ").slice(0,2).join(" — ");
+  const parts = s.split(" — ");
+  return parts[0] + " — " + parts[1] + " (" + parts[2].split(" (")[1];
 }
 
-function prettyFreqTz(x){
+function prettyFreq(x){
   const s = prettySchedule(x);
-  const parts = s.split(" — ");
-  return parts[2] || "—";
+  return s.split(" — ")[2].split(" (")[0];
 }
   
   function render(){
@@ -387,12 +387,12 @@ function prettyFreqTz(x){
         <div class="meta">${escapeHtml(x.system)} • ${x.type==="one-shot"?"One-shot":"Campagne"} • ${escapeHtml(x.lang)} • ${escapeHtml(x.tz)}</div>
 
         <div class="badges">
-          ${badge(x.platform, "var(--accent)")}
-         ${badge(prettyStart(x), "var(--accent2)")}
-${badge(prettyFreqTz(x), "rgba(148,163,184,.9)")}
-          ${badge(`${x.price} ${x.currency} / joueur`, "var(--gold)")}
-          ${badge(`Places: ${x.seats}`, "rgba(148,163,184,.9)")}
-        </div>
+  ${badge(x.platform, "var(--accent)")}
+  ${badge(prettyStartTZ(x), "var(--accent2)")}
+  ${badge(prettyFreqOnly(x), "rgba(148,163,184,.9)")}
+  ${badge(`${x.price} ${x.currency} / joueur`, "var(--gold)")}
+  ${badge(`Places: ${x.seats}`, "rgba(148,163,184,.9)")}
+</div>
 
         <div class="muted">${escapeHtml(x.desc).slice(0, 140)}${x.desc.length>140?"…":""}</div>
 
