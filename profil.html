@@ -240,6 +240,8 @@
         <button class="btnPrimary" id="saveBtn" type="button">Enregistrer</button>
         <button class="btn" id="clearBtn" type="button">Effacer</button>
         <button class="btn" id="genLinkBtn" type="button">Générer lien public</button>
+        <button class="btn" id="openPublicBtn" type="button">Voir mon profil public</button>
+<button class="btn" id="copyPublicBtn" type="button">Copier le lien</button>
       </div>
 
       <div class="ok" id="okMsg">✅ Profil enregistré.</div>
@@ -455,6 +457,7 @@
 
     const base = location.origin + location.pathname.replace(/profil\.html$/,'profil-public.html');
     const url = base + "?data=" + enc;
+    lastPublicUrl = url;
 
     linkBox.textContent = url;
     linkBox.style.display = "block";
@@ -470,6 +473,18 @@
   document.getElementById("saveBtn").addEventListener("click", save);
   document.getElementById("clearBtn").addEventListener("click", clearData);
   document.getElementById("genLinkBtn").addEventListener("click", genPublicLink);
+  let lastPublicUrl = "";
+
+document.getElementById("openPublicBtn").addEventListener("click", () => {
+  if(!lastPublicUrl) { alert("Génère d’abord le lien public."); return; }
+  window.open(lastPublicUrl, "_blank", "noopener");
+});
+
+document.getElementById("copyPublicBtn").addEventListener("click", async () => {
+  if(!lastPublicUrl) { alert("Génère d’abord le lien public."); return; }
+  try { await navigator.clipboard.writeText(lastPublicUrl); alert("Lien copié."); }
+  catch(e){ alert("Copie manuelle : " + lastPublicUrl); }
+});
 
   setMode("player");
   load();
