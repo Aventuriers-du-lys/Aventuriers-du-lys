@@ -418,7 +418,7 @@ function prettySchedule(x){
 
     const rows = [
       ["MJ", x.gm],
-      ["Horaire", `${x.schedule} (${x.tz})`],
+     ["Horaire", prettySchedule(x)],
       ["Prix", `${x.price} ${x.currency} / joueur / séance`],
       ["Places", x.seats],
       ["Plateforme", x.platform],
