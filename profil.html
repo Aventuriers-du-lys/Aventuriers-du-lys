@@ -6,18 +6,10 @@
 <title>Profil — Les Aventuriers du Lys</title>
 <style>
   :root{
-    --bg0:#050612;
-    --text:#e5e7eb;
-    --muted:#94a3b8;
-    --line:rgba(148,163,184,.18);
-    --accent:#22d3ee;
-    --accent2:#a78bfa;
-    --gold:#fbbf24;
-    --panel:rgba(10,15,30,.78);
-    --panel2:rgba(15,23,42,.88);
-    --radius:16px;
-    --radius2:22px;
-    --shadow: 0 18px 45px rgba(0,0,0,.55);
+    --bg0:#050612; --text:#e5e7eb; --muted:#94a3b8; --line:rgba(148,163,184,.18);
+    --accent:#22d3ee; --accent2:#a78bfa; --gold:#fbbf24;
+    --panel:rgba(10,15,30,.78); --panel2:rgba(15,23,42,.88);
+    --radius2:22px; --shadow: 0 18px 45px rgba(0,0,0,.55);
     --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
   }
@@ -158,6 +150,17 @@
   .note{color:var(--muted);font-size:13px;margin-top:10px}
   .ok{margin-top:10px;color:#bbf7d0;font-size:13px;display:none}
   .warn{margin-top:10px;color:#fde68a;font-size:13px;display:none}
+  .linkBox{
+    margin-top:10px;
+    padding:10px;
+    border-radius:12px;
+    border:1px solid rgba(148,163,184,.22);
+    background:rgba(2,6,23,.35);
+    color:var(--muted);
+    font-size:12px;
+    word-break: break-all;
+    display:none;
+  }
 
   @media (max-width: 900px){
     .grid{grid-template-columns:1fr}
@@ -173,7 +176,7 @@
         <div class="sigil"></div>
         <div>
           <h1>Les Aventuriers du Lys</h1>
-          <p>Profil (MVP) — sauvegarde locale</p>
+          <p>Profil (MVP) — lien public partageable</p>
         </div>
       </div>
       <div class="nav">
@@ -190,7 +193,7 @@
     <div class="kicker">Joueur • Maître scénariste</div>
     <h2>Crée ton <span>profil</span></h2>
     <p class="lead">
-      MVP : ton profil se sauvegarde dans ton navigateur (sur ton appareil). Plus tard, on le connectera à de vrais comptes.
+      Tu peux générer un <strong>lien public</strong> qui affiche ta fiche. Optionnel : ajoute un lien personnel (site, Linktree, etc.).
     </p>
 
     <div class="tabs">
@@ -227,25 +230,29 @@
         </div>
       </div>
 
+      <label>Lien personnel (optionnel)</label>
+      <input id="publicLink" placeholder="ex: https://tonsite.com (ou tonsite.com)" />
+
       <label>Bio</label>
       <textarea id="bio" placeholder="Quelques lignes sur ton style de jeu, tes préférences, etc."></textarea>
 
       <div class="actions">
         <button class="btnPrimary" id="saveBtn" type="button">Enregistrer</button>
         <button class="btn" id="clearBtn" type="button">Effacer</button>
+        <button class="btn" id="genLinkBtn" type="button">Générer lien public</button>
       </div>
 
       <div class="ok" id="okMsg">✅ Profil enregistré.</div>
       <div class="warn" id="warnMsg">🟡 Rien à effacer (profil vide).</div>
 
+      <div class="linkBox" id="linkBox"></div>
+
       <div class="note">
-        Conseil : garde le pseudo public (pas ton vrai nom) si tu veux rester discret.
+        MVP : le profil public est encodé dans le lien. Si tu changes ton profil, régénère un lien.
       </div>
     </div>
 
-    <div class="panel" id="rolePanel">
-      <!-- contenu injecté JS -->
-    </div>
+    <div class="panel" id="rolePanel"></div>
   </section>
 
   <footer class="wrap" style="margin-top:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding:18px 0 30px;">
@@ -263,10 +270,12 @@
   const displayName = document.getElementById("displayName");
   const lang = document.getElementById("lang");
   const tz = document.getElementById("tz");
+  const publicLink = document.getElementById("publicLink");
   const bio = document.getElementById("bio");
 
   const okMsg = document.getElementById("okMsg");
   const warnMsg = document.getElementById("warnMsg");
+  const linkBox = document.getElementById("linkBox");
 
   let mode = "player"; // player | gm
 
@@ -295,10 +304,6 @@
 
       <label>Outils de sécurité / règles de table</label>
       <textarea id="gmSafety" placeholder="ex: X-card, lignes/voiles, ton de la table..."></textarea>
-
-      <div class="note">
-        MVP : ces infos servent à ta page profil. Plus tard : elles alimenteront tes annonces automatiquement.
-      </div>
     `;
   }
 
@@ -331,10 +336,6 @@
 
       <label>Disponibilités (texte libre)</label>
       <textarea id="pAvailability" placeholder="ex: mardi/jeudi soir, week-end après-midi, etc."></textarea>
-
-      <div class="note">
-        MVP : plus tard, ces champs pourront servir à recommander des parties automatiquement.
-      </div>
     `;
   }
 
@@ -343,26 +344,21 @@
     tabPlayer.classList.toggle("active", mode==="player");
     tabGM.classList.toggle("active", mode==="gm");
     rolePanel.innerHTML = (mode==="player") ? playerPanelHTML() : gmPanelHTML();
-    load(); // recharge les champs spécifiques au mode
+    load();
   }
 
-  function key(){
-    return mode === "player" ? "adl_profile_player" : "adl_profile_gm";
-  }
+  function key(){ return mode === "player" ? "adl_profile_player" : "adl_profile_gm"; }
 
-  function save(){
-    okMsg.style.display = "none";
-    warnMsg.style.display = "none";
-
+  function collect(){
     const data = {
       displayName: displayName.value.trim(),
       lang: lang.value,
       tz: tz.value,
+      publicLink: publicLink.value.trim(),
       bio: bio.value.trim(),
       mode
     };
 
-    // champs spécifiques
     if(mode==="player"){
       data.pSystems = (document.getElementById("pSystems")||{}).value?.trim() || "";
       data.pStyle = (document.getElementById("pStyle")||{}).value || "Équilibré";
@@ -375,32 +371,35 @@
       data.gmPlatforms = (document.getElementById("gmPlatforms")||{}).value?.trim() || "";
       data.gmSafety = (document.getElementById("gmSafety")||{}).value?.trim() || "";
     }
+    return data;
+  }
 
+  function save(){
+    okMsg.style.display = "none";
+    warnMsg.style.display = "none";
+    linkBox.style.display = "none";
+
+    const data = collect();
     localStorage.setItem(key(), JSON.stringify(data));
+
+    okMsg.textContent = "✅ Profil enregistré.";
     okMsg.style.display = "block";
-    setTimeout(()=> okMsg.style.display="none", 2500);
+    setTimeout(()=> okMsg.style.display="none", 2000);
   }
 
   function load(){
     okMsg.style.display = "none";
     warnMsg.style.display = "none";
+    linkBox.style.display = "none";
 
     const raw = localStorage.getItem(key());
-    if(!raw){
-      // vide : on garde les valeurs générales telles quelles
-      if(mode==="player"){
-        const el = document.getElementById("pStyle"); if(el) el.value = "Équilibré";
-        const el2 = document.getElementById("pLevel"); if(el2) el2.value = "Débutant";
-      } else {
-        const cur = document.getElementById("gmCurrency"); if(cur) cur.value = "CAD";
-      }
-      return;
-    }
+    if(!raw) return;
     const data = JSON.parse(raw);
 
     displayName.value = data.displayName || "";
     lang.value = data.lang || "FR";
     tz.value = data.tz || "America/Montreal";
+    publicLink.value = data.publicLink || "";
     bio.value = data.bio || "";
 
     if(mode==="player"){
@@ -420,36 +419,58 @@
   function clearData(){
     okMsg.style.display = "none";
     warnMsg.style.display = "none";
+    linkBox.style.display = "none";
 
     const raw = localStorage.getItem(key());
-    if(!raw){ warnMsg.style.display = "block"; setTimeout(()=> warnMsg.style.display="none", 2500); return; }
-
-    localStorage.removeItem(key());
-    // reset champs
-    bio.value = "";
-    if(mode==="player"){
-      const a = document.getElementById("pSystems"); if(a) a.value = "";
-      const d = document.getElementById("pAvailability"); if(d) d.value = "";
-      const b = document.getElementById("pStyle"); if(b) b.value = "Équilibré";
-      const c = document.getElementById("pLevel"); if(c) c.value = "Débutant";
-    } else {
-      const a = document.getElementById("gmExp"); if(a) a.value = "";
-      const c = document.getElementById("gmRate"); if(c) c.value = "";
-      const d = document.getElementById("gmPlatforms"); if(d) d.value = "";
-      const e = document.getElementById("gmSafety"); if(e) e.value = "";
-      const b = document.getElementById("gmCurrency"); if(b) b.value = "CAD";
+    if(!raw){
+      warnMsg.style.display = "block";
+      setTimeout(()=> warnMsg.style.display="none", 2000);
+      return;
     }
+    localStorage.removeItem(key());
+    bio.value = ""; publicLink.value = "";
     okMsg.textContent = "✅ Profil effacé.";
     okMsg.style.display = "block";
-    setTimeout(()=> { okMsg.style.display="none"; okMsg.textContent="✅ Profil enregistré."; }, 2500);
+    setTimeout(()=> { okMsg.style.display="none"; okMsg.textContent="✅ Profil enregistré."; }, 2000);
+  }
+
+  // Base64 URL-safe encode (UTF-8)
+  function toB64UrlUtf8(str){
+    const bytes = new TextEncoder().encode(str);
+    let bin = "";
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    const b64 = btoa(bin);
+    return b64.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+
+  async function copyToClipboard(text){
+    try{ await navigator.clipboard.writeText(text); return true; }
+    catch(e){ return false; }
+  }
+
+  async function genPublicLink(){
+    save(); // d'abord
+    const data = collect();
+    const enc = toB64UrlUtf8(JSON.stringify(data));
+
+    const base = location.origin + location.pathname.replace(/profil\.html$/,'profil-public.html');
+    const url = base + "?data=" + enc;
+
+    linkBox.textContent = url;
+    linkBox.style.display = "block";
+
+    const ok = await copyToClipboard(url);
+    okMsg.textContent = ok ? "✅ Lien copié dans le presse-papiers." : "✅ Lien généré (copie manuelle).";
+    okMsg.style.display = "block";
+    setTimeout(()=> okMsg.style.display="none", 2500);
   }
 
   tabPlayer.addEventListener("click", ()=>setMode("player"));
   tabGM.addEventListener("click", ()=>setMode("gm"));
   document.getElementById("saveBtn").addEventListener("click", save);
   document.getElementById("clearBtn").addEventListener("click", clearData);
+  document.getElementById("genLinkBtn").addEventListener("click", genPublicLink);
 
-  // init
   setMode("player");
   load();
 </script>
