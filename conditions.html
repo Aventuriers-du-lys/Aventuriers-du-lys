@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Conditions d’utilisation — Les Aventuriers du Lys</title>
+
+<style>
+  :root{
+    --bg0:#050612;
+    --text:#e5e7eb;
+    --muted:#94a3b8;
+    --line:rgba(148,163,184,.18);
+    --accent:#22d3ee;
+    --accent2:#a78bfa;
+    --gold:#fbbf24;
+    --panel:rgba(10,15,30,.78);
+    --panel2:rgba(15,23,42,.88);
+    --radius2:22px;
+    --shadow: 0 18px 45px rgba(0,0,0,.55);
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  body{
+    font-family:var(--font);
+    color:var(--text);
+    line-height:1.65;
+    background:
+      linear-gradient(rgba(5,6,18,.28), rgba(5,6,18,.78)),
+      url("table-fantasy.png"),
+      linear-gradient(180deg, #0b1230, var(--bg0));
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height:100vh;
+  }
+
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter: blur(14px);
+    background: linear-gradient(to bottom, rgba(5,6,18,.85), rgba(5,6,18,.55), transparent);
+    border-bottom:1px solid var(--line);
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+
+  .sigil{
+    width:40px;height:40px;border-radius:999px;
+    background:
+      radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%);
+    box-shadow: 0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+    border:1px solid rgba(148,163,184,.35);
+  }
+
+  .brand h1{
+    font-size:14px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .brand p{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:-2px;
+  }
+
+  .nav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+
+  .chip{
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,.28);
+    background:rgba(2,6,23,.48);
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  .chip:hover{
+    border-color:rgba(34,211,238,.55);
+    color:var(--text);
+  }
+
+  .card{
+    margin-top:18px;
+    background:var(--panel);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .card::after{
+    content:"";
+    position:absolute;
+    inset:-40px;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(251,191,36,.08), transparent 48%),
+      radial-gradient(circle at 60% 70%, rgba(255,255,255,.03), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 1px, transparent 1px, transparent 6px);
+    mix-blend-mode: overlay;
+    opacity:.55;
+    pointer-events:none;
+    transform: rotate(-2deg);
+  }
+
+  .card > *{position:relative;z-index:1}
+
+  .kicker{
+    color:rgba(34,211,238,.95);
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:12px;
+    margin-bottom:10px;
+  }
+
+  h2{
+    font-family:var(--fontDisplay);
+    font-size:32px;
+    line-height:1.12;
+    margin-bottom:12px;
+  }
+
+  h2 span{
+    background:linear-gradient(to right, var(--gold), var(--accent2), var(--accent));
+    -webkit-background-clip:text;
+    color:transparent;
+  }
+
+  .lead{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:18px;
+  }
+
+  .toc{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:18px;
+  }
+
+  .toc a{
+    display:block;
+    padding:10px 12px;
+    border-radius:12px;
+    border:1px solid rgba(148,163,184,.22);
+    background:rgba(2,6,23,.35);
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  .toc a:hover{
+    border-color:rgba(34,211,238,.55);
+    color:var(--text);
+  }
+
+  .section{
+    margin-top:18px;
+    background:var(--panel2);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:18px;
+    padding:18px;
+  }
+
+  .section h3{
+    font-size:20px;
+    margin-bottom:10px;
+  }
+
+  .section h4{
+    font-size:16px;
+    margin:14px 0 8px;
+    color:#dbeafe;
+  }
+
+  .section p{
+    margin-bottom:12px;
+    color:var(--text);
+  }
+
+  .section ul, .section ol{
+    margin:0 0 12px 22px;
+    color:var(--text);
+  }
+
+  .section li{
+    margin-bottom:8px;
+  }
+
+  .muted{
+    color:var(--muted);
+  }
+
+  footer{
+    margin-top:18px;
+    padding:18px 0 30px;
+    color:var(--muted);
+    font-size:12px;
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width: 800px){
+    .toc{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="sigil"></div>
+        <div>
+          <h1>Les Aventuriers du Lys</h1>
+          <p>Conditions d’utilisation</p>
+        </div>
+      </div>
+      <div class="nav">
+        <a class="chip" href="index.html">Accueil</a>
+        <a class="chip" href="annonces.html">Annonces</a>
+        <a class="chip" href="publier.html">Publier</a>
+        <a class="chip" href="profil.html">Profil</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card">
+    <div class="kicker">Document légal</div>
+    <h2>Conditions <span>d’utilisation</span></h2>
+    <p class="lead">
+      Dernière mise à jour : <strong>[à compléter]</strong><br>
+      En utilisant Les Aventuriers du Lys, vous acceptez d’être lié par les présentes conditions.
+    </p>
+
+    <div class="toc">
+      <a href="#section1">1. Présentation de la plateforme</a>
+      <a href="#section2">2. Accès à la plateforme et inscription</a>
+      <a href="#section3">3. Fonctionnement actuel du service</a>
+      <a href="#section4">4. Nature du service</a>
+      <a href="#section5">5. Publication et validation des Parties</a>
+      <a href="#section6">6. Prix, devises et paiements</a>
+      <a href="#section7">7. Annulations, remboursements et conflits</a>
+      <a href="#section8">8. Code de conduite</a>
+      <a href="#section9">9. Thèmes sensibles et contenu des Parties</a>
+      <a href="#section10">10. Communications</a>
+      <a href="#section11">11. Contenu des utilisateurs</a>
+      <a href="#section12">12. Propriété intellectuelle de la Plateforme</a>
+      <a href="#section13">13. Utilisations interdites</a>
+      <a href="#section14">14. Liens et services tiers</a>
+      <a href="#section15">15. Suspension et résiliation</a>
+      <a href="#section16">16. Exclusion de garantie</a>
+      <a href="#section17">17. Limitation de responsabilité</a>
+      <a href="#section18">18. Indemnisation</a>
+      <a href="#section19">19. Modifications des Conditions</a>
+      <a href="#section20">20. Droit applicable et règlement des différends</a>
+      <a href="#section21">21. Divisibilité</a>
+      <a href="#section22">22. Intégralité de l’accord</a>
+      <a href="#section23">23. Contact</a>
+    </div>
+  </section>
+
+  <section class="section" id="section1">
+    <h3>1. Présentation de la plateforme</h3>
+    <p><strong>Les Aventuriers du Lys</strong> (la « Plateforme », le « Service », « nous », « notre ») est une plateforme en ligne permettant à des utilisateurs de publier, proposer, rechercher et rejoindre des expériences de jeux de rôle sur table en ligne (« Parties »).</p>
+    <p>Un utilisateur qui publie et anime une Partie est un <strong>Maître scénariste</strong>. Un utilisateur qui recherche, réserve, rejoint ou participe à une Partie est un <strong>Joueur</strong>.</p>
+    <p>La Plateforme agit comme un espace de mise en relation entre Maîtres scénaristes et Joueurs. Sauf indication contraire, <strong>Les Aventuriers du Lys n’est pas l’organisateur direct des Parties</strong> et n’est pas partie au contrat conclu entre un Maître scénariste et un Joueur.</p>
+    <p>Votre utilisation de la Plateforme peut aussi être encadrée par notre politique de confidentialité, notre code de conduite, notre politique de remboursement et toute autre politique affichée sur le site.</p>
+    <p>En utilisant la Plateforme, vous acceptez d’être lié par les présentes Conditions d’utilisation. Si vous n’acceptez pas ces Conditions, vous ne devez pas utiliser le Service.</p>
+  </section>
+
+  <section class="section" id="section2">
+    <h3>2. Accès à la plateforme et inscription</h3>
+    <h4>a) Conditions d’accès</h4>
+    <p>L’utilisation de la Plateforme est réservée aux personnes qui ont la capacité légale de conclure un contrat dans leur juridiction.</p>
+    <p>Par défaut, <strong>aucune personne de moins de 18 ans ne peut créer un compte ni utiliser la Plateforme</strong>, sauf si nous indiquons explicitement une autre règle à l’avenir.</p>
+    <p>En créant un compte, vous déclarez :</p>
+    <ul>
+      <li>que vous avez l’âge requis ;</li>
+      <li>que les informations fournies sont exactes ;</li>
+      <li>que vous avez le droit d’accepter les présentes Conditions.</li>
+    </ul>
+    <p>Nous nous réservons le droit de refuser, suspendre ou supprimer tout compte créé en violation de ces Conditions.</p>
+
+    <h4>b) Un seul compte par personne</h4>
+    <p>Sauf autorisation expresse de notre part, chaque personne ne peut créer qu’un seul compte. Nous pouvons désactiver les comptes en double ou les comptes créés dans un but frauduleux, trompeur ou abusif.</p>
+
+    <h4>c) Compte, mot de passe et sécurité</h4>
+    <p>Vous êtes seul responsable de la confidentialité de vos identifiants et de toute activité effectuée depuis votre compte.</p>
+    <p>Vous vous engagez à :</p>
+    <ol>
+      <li>nous signaler immédiatement toute utilisation non autorisée de votre compte ou toute faille de sécurité ;</li>
+      <li>vous déconnecter de votre compte à la fin de chaque session, si nécessaire.</li>
+    </ol>
+    <p>Nous ne sommes pas responsables des pertes ou dommages résultant d’un défaut de protection de vos identifiants.</p>
+
+    <h4>d) Comptes inactifs</h4>
+    <p>Nous pouvons suspendre ou supprimer les comptes inactifs pendant une période prolongée.</p>
+  </section>
+
+  <section class="section" id="section3">
+    <h3>3. Fonctionnement actuel du service</h3>
+    <p>À ce stade, la Plateforme peut inclure des fonctionnalités encore en développement. Certaines opérations peuvent être automatisées, semi-automatisées, ou traitées manuellement par l’administration du site.</p>
+    <p>Par exemple, dans la version actuelle du site, certaines annonces peuvent être soumises par formulaire, reçues pour validation, puis publiées manuellement sur la Plateforme.</p>
+    <p>Nous pouvons modifier à tout moment les fonctionnalités, limites, formulaires, outils de contact, méthodes de publication ou options de navigation du Service.</p>
+    <p>Nous nous réservons le droit d’ajouter, modifier, suspendre ou retirer tout ou partie du Service, temporairement ou définitivement, avec ou sans préavis.</p>
+  </section>
+
+  <section class="section" id="section4">
+    <h3>4. Nature du service</h3>
+    <p>Les Aventuriers du Lys fournit une <strong>plateforme de mise en relation</strong> entre Maîtres scénaristes et Joueurs.</p>
+    <p>Sauf mention expresse contraire :</p>
+    <ol>
+      <li>Les Aventuriers du Lys n’est pas partie aux ententes conclues entre les utilisateurs.</li>
+      <li>Les Parties sont proposées et animées par des Maîtres scénaristes indépendants.</li>
+      <li>Les Joueurs contractent directement avec le Maître scénariste de la Partie concernée.</li>
+      <li>Les Aventuriers du Lys n’est ni assureur, ni employeur, ni garant du comportement des utilisateurs.</li>
+      <li>Les Aventuriers du Lys décline toute responsabilité quant au contenu, à la qualité, à la légalité, à la sécurité, à la disponibilité ou au déroulement réel des Parties proposées par les utilisateurs.</li>
+    </ol>
+  </section>
+
+  <section class="section" id="section5">
+    <h3>5. Publication et validation des Parties</h3>
+    <h4>a) Publication d’une Partie</h4>
+    <p>Un Maître scénariste peut soumettre une Partie au moyen des outils de publication fournis sur la Plateforme.</p>
+    <p>La soumission d’une Partie <strong>ne garantit pas sa publication immédiate</strong>.</p>
+
+    <h4>b) Validation</h4>
+    <p>Nous nous réservons le droit de valider, refuser, modifier, retirer ou suspendre toute annonce de Partie, à notre seule discrétion, notamment si nous estimons qu’elle :</p>
+    <ul>
+      <li>contrevient aux présentes Conditions ;</li>
+      <li>contrevient au code de conduite ;</li>
+      <li>est trompeuse ;</li>
+      <li>contient du contenu inapproprié ;</li>
+      <li>ou expose les utilisateurs ou la Plateforme à un risque juridique, moral ou technique.</li>
+    </ul>
+
+    <h4>c) Informations fournies par le Maître scénariste</h4>
+    <p>Le Maître scénariste est seul responsable de l’exactitude des informations affichées dans sa Partie, y compris :</p>
+    <ul>
+      <li>système de jeu ;</li>
+      <li>langue ;</li>
+      <li>type de partie ;</li>
+      <li>date de début ;</li>
+      <li>heure ;</li>
+      <li>fuseau horaire ;</li>
+      <li>fréquence ;</li>
+      <li>prix ;</li>
+      <li>devise ;</li>
+      <li>nombre de places ;</li>
+      <li>plateformes utilisées ;</li>
+      <li>ton, thèmes et contenu.</li>
+    </ul>
+  </section>
+
+  <section class="section" id="section6">
+    <h3>6. Prix, devises et paiements</h3>
+    <h4>a) Prix affichés</h4>
+    <p>Les prix affichés sur la Plateforme sont généralement indiqués <strong>par joueur et par séance</strong>.</p>
+    <p>La devise principale de la Plateforme est le <strong>dollar canadien (CAD)</strong>, mais certaines Parties peuvent être offertes dans d’autres devises, notamment <strong>USD</strong> ou <strong>EUR</strong>.</p>
+
+    <h4>b) Paiements</h4>
+    <p>Selon l’état actuel du Service, les paiements peuvent ne pas être intégrés directement à la Plateforme. Dans ce cas, la Plateforme sert principalement à présenter les Parties, mettre en relation les utilisateurs et transmettre des demandes de contact.</p>
+    <p>Lorsque des paiements seront intégrés, des conditions complémentaires pourront s’appliquer.</p>
+
+    <h4>c) Taxes, frais et commissions</h4>
+    <p>Nous nous réservons le droit d’ajouter ultérieurement des frais de service, des frais de traitement, des commissions, des règles fiscales ou des politiques de remboursement ou d’annulation.</p>
+    <p>Ces règles, lorsqu’elles existeront, feront partie des présentes Conditions ou de documents complémentaires.</p>
+  </section>
+
+  <section class="section" id="section7">
+    <h3>7. Annulations, remboursements et conflits</h3>
+    <p>Les politiques d’annulation et de remboursement peuvent varier selon le Maître scénariste, la Partie concernée, le mode de paiement utilisé et l’état d’avancement de la réservation.</p>
+    <p>Dans la version actuelle du site, si un conflit survient entre un Joueur et un Maître scénariste, les parties concernées sont d’abord invitées à communiquer directement entre elles.</p>
+    <p>Les Aventuriers du Lys se réserve le droit d’intervenir à sa discrétion, mais n’a pas l’obligation d’agir comme arbitre dans tous les conflits privés entre utilisateurs.</p>
+  </section>
+
+  <section class="section" id="section8">
+    <h3>8. Code de conduite</h3>
+    <p>Tous les utilisateurs doivent se comporter de manière respectueuse, sécuritaire et honnête.</p>
+    <p>L’utilisation de la Plateforme implique l’acceptation d’un <strong>Code de conduite</strong>, applicable aux interactions :</p>
+    <ul>
+      <li>sur le site ;</li>
+      <li>dans les annonces ;</li>
+      <li>dans les messages ou communications liés au site ;</li>
+      <li>dans les espaces affiliés au site ;</li>
+      <li>et, lorsque pertinent, dans les Parties organisées à partir de la Plateforme.</li>
+    </ul>
+
+    <h4>Comportements interdits</h4>
+    <p>Sont notamment interdits :</p>
+    <ul>
+      <li>le harcèlement ;</li>
+      <li>les menaces ;</li>
+      <li>l’intimidation ;</li>
+      <li>les propos haineux ;</li>
+      <li>la discrimination ;</li>
+      <li>l’usurpation d’identité ;</li>
+      <li>l’arnaque ;</li>
+      <li>le contournement volontaire des règles du site ;</li>
+      <li>le spam ;</li>
+      <li>la collecte abusive d’informations personnelles ;</li>
+      <li>les comportements sexuels non consentis ;</li>
+      <li>toute référence ou représentation de contenu sexuel impliquant des mineurs ;</li>
+      <li>le contournement des mécanismes de paiement ou de publication du site ;</li>
+      <li>la publication trompeuse ou mensongère.</li>
+    </ul>
+    <p>Nous pouvons suspendre ou supprimer tout compte qui enfreint ces règles.</p>
+  </section>
+
+  <section class="section" id="section9">
+    <h3>9. Thèmes sensibles et contenu des Parties</h3>
+    <p>Les jeux de rôle peuvent inclure des thèmes sensibles ou matures, notamment :</p>
+    <ul>
+      <li>violence ;</li>
+      <li>horreur ;</li>
+      <li>manipulation mentale ;</li>
+      <li>dépendance ;</li>
+      <li>discrimination fictive ou historique ;</li>
+      <li>torture ;</li>
+      <li>meurtre ;</li>
+      <li>sacrifice ;</li>
+      <li>thèmes politiques ou philosophiques ;</li>
+      <li>et autres contenus difficiles.</li>
+    </ul>
+    <p>Les Maîtres scénaristes doivent faire des efforts raisonnables pour signaler à l’avance les thèmes sensibles importants.</p>
+    <p>Les Joueurs demeurent responsables d’évaluer leur propre niveau de confort avant de rejoindre une Partie.</p>
+
+    <h4>Interdictions absolues</h4>
+    <p>Aucune Partie publiée sur la Plateforme ne peut inclure :</p>
+    <ul>
+      <li>du contenu sexuel non consensuel ;</li>
+      <li>des représentations sexuelles impliquant des mineurs ;</li>
+      <li>ou des références explicites ou implicites à ce type de contenu.</li>
+    </ul>
+    <p>Toute violation peut entraîner une suppression immédiate du contenu ou du compte concerné.</p>
+  </section>
+
+  <section class="section" id="section10">
+    <h3>10. Communications</h3>
+    <p>En créant un compte, vous acceptez de recevoir certaines communications liées au Service, notamment :</p>
+    <ul>
+      <li>confirmations ;</li>
+      <li>notifications techniques ;</li>
+      <li>messages transactionnels ;</li>
+      <li>communications de support ;</li>
+      <li>mises à jour importantes concernant la Plateforme.</li>
+    </ul>
+    <p>Vous pouvez refuser certaines communications non essentielles si des options sont offertes à cet effet.</p>
+    <p>Les communications strictement nécessaires au fonctionnement du Service ne peuvent pas toujours être désactivées.</p>
+  </section>
+
+  <section class="section" id="section11">
+    <h3>11. Contenu des utilisateurs</h3>
+    <h4>a) Responsabilité du contenu</h4>
+    <p>Vous êtes seul responsable de tout contenu que vous publiez ou transmettez sur la Plateforme, notamment :</p>
+    <ul>
+      <li>textes ;</li>
+      <li>descriptions ;</li>
+      <li>images ;</li>
+      <li>illustrations ;</li>
+      <li>biographies ;</li>
+      <li>horaires ;</li>
+      <li>liens ;</li>
+      <li>messages ;</li>
+      <li>documents ;</li>
+      <li>ou tout autre matériel.</li>
+    </ul>
+    <p>Vous garantissez que vous avez les droits nécessaires pour publier ce contenu.</p>
+
+    <h4>b) Licence accordée à la Plateforme</h4>
+    <p>Vous conservez la propriété de votre contenu, mais en le publiant sur la Plateforme, vous nous accordez une licence non exclusive, mondiale, gratuite et révocable dans la mesure nécessaire pour :</p>
+    <ul>
+      <li>afficher ce contenu sur la Plateforme ;</li>
+      <li>promouvoir le Service ;</li>
+      <li>présenter les annonces ;</li>
+      <li>améliorer l’interface et les fonctionnalités ;</li>
+      <li>et assurer le fonctionnement normal du site.</li>
+    </ul>
+
+    <h4>c) Retrait de contenu</h4>
+    <p>Nous pouvons retirer ou modifier tout contenu que nous jugeons illicite, trompeur, dangereux, offensant, contraire aux présentes Conditions, ou préjudiciable à la Plateforme ou à ses utilisateurs.</p>
+  </section>
+
+  <section class="section" id="section12">
+    <h3>12. Propriété intellectuelle de la Plateforme</h3>
+    <p>Le site, son design, sa structure, ses textes originaux, sa marque, sa présentation, son code, ses fonctionnalités, ses éléments graphiques et ses contenus propres appartiennent à <strong>Les Aventuriers du Lys</strong>, à ses licenciés ou à leurs titulaires respectifs.</p>
+    <p>Sauf autorisation expresse, vous ne pouvez pas :</p>
+    <ul>
+      <li>copier ;</li>
+      <li>reproduire ;</li>
+      <li>extraire ;</li>
+      <li>revendre ;</li>
+      <li>modifier ;</li>
+      <li>distribuer ;</li>
+      <li>désassembler ;</li>
+      <li>rétroconcevoir ;</li>
+      <li>ou exploiter commercialement</li>
+    </ul>
+    <p>tout ou partie de la Plateforme.</p>
+  </section>
+
+  <section class="section" id="section13">
+    <h3>13. Utilisations interdites</h3>
+    <p>Vous vous engagez à ne pas utiliser la Plateforme pour :</p>
+    <ul>
+      <li>enfreindre une loi ;</li>
+      <li>nuire à d’autres utilisateurs ;</li>
+      <li>contourner les paiements ou les validations ;</li>
+      <li>envoyer du spam ;</li>
+      <li>publier du contenu trompeur ;</li>
+      <li>manipuler les notes, avis, statistiques ou classements ;</li>
+      <li>scraper les données du site ;</li>
+      <li>utiliser des robots, bots ou scripts automatisés sans autorisation ;</li>
+      <li>transmettre des virus ou codes malveillants ;</li>
+      <li>compromettre la sécurité du site ;</li>
+      <li>organiser des transactions externes en utilisant le site comme simple outil de recrutement, si cela contrevient à nos règles en vigueur.</li>
+    </ul>
+    <p>Nous pouvons prendre toute mesure nécessaire en cas d’utilisation abusive.</p>
+  </section>
+
+  <section class="section" id="section14">
+    <h3>14. Liens et services tiers</h3>
+    <p>La Plateforme peut contenir des liens vers des services tiers, notamment :</p>
+    <ul>
+      <li>Discord ;</li>
+      <li>Roll20 ;</li>
+      <li>Foundry ;</li>
+      <li>Google ;</li>
+      <li>réseaux sociaux ;</li>
+      <li>plateformes de paiement ;</li>
+      <li>ou autres services externes.</li>
+    </ul>
+    <p>Nous ne contrôlons pas ces services tiers et ne sommes pas responsables :</p>
+    <ul>
+      <li>de leur contenu ;</li>
+      <li>de leur disponibilité ;</li>
+      <li>de leurs pratiques ;</li>
+      <li>de leur sécurité ;</li>
+      <li>ou des dommages pouvant résulter de leur utilisation.</li>
+    </ul>
+    <p>Toute relation avec un service tiers se fait entre vous et ce tiers.</p>
+  </section>
+
+  <section class="section" id="section15">
+    <h3>15. Suspension et résiliation</h3>
+    <p>Nous pouvons suspendre, limiter ou supprimer votre accès au Service à tout moment, avec ou sans préavis, notamment en cas :</p>
+    <ul>
+      <li>de violation des présentes Conditions ;</li>
+      <li>de violation du Code de conduite ;</li>
+      <li>de fraude ;</li>
+      <li>d’utilisation abusive ;</li>
+      <li>de risque juridique ;</li>
+      <li>ou pour toute autre raison sérieuse liée à la protection de la Plateforme ou de ses utilisateurs.</li>
+    </ul>
+    <p>Vous pouvez cesser d’utiliser le Service à tout moment.</p>
+    <p>Certaines obligations survivent à la fin de votre utilisation du site, notamment celles liées à la responsabilité, à l’indemnisation, à la propriété intellectuelle et aux limitations de responsabilité.</p>
+  </section>
+
+  <section class="section" id="section16">
+    <h3>16. Exclusion de garantie</h3>
+    <p>La Plateforme est fournie <strong>“telle quelle”</strong> et <strong>“selon disponibilité”</strong>.</p>
+    <p>Dans la mesure permise par la loi, Les Aventuriers du Lys ne garantit pas :</p>
+    <ol>
+      <li>que le Service répondra à vos attentes ;</li>
+      <li>qu’il sera ininterrompu, exempt d’erreurs ou toujours disponible ;</li>
+      <li>que les informations affichées par les utilisateurs seront exactes ;</li>
+      <li>que les Parties proposées seront sécuritaires, légales, appropriées, satisfaisantes ou conformes à vos attentes.</li>
+    </ol>
+    <p>Les utilisateurs assument les risques normaux liés aux interactions avec d’autres utilisateurs.</p>
+  </section>
+
+  <section class="section" id="section17">
+    <h3>17. Limitation de responsabilité</h3>
+    <p>Dans la mesure permise par la loi, Les Aventuriers du Lys ne pourra être tenu responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs, y compris :</p>
+    <ul>
+      <li>perte de revenus ;</li>
+      <li>perte de clientèle ;</li>
+      <li>perte de données ;</li>
+      <li>pertes liées à une Partie ;</li>
+      <li>conflits entre utilisateurs ;</li>
+      <li>comportement d’un Maître scénariste ou d’un Joueur ;</li>
+      <li>indisponibilité du site ;</li>
+      <li>ou défaillance d’un service tiers.</li>
+    </ul>
+    <p>En tout état de cause, la responsabilité totale de la Plateforme, si elle devait être engagée, sera limitée au montant effectivement payé par l’utilisateur à la Plateforme au cours des six (6) mois précédents, ou à cent dollars canadiens (100 CAD), selon le montant le plus élevé, sauf disposition impérative contraire de la loi applicable.</p>
+  </section>
+
+  <section class="section" id="section18">
+    <h3>18. Indemnisation</h3>
+    <p>Vous acceptez d’indemniser et de dégager de toute responsabilité Les Aventuriers du Lys, ses administrateurs, représentants, collaborateurs et partenaires, contre toute réclamation, perte, dommage, frais ou dépense résultant :</p>
+    <ul>
+      <li>de votre utilisation du Service ;</li>
+      <li>de votre contenu ;</li>
+      <li>de votre violation des présentes Conditions ;</li>
+      <li>de votre violation des droits d’un tiers ;</li>
+      <li>ou de votre comportement sur ou via la Plateforme.</li>
+    </ul>
+  </section>
+
+  <section class="section" id="section19">
+    <h3>19. Modifications des Conditions</h3>
+    <p>Nous pouvons modifier les présentes Conditions à tout moment.</p>
+    <p>Les modifications prendront effet à leur publication sur la Plateforme, sauf indication contraire.</p>
+    <p>Il est de votre responsabilité de consulter régulièrement les Conditions d’utilisation.</p>
+    <p>Votre utilisation continue de la Plateforme après publication d’une version modifiée vaut acceptation de cette version mise à jour.</p>
+  </section>
+
+  <section class="section" id="section20">
+    <h3>20. Droit applicable et règlement des différends</h3>
+    <p>Les présentes Conditions sont régies par les lois applicables dans la province de <strong>Québec</strong>, Canada, sauf disposition impérative contraire.</p>
+    <p>Tout différend relatif à l’utilisation du Service, lorsque non résolu à l’amiable, pourra être soumis aux tribunaux compétents du Québec, sous réserve de toute règle obligatoire applicable dans votre juridiction.</p>
+    <p>Nous pouvons ultérieurement prévoir un mécanisme complémentaire de médiation, d’arbitrage ou de règlement interne des différends.</p>
+  </section>
+
+  <section class="section" id="section21">
+    <h3>21. Divisibilité</h3>
+    <p>Si une disposition des présentes Conditions est jugée invalide, illégale ou inapplicable, les autres dispositions demeureront en vigueur.</p>
+  </section>
+
+  <section class="section" id="section22">
+    <h3>22. Intégralité de l’accord</h3>
+    <p>Les présentes Conditions, avec toute politique ou document auquel elles renvoient, constituent l’intégralité de l’accord entre vous et Les Aventuriers du Lys concernant l’utilisation de la Plateforme.</p>
+  </section>
+
+  <section class="section" id="section23">
+    <h3>23. Contact</h3>
+    <p>Pour toute question concernant les présentes Conditions, vous pouvez communiquer avec nous à :</p>
+    <p><strong>flag2670@gmail.com</strong></p>
+  </section>
+
+  <footer class="wrap">
+    © <span id="year"></span> Les Aventuriers du Lys — Conditions d’utilisation
+  </footer>
+</main>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
