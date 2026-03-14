@@ -396,8 +396,9 @@
 
     grid.innerHTML = filtered.map(x=>`
       <article class="listing">
-        <div class="title">${escapeHtml(x.title)}</div>
-        <div class="meta">${escapeHtml(x.system)} • ${x.type==="one-shot"?"One-shot":"Campagne"} • ${escapeHtml(x.lang)}</div>
+       <div class="title">${escapeHtml(x.title)}</div>
+<div class="meta"><strong>MJ :</strong> ${escapeHtml(x.gm || "—")}</div>
+<div class="meta">${escapeHtml(x.system)} • ${x.type==="one-shot"?"One-shot":"Campagne"} • ${escapeHtml(x.lang)}</div>
 
         <div class="badges">
           ${badge(x.platform, "var(--accent)")}
