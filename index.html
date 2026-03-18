@@ -3,24 +3,22 @@
 <head>
   <title>Aventuriers du Lys — Trouver une partie de jeu de rôle</title>
 
-<meta name="description" content="Plateforme permettant aux joueurs de trouver des parties de jeux de rôle sur table en ligne et aux maîtres de jeu de proposer leurs campagnes.">
+  <meta name="description" content="Plateforme permettant aux joueurs de trouver des parties de jeux de rôle sur table en ligne et aux maîtres de jeu de proposer leurs campagnes.">
+  <meta name="keywords" content="jeu de rôle, JDR, D&D, maître de jeu, parties en ligne, RPG, Dungeons and Dragons">
+  <meta name="robots" content="index, follow">
 
-<meta name="keywords" content="jeu de rôle, JDR, D&D, maître de jeu, parties en ligne, RPG, Dungeons and Dragons">
-
-<meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-<meta property="og:title" content="Aventuriers du Lys — Trouver une partie de JDR">
-<meta property="og:description" content="Plateforme reliant joueurs et maîtres de jeu pour organiser des parties de jeux de rôle en ligne.">
-<meta property="og:url" content="https://aventuriers-du-lys.github.io/Aventuriers-du-lys/">
+  <meta property="og:title" content="Aventuriers du Lys — Trouver une partie de JDR">
+  <meta property="og:description" content="Plateforme reliant joueurs et maîtres de jeu pour organiser des parties de jeux de rôle en ligne.">
+  <meta property="og:url" content="https://aventuriers-du-lys.github.io/Aventuriers-du-lys/">
 
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Aventuriers du Lys — Trouver une partie de JDR">
-<meta name="twitter:description" content="Plateforme reliant joueurs et maîtres de jeu pour organiser des parties de jeux de rôle en ligne.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Aventuriers du Lys — Trouver une partie de JDR">
+  <meta name="twitter:description" content="Plateforme reliant joueurs et maîtres de jeu pour organiser des parties de jeux de rôle en ligne.">
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
   <style>
     :root{
       --bg0:#050612;
@@ -262,7 +260,6 @@
       font-size:12px;
     }
 
-    /* Modal */
     .modalBackdrop{
       position:fixed;inset:0;background:rgba(0,0,0,.55);
       display:none;align-items:center;justify-content:center;
@@ -328,21 +325,31 @@
     }
   </style>
 </head>
-<body><div style="height:120px;"></div>
- <div style="position:fixed; top:0; left:0; width:100%; height:80px; background:#0b0f1a; display:flex; align-items:center; padding-left:20px; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.6);">
+<body>
 
-<a href="index.html">
-<img src="Logo du site blanc.png" alt="Aventuriers du Lys" style="height:60px;">
-</a>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="sigil"></div>
+        <div>
+          <h1>Les Aventuriers du Lys</h1>
+          <p>Site MVP (statique) — prêt à mettre en ligne</p>
+        </div>
+      </div>
+      <div class="nav">
+        <a href="#explore" class="chip">Explorer</a>
+        <a href="publier.html" class="chip">Publier une partie</a>
+        <a class="chip" href="annonces.html">Annonces</a>
+        <a href="profil.html" class="chip">Profil</a>
+        <a href="#how" class="chip">Comment ça marche</a>
+        <button class="langBtn" id="langBtn">FR</button>
+        <button class="cta" onclick="alert('Démo : création de compte à venir (v2).')">Créer un compte</button>
+      </div>
+    </div>
+  </div>
+</header>
 
-<div style="margin-left:40px;">
-<a href="index.html" style="color:white; margin-right:20px; text-decoration:none;">Accueil</a>
-<a href="annonces.html" style="color:white; margin-right:20px; text-decoration:none;">Annonces</a>
-<a href="publier.html" style="color:white; text-decoration:none;">Publier une partie</a>
-</div>
-
-</div>
- 
 <main class="wrap">
   <section class="hero">
     <div class="kicker">Fantasy • Horreur • Gothique • Superhéros • Techno</div>
@@ -452,7 +459,6 @@
   </footer>
 </main>
 
-<!-- Modal -->
 <div class="modalBackdrop" id="modalBackdrop" role="dialog" aria-modal="true">
   <div class="modal">
     <div class="modalHeader">
@@ -505,7 +511,6 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  // Data (simulation locale)
   const games = [
     {
       id:"g1",
@@ -614,7 +619,6 @@
     }
   ];
 
-  // i18n light
   let lang = "fr";
   const T = {
     fr:{
@@ -756,7 +760,6 @@
     }).join("");
   }
 
-  // Simulation actions
   function findGame(id){ return games.find(x=>x.id===id); }
   function book(id){
     const g = findGame(id);
@@ -780,7 +783,6 @@
     if(currentModalId===id) openModal(id,true);
   }
 
-  // Modal
   let currentModalId = null;
   function openModal(id, focusBook=false){
     const g = findGame(id);
@@ -832,7 +834,6 @@
     if(e.target.id==="modalBackdrop") closeModal();
   });
 
-  // Filters
   document.getElementById("applyBtn").addEventListener("click", render);
   document.getElementById("resetBtn").addEventListener("click", ()=>{
     document.getElementById("f_system").value="all";
@@ -844,7 +845,6 @@
     render();
   });
 
-  // Language toggle
   document.getElementById("langBtn").addEventListener("click", ()=>{
     lang = (lang==="fr") ? "en" : "fr";
     document.getElementById("langBtn").textContent = (lang==="fr") ? "FR" : "EN";
