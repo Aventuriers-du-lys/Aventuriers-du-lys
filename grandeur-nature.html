@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Grandeur Nature — Aventuriers du Lys</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#0b0f1a;
+      color:white;
+      margin:0;
+      padding:0;
+    }
+
+    .wrap{
+      max-width:1000px;
+      margin:auto;
+      padding:40px 20px;
+    }
+
+    h1{
+      margin-bottom:10px;
+    }
+
+    p{
+      color:#ccc;
+      line-height:1.6;
+    }
+
+    .event{
+      background:#111827;
+      padding:20px;
+      border-radius:10px;
+      margin-top:20px;
+    }
+
+    .event h3{
+      margin-bottom:5px;
+    }
+
+    .meta{
+      color:#aaa;
+      font-size:14px;
+      margin-bottom:10px;
+    }
+
+    .tag{
+      display:inline-block;
+      background:#22d3ee;
+      color:#000;
+      padding:4px 8px;
+      border-radius:6px;
+      font-size:12px;
+      margin-right:5px;
+    }
+
+    .box{
+      background:#111827;
+      padding:20px;
+      border-radius:10px;
+      margin-top:30px;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:10px;
+      margin-top:10px;
+      border-radius:6px;
+      border:none;
+    }
+
+    button{
+      margin-top:20px;
+      padding:12px 20px;
+      background:#22d3ee;
+      border:none;
+      border-radius:6px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    a{
+      color:#22d3ee;
+      text-decoration:none;
+      display:inline-block;
+      margin-bottom:20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<a href="index.html">← Retour à l’accueil</a>
+
+<h1>Événements Grandeur Nature</h1>
+
+<p>
+Découvrez des événements de jeu de rôle grandeur nature organisés par différentes communautés.
+Vous êtes organisateur ? Publiez votre événement pour rejoindre de nouveaux joueurs.
+</p>
+
+<!-- ÉVÉNEMENTS EXEMPLES -->
+
+<div class="event">
+  <h3>Les Terres de Cendres</h3>
+  <div class="meta">Québec • 12-14 juillet • 50 joueurs</div>
+  <p>
+    Univers dark fantasy post-apocalyptique. Intrigues politiques, factions et survie.
+  </p>
+  <span class="tag">Fantasy</span>
+  <span class="tag">Survie</span>
+</div>
+
+<div class="event">
+  <h3>Chroniques d’Eldoria</h3>
+  <div class="meta">France • 3-5 août • 80 joueurs</div>
+  <p>
+    Grande campagne immersive avec quêtes, guildes et interactions diplomatiques.
+  </p>
+  <span class="tag">Médiéval</span>
+  <span class="tag">Immersion</span>
+</div>
+
+<div class="event">
+  <h3>Neon Requiem</h3>
+  <div class="meta">Montréal • 21 septembre • 30 joueurs</div>
+  <p>
+    GN cyberpunk urbain. Corporations, hacking et alliances dangereuses.
+  </p>
+  <span class="tag">Cyberpunk</span>
+</div>
+
+<!-- FORMULAIRE -->
+
+<div class="box">
+<h2>Publier un événement</h2>
+
+<form action="mailto:flag2670@gmail.com" method="post" enctype="text/plain">
+
+<label>Nom de l’événement</label>
+<input name="Nom">
+
+<label>Lieu</label>
+<input name="Lieu">
+
+<label>Date</label>
+<input name="Date">
+
+<label>Nombre de participants</label>
+<input name="Participants">
+
+<label>Description</label>
+<textarea name="Description"></textarea>
+
+<button type="submit">Soumettre l’événement</button>
+
+</form>
+</div>
+
+</div>
+
+</body>
+</html>
