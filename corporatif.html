@@ -1,1 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Corporatif — Aventuriers du Lys</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#0b0f1a;
+      color:white;
+      margin:0;
+      padding:0;
+    }
+
+    .wrap{
+      max-width:900px;
+      margin:auto;
+      padding:40px 20px;
+    }
+
+    h1{
+      margin-bottom:10px;
+    }
+
+    p{
+      color:#ccc;
+      line-height:1.6;
+    }
+
+    .box{
+      background:#111827;
+      padding:20px;
+      border-radius:10px;
+      margin-top:20px;
+    }
+
+    input, textarea, select{
+      width:100%;
+      padding:10px;
+      margin-top:10px;
+      border-radius:6px;
+      border:none;
+    }
+
+    button{
+      margin-top:20px;
+      padding:12px 20px;
+      background:#22d3ee;
+      border:none;
+      border-radius:6px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    a{
+      color:#22d3ee;
+      text-decoration:none;
+      display:inline-block;
+      margin-bottom:20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<a href="index.html">← Retour à l’accueil</a>
+
+<h1>Services corporatifs</h1>
+
+<p>
+Offrez une expérience unique à votre équipe grâce aux jeux de rôle sur table.
+Les Aventuriers du Lys vous permettent de faire appel à des maîtres de jeu expérimentés
+pour des activités ponctuelles ou récurrentes.
+</p>
+
+<div class="box">
+<h2>Types d’activités</h2>
+<ul>
+<li>Team building</li>
+<li>Activités sociales</li>
+<li>Événements corporatifs</li>
+<li>Sessions en ligne ou en présentiel</li>
+</ul>
+</div>
+
+<div class="box">
+<h2>Faire une demande</h2>
+
+<form action="mailto:flag2670@gmail.com" method="post" enctype="text/plain">
+
+<label>Nom de l’entreprise</label>
+<input name="Entreprise">
+
+<label>Nom du responsable</label>
+<input name="Responsable">
+
+<label>Courriel</label>
+<input name="Courriel">
+
+<label>Téléphone</label>
+<input name="Téléphone">
+
+<label>Type d’activité</label>
+<select name="Type">
+<option>Team building</option>
+<option>Événement ponctuel</option>
+<option>Activité récurrente</option>
+</select>
+
+<label>Format</label>
+<select name="Format">
+<option>En ligne</option>
+<option>Présentiel</option>
+<option>Hybride</option>
+</select>
+
+<label>Nombre de participants</label>
+<input name="Participants">
+
+<label>Date souhaitée</label>
+<input name="Date">
+
+<label>Budget approximatif</label>
+<input name="Budget">
+
+<label>Description</label>
+<textarea name="Description"></textarea>
+
+<button type="submit">Envoyer la demande</button>
+
+</form>
+</div>
+
+</div>
+
+</body>
+</html>
