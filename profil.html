@@ -238,7 +238,21 @@
       <textarea id="bio" placeholder="Quelques lignes sur ton style de jeu, tes préférences, etc."></textarea>
       <label>Parties en cours (optionnel) — une ligne par partie</label>
 <textarea id="currentGames" placeholder="[MJ] D&amp;D 5e — Mercredi 19:00 (America/Montreal) — 20 CAD/joueur&#10;[Joueur] VtM — Dimanche 14:00 — Campagne"></textarea>
+<label>Spécialités MJ (optionnel)</label>
+<input id="gmSpecialties" placeholder="ex: Horreur, Fantasy, Enquête, Narratif" />
 
+<label>Ouvert aux événements corporatifs ?</label>
+<select id="gmCorporate">
+  <option value="Non">Non</option>
+  <option value="Oui">Oui</option>
+</select>
+
+<label>Régions desservies (optionnel)</label>
+<input id="gmRegions" placeholder="ex: Montréal, Québec, En ligne" />
+
+<label>Systèmes maîtrisés (optionnel)</label>
+<input id="gmSystems" placeholder="ex: D&D, VtM, Cthulhu, Pathfinder" />
+      
       <div class="actions">
         <button class="btnPrimary" id="saveBtn" type="button">Enregistrer</button>
         <button class="btn" id="clearBtn" type="button">Effacer</button>
