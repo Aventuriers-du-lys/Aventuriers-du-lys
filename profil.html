@@ -377,10 +377,10 @@
   publicLink: publicLink.value.trim(),
   bio: bio.value.trim(),
   currentGames: (document.getElementById("currentGames")||{}).value?.trim() || "",
-  specialties: (document.getElementById("specialties")||{}).value?.trim() || "",
-  systems: (document.getElementById("systems")||{}).value?.trim() || "",
-  corporateOpen: (document.getElementById("corporateOpen")||{}).value || "non",
-  corporateRegions: (document.getElementById("corporateRegions")||{}).value?.trim() || "",
+specialties: (document.getElementById("gmSpecialties")||{}).value?.trim() || "",
+systems: (document.getElementById("gmSystems")||{}).value?.trim() || "",
+corporateOpen: (document.getElementById("gmCorporate")||{}).value || "Non",
+corporateRegions: (document.getElementById("gmRegions")||{}).value?.trim() || "",
   platformsUsed: (document.getElementById("platformsUsed")||{}).value?.trim() || "",
   style: (document.getElementById("style")||{}).value?.trim() || "",
   mode
@@ -441,6 +441,10 @@ if(cg) cg.value = data.currentGames || "";
       const c = document.getElementById("gmRate"); if(c) c.value = data.gmRate || "";
       const d = document.getElementById("gmPlatforms"); if(d) d.value = data.gmPlatforms || "";
       const e = document.getElementById("gmSafety"); if(e) e.value = data.gmSafety || "";
+      const f = document.getElementById("gmSpecialties"); if(f) f.value = data.specialties || "";
+const g = document.getElementById("gmCorporate"); if(g) g.value = data.corporateOpen || "Non";
+const h = document.getElementById("gmRegions"); if(h) h.value = data.corporateRegions || "";
+const i = document.getElementById("gmSystems"); if(i) i.value = data.systems || "";
     }
   }
 
