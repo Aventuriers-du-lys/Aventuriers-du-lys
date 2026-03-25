@@ -370,15 +370,21 @@
   function key(){ return mode === "player" ? "adl_profile_player" : "adl_profile_gm"; }
 
   function collect(){
-    const data = {
-      displayName: displayName.value.trim(),
-      lang: lang.value,
-      tz: tz.value,
-      publicLink: publicLink.value.trim(),
-      bio: bio.value.trim(),
-      currentGames: (document.getElementById("currentGames")||{}).value?.trim() || "",
-      mode
-    };
+  const data = {
+  displayName: displayName.value.trim(),
+  lang: lang.value,
+  tz: tz.value,
+  publicLink: publicLink.value.trim(),
+  bio: bio.value.trim(),
+  currentGames: (document.getElementById("currentGames")||{}).value?.trim() || "",
+  specialties: (document.getElementById("specialties")||{}).value?.trim() || "",
+  systems: (document.getElementById("systems")||{}).value?.trim() || "",
+  corporateOpen: (document.getElementById("corporateOpen")||{}).value || "non",
+  corporateRegions: (document.getElementById("corporateRegions")||{}).value?.trim() || "",
+  platformsUsed: (document.getElementById("platformsUsed")||{}).value?.trim() || "",
+  style: (document.getElementById("style")||{}).value?.trim() || "",
+  mode
+};
 
     if(mode==="player"){
       data.pSystems = (document.getElementById("pSystems")||{}).value?.trim() || "";
