@@ -303,6 +303,58 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Erreur Supabase", e);
   }
 
+  function getBrowserProfileId() {
+  let id = localStorage.getItem("adl_browser_profile_id");
+  if (!id) {
+    id = crypto.randomUUID ? crypto.randomUUID() : "adl_" + Date.now();
+    localStorage.setItem("adl_browser_profile_id", id);
+  }
+  return id;
+}
+
+async function saveToSupabase(data) {
+  if (!supabase) {
+    console.log("Supabase indisponible");
+    return false;
+  }
+
+  const payload = {
+    browser_profile_id: getBrowserProfileId(),
+    display_name: data.displayName || "",
+    lang: data.lang || "FR",
+    tz: data.tz || "America/Montreal",
+    bio: data.bio || "",
+    public_link: data.publicLink || "",
+    current_games: data.currentGames || "",
+    specialties: data.specialties || "",
+    systems: data.systems || "",
+    corporate_open: data.corporateOpen || "Non",
+    corporate_regions: data.corporateRegions || "",
+    profile_mode: data.mode || "player",
+    p_systems: data.pSystems || "",
+    p_style: data.pStyle || "",
+    p_level: data.pLevel || "",
+    p_availability: data.pAvailability || "",
+    gm_exp: data.gmExp || "",
+    gm_currency: data.gmCurrency || "CAD",
+    gm_rate: data.gmRate || "",
+    gm_platforms: data.gmPlatforms || "",
+    gm_safety: data.gmSafety || "",
+    updated_at: new Date().toISOString()
+  };
+
+  const { error } = await supabase
+    .from("profiles")
+    .upsert(payload, { onConflict: "browser_profile_id" });
+
+  if (error) {
+    console.log("Erreur Supabase", error);
+    return false;
+  }
+
+  console.log("Sauvegarde Supabase OK");
+  return true;
+}
   document.getElementById("year").textContent = new Date().getFullYear();
 
   const tabPlayer = document.getElementById("tabPlayer");
