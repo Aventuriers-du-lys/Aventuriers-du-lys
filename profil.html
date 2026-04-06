@@ -439,13 +439,14 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function setMode(newMode) {
-    mode = newMode;
-    tabPlayer.classList.toggle("active", mode === "player");
-    tabGM.classList.toggle("active", mode === "gm");
-    rolePanel.innerHTML = mode === "player" ? playerPanelHTML() : gmPanelHTML();
-    load();
-  }
+  async function setMode(newMode){
+  mode = newMode;
+  tabPlayer.classList.toggle("active", mode==="player");
+  tabGM.classList.toggle("active", mode==="gm");
+  rolePanel.innerHTML = (mode==="player") ? playerPanelHTML() : gmPanelHTML();
+
+  await load(); // 🔥 IMPORTANT
+}
 
   function key() {
     return mode === "player" ? "adl_profile_player" : "adl_profile_gm";
