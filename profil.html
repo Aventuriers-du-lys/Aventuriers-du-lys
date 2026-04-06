@@ -282,7 +282,22 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const supabase = window.supabase.createClient(
+
+  let supabase = null;
+
+try {
+  if (window.supabase && window.supabase.createClient) {
+    supabase = window.supabase.createClient(
+      "https://dgyimpjpvnhbdmzhyosk.supabase.co",
+      "sb_publishable_t69yJ4cEXQgivu1K14eCVA_mfTw9EPy"
+    );
+    console.log("Supabase OK");
+  } else {
+    console.log("Supabase pas prêt");
+  }
+} catch (e) {
+  console.log("Erreur Supabase", e);
+}
   "https://dgyimpjpvnhbdmzhyosk.supabase.co",
   "sb_publishable_t69yJ4cEXQgivu1K14eCVA_mfTw9EPy"
 );
