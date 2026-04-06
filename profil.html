@@ -287,7 +287,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   let supabase = null;
   let lastPublicUrl = "";
-  let mode = "player"; // player | gm
+  let mode = "player";
 
   try {
     if (window.supabase && window.supabase.createClient) {
@@ -304,57 +304,58 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getBrowserProfileId() {
-  let id = localStorage.getItem("adl_browser_profile_id");
-  if (!id) {
-    id = crypto.randomUUID ? crypto.randomUUID() : "adl_" + Date.now();
-    localStorage.setItem("adl_browser_profile_id", id);
-  }
-  return id;
-}
-
-async function saveToSupabase(data) {
-  if (!supabase) {
-    console.log("Supabase indisponible");
-    return false;
+    let id = localStorage.getItem("adl_browser_profile_id");
+    if (!id) {
+      id = crypto.randomUUID ? crypto.randomUUID() : "adl_" + Date.now();
+      localStorage.setItem("adl_browser_profile_id", id);
+    }
+    return id;
   }
 
-  const payload = {
-    browser_profile_id: getBrowserProfileId(),
-    display_name: data.displayName || "",
-    lang: data.lang || "FR",
-    tz: data.tz || "America/Montreal",
-    bio: data.bio || "",
-    public_link: data.publicLink || "",
-    current_games: data.currentGames || "",
-    specialties: data.specialties || "",
-    systems: data.systems || "",
-    corporate_open: data.corporateOpen || "Non",
-    corporate_regions: data.corporateRegions || "",
-    profile_mode: data.mode || "player",
-    p_systems: data.pSystems || "",
-    p_style: data.pStyle || "",
-    p_level: data.pLevel || "",
-    p_availability: data.pAvailability || "",
-    gm_exp: data.gmExp || "",
-    gm_currency: data.gmCurrency || "CAD",
-    gm_rate: data.gmRate || "",
-    gm_platforms: data.gmPlatforms || "",
-    gm_safety: data.gmSafety || "",
-    updated_at: new Date().toISOString()
-  };
+  async function saveToSupabase(data) {
+    if (!supabase) {
+      console.log("Supabase indisponible");
+      return false;
+    }
 
-  const { error } = await supabase
-    .from("profiles")
-    .upsert(payload, { onConflict: "browser_profile_id" });
+    const payload = {
+      browser_profile_id: getBrowserProfileId(),
+      display_name: data.displayName || "",
+      lang: data.lang || "FR",
+      tz: data.tz || "America/Montreal",
+      bio: data.bio || "",
+      public_link: data.publicLink || "",
+      current_games: data.currentGames || "",
+      specialties: data.specialties || "",
+      systems: data.systems || "",
+      corporate_open: data.corporateOpen || "Non",
+      corporate_regions: data.corporateRegions || "",
+      profile_mode: data.mode || "player",
+      p_systems: data.pSystems || "",
+      p_style: data.pStyle || "",
+      p_level: data.pLevel || "",
+      p_availability: data.pAvailability || "",
+      gm_exp: data.gmExp || "",
+      gm_currency: data.gmCurrency || "CAD",
+      gm_rate: data.gmRate || "",
+      gm_platforms: data.gmPlatforms || "",
+      gm_safety: data.gmSafety || "",
+      updated_at: new Date().toISOString()
+    };
 
-  if (error) {
-    console.log("Erreur Supabase", error);
-    return false;
+    const { error } = await supabase
+      .from("profiles")
+      .upsert(payload, { onConflict: "browser_profile_id" });
+
+    if (error) {
+      console.log("Erreur Supabase", error);
+      return false;
+    }
+
+    console.log("Sauvegarde Supabase OK");
+    return true;
   }
 
-  console.log("Sauvegarde Supabase OK");
-  return true;
-}
   document.getElementById("year").textContent = new Date().getFullYear();
 
   const tabPlayer = document.getElementById("tabPlayer");
@@ -376,7 +377,7 @@ async function saveToSupabase(data) {
   const warnMsg = document.getElementById("warnMsg");
   const linkBox = document.getElementById("linkBox");
 
-  function gmPanelHTML(){
+  function gmPanelHTML() {
     return `
       <h3>Profil Maître scénariste</h3>
 
@@ -406,7 +407,7 @@ async function saveToSupabase(data) {
     `;
   }
 
-  function playerPanelHTML(){
+  function playerPanelHTML() {
     return `
       <h3>Profil Joueur</h3>
 
@@ -438,7 +439,7 @@ async function saveToSupabase(data) {
     `;
   }
 
-  function setMode(newMode){
+  function setMode(newMode) {
     mode = newMode;
     tabPlayer.classList.toggle("active", mode === "player");
     tabGM.classList.toggle("active", mode === "gm");
@@ -446,11 +447,11 @@ async function saveToSupabase(data) {
     load();
   }
 
-  function key(){
+  function key() {
     return mode === "player" ? "adl_profile_player" : "adl_profile_gm";
   }
 
-  function collect(){
+  function collect() {
     const data = {
       displayName: displayName.value.trim(),
       lang: lang.value,
@@ -465,7 +466,7 @@ async function saveToSupabase(data) {
       mode
     };
 
-    if(mode === "player"){
+    if (mode === "player") {
       const pSystems = document.getElementById("pSystems");
       const pStyle = document.getElementById("pStyle");
       const pLevel = document.getElementById("pLevel");
@@ -492,50 +493,35 @@ async function saveToSupabase(data) {
     return data;
   }
 
-async function save(){
-  okMsg.style.display = "none";
-  warnMsg.style.display = "none";
-  linkBox.style.display = "none";
-
-  const data = collect();
-
-  // Sauvegarde actuelle conservée
-  localStorage.setItem(key(), JSON.stringify(data));
-
-  // Nouvelle sauvegarde Supabase
-  const okDb = await saveToSupabase(data);
-
-  okMsg.textContent = okDb
-    ? "✅ Profil enregistré (local + base)."
-    : "✅ Profil enregistré localement.";
-  okMsg.style.display = "block";
-
-  setTimeout(() => {
-    okMsg.style.display = "none";
-    okMsg.textContent = "✅ Profil enregistré.";
-  }, 2500);
-}
+  async function save() {
     okMsg.style.display = "none";
     warnMsg.style.display = "none";
     linkBox.style.display = "none";
 
     const data = collect();
+
     localStorage.setItem(key(), JSON.stringify(data));
 
-    okMsg.textContent = "✅ Profil enregistré.";
+    const okDb = await saveToSupabase(data);
+
+    okMsg.textContent = okDb
+      ? "✅ Profil enregistré (local + base)."
+      : "✅ Profil enregistré localement.";
     okMsg.style.display = "block";
+
     setTimeout(() => {
       okMsg.style.display = "none";
-    }, 2000);
+      okMsg.textContent = "✅ Profil enregistré.";
+    }, 2500);
   }
 
-  function load(){
+  function load() {
     okMsg.style.display = "none";
     warnMsg.style.display = "none";
     linkBox.style.display = "none";
 
     const raw = localStorage.getItem(key());
-    if(!raw) return;
+    if (!raw) return;
 
     const data = JSON.parse(raw);
 
@@ -550,16 +536,16 @@ async function save(){
     gmRegions.value = data.corporateRegions || "";
     gmSystems.value = data.systems || "";
 
-    if(mode === "player"){
+    if (mode === "player") {
       const pSystems = document.getElementById("pSystems");
       const pStyle = document.getElementById("pStyle");
       const pLevel = document.getElementById("pLevel");
       const pAvailability = document.getElementById("pAvailability");
 
-      if(pSystems) pSystems.value = data.pSystems || "";
-      if(pStyle) pStyle.value = data.pStyle || "Équilibré";
-      if(pLevel) pLevel.value = data.pLevel || "Débutant";
-      if(pAvailability) pAvailability.value = data.pAvailability || "";
+      if (pSystems) pSystems.value = data.pSystems || "";
+      if (pStyle) pStyle.value = data.pStyle || "Équilibré";
+      if (pLevel) pLevel.value = data.pLevel || "Débutant";
+      if (pAvailability) pAvailability.value = data.pAvailability || "";
     } else {
       const gmExp = document.getElementById("gmExp");
       const gmCurrency = document.getElementById("gmCurrency");
@@ -567,21 +553,21 @@ async function save(){
       const gmPlatforms = document.getElementById("gmPlatforms");
       const gmSafety = document.getElementById("gmSafety");
 
-      if(gmExp) gmExp.value = data.gmExp || "";
-      if(gmCurrency) gmCurrency.value = data.gmCurrency || "CAD";
-      if(gmRate) gmRate.value = data.gmRate || "";
-      if(gmPlatforms) gmPlatforms.value = data.gmPlatforms || "";
-      if(gmSafety) gmSafety.value = data.gmSafety || "";
+      if (gmExp) gmExp.value = data.gmExp || "";
+      if (gmCurrency) gmCurrency.value = data.gmCurrency || "CAD";
+      if (gmRate) gmRate.value = data.gmRate || "";
+      if (gmPlatforms) gmPlatforms.value = data.gmPlatforms || "";
+      if (gmSafety) gmSafety.value = data.gmSafety || "";
     }
   }
 
-  function clearData(){
+  function clearData() {
     okMsg.style.display = "none";
     warnMsg.style.display = "none";
     linkBox.style.display = "none";
 
     const raw = localStorage.getItem(key());
-    if(!raw){
+    if (!raw) {
       warnMsg.style.display = "block";
       setTimeout(() => {
         warnMsg.style.display = "none";
@@ -612,25 +598,25 @@ async function save(){
     }, 2000);
   }
 
-  function toB64UrlUtf8(str){
+  function toB64UrlUtf8(str) {
     const bytes = new TextEncoder().encode(str);
     let bin = "";
     bytes.forEach(b => bin += String.fromCharCode(b));
     const b64 = btoa(bin);
-    return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/,"");
+    return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   }
 
-  async function copyToClipboard(text){
+  async function copyToClipboard(text) {
     try {
       await navigator.clipboard.writeText(text);
       return true;
-    } catch(e){
+    } catch (e) {
       return false;
     }
   }
 
-  async function genPublicLink(){
-  await save();
+  async function genPublicLink() {
+    await save();
     const data = collect();
     const enc = toB64UrlUtf8(JSON.stringify(data));
     const base = location.origin + location.pathname.replace(/profil\.html$/, "profil-public.html");
@@ -651,13 +637,13 @@ async function save(){
   tabPlayer.addEventListener("click", () => setMode("player"));
   tabGM.addEventListener("click", () => setMode("gm"));
   document.getElementById("saveBtn").addEventListener("click", async () => {
-  await save();
-});
+    await save();
+  });
   document.getElementById("clearBtn").addEventListener("click", clearData);
   document.getElementById("genLinkBtn").addEventListener("click", genPublicLink);
 
   document.getElementById("openPublicBtn").addEventListener("click", () => {
-    if(!lastPublicUrl){
+    if (!lastPublicUrl) {
       alert("Génère d’abord le lien public.");
       return;
     }
@@ -665,14 +651,14 @@ async function save(){
   });
 
   document.getElementById("copyPublicBtn").addEventListener("click", async () => {
-    if(!lastPublicUrl){
+    if (!lastPublicUrl) {
       alert("Génère d’abord le lien public.");
       return;
     }
     try {
       await navigator.clipboard.writeText(lastPublicUrl);
       alert("Lien copié.");
-    } catch(e){
+    } catch (e) {
       alert("Copie manuelle : " + lastPublicUrl);
     }
   });
