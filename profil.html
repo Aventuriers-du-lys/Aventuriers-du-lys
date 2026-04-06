@@ -240,21 +240,6 @@
       <label>Parties en cours (optionnel) — une ligne par partie</label>
       <textarea id="currentGames" placeholder="[MJ] D&amp;D 5e — Mercredi 19:00 (America/Montreal) — 20 CAD/joueur&#10;[Joueur] VtM — Dimanche 14:00 — Campagne"></textarea>
 
-      <label>Spécialités MJ (optionnel)</label>
-      <input id="gmSpecialties" placeholder="ex: Horreur, Fantasy, Enquête, Narratif" />
-
-      <label>Ouvert aux événements corporatifs ?</label>
-      <select id="gmCorporate">
-        <option value="Non">Non</option>
-        <option value="Oui">Oui</option>
-      </select>
-
-      <label>Régions desservies (optionnel)</label>
-      <input id="gmRegions" placeholder="ex: Montréal, Québec, En ligne" />
-
-      <label>Systèmes maîtrisés (optionnel)</label>
-      <input id="gmSystems" placeholder="ex: D&D, VtM, Cthulhu, Pathfinder" />
-
       <div class="actions">
         <button class="btnPrimary" id="saveBtn" type="button">Enregistrer</button>
         <button class="btn" id="clearBtn" type="button">Effacer</button>
@@ -378,34 +363,52 @@ document.addEventListener("DOMContentLoaded", () => {
   const linkBox = document.getElementById("linkBox");
 
   function gmPanelHTML() {
-    return `
-      <h3>Profil Maître scénariste</h3>
+  return `
+    <h3>Profil Maître scénariste</h3>
 
-      <label>Expérience (texte libre)</label>
-      <input id="gmExp" placeholder="ex: 10 ans, 60 campagnes, etc." />
+    <label>Parties en cours comme MJ (optionnel) — une ligne par partie</label>
+    <textarea id="gmCurrentGames" placeholder="[MJ] D&amp;D 5e — Mercredi 19:00 (America/Montreal) — 20 CAD/joueur"></textarea>
 
-      <div class="row2">
-        <div>
-          <label>Devise principale</label>
-          <select id="gmCurrency">
-            <option>CAD</option>
-            <option>USD</option>
-            <option>EUR</option>
-          </select>
-        </div>
-        <div>
-          <label>Tarif typique (/ joueur / séance)</label>
-          <input id="gmRate" placeholder="ex: 20" />
-        </div>
+    <label>Spécialités MJ (optionnel)</label>
+    <input id="gmSpecialties" placeholder="ex: Horreur, Fantasy, Enquête, Narratif" />
+
+    <label>Ouvert aux événements corporatifs ?</label>
+    <select id="gmCorporate">
+      <option value="Non">Non</option>
+      <option value="Oui">Oui</option>
+    </select>
+
+    <label>Régions desservies (optionnel)</label>
+    <input id="gmRegions" placeholder="ex: Montréal, Québec, En ligne" />
+
+    <label>Systèmes maîtrisés (optionnel)</label>
+    <input id="gmSystems" placeholder="ex: D&D, VtM, Cthulhu, Pathfinder" />
+
+    <label>Expérience (texte libre)</label>
+    <input id="gmExp" placeholder="ex: 10 ans, 60 campagnes, etc." />
+
+    <div class="row2">
+      <div>
+        <label>Devise principale</label>
+        <select id="gmCurrency">
+          <option>CAD</option>
+          <option>USD</option>
+          <option>EUR</option>
+        </select>
       </div>
+      <div>
+        <label>Tarif typique (/ joueur / séance)</label>
+        <input id="gmRate" placeholder="ex: 20" />
+      </div>
+    </div>
 
-      <label>Plateformes (texte libre)</label>
-      <input id="gmPlatforms" placeholder="ex: Discord, Foundry, Roll20..." />
+    <label>Plateformes (texte libre)</label>
+    <input id="gmPlatforms" placeholder="ex: Discord, Foundry, Roll20..." />
 
-      <label>Outils de sécurité / règles de table</label>
-      <textarea id="gmSafety" placeholder="ex: X-card, lignes/voiles, ton de la table..."></textarea>
-    `;
-  }
+    <label>Outils de sécurité / règles de table</label>
+    <textarea id="gmSafety" placeholder="ex: X-card, lignes/voiles, ton de la table..."></textarea>
+  `;
+}
 
   function playerPanelHTML() {
     return `
