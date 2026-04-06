@@ -492,7 +492,29 @@ async function saveToSupabase(data) {
     return data;
   }
 
-  function save(){
+async function save(){
+  okMsg.style.display = "none";
+  warnMsg.style.display = "none";
+  linkBox.style.display = "none";
+
+  const data = collect();
+
+  // Sauvegarde actuelle conservée
+  localStorage.setItem(key(), JSON.stringify(data));
+
+  // Nouvelle sauvegarde Supabase
+  const okDb = await saveToSupabase(data);
+
+  okMsg.textContent = okDb
+    ? "✅ Profil enregistré (local + base)."
+    : "✅ Profil enregistré localement.";
+  okMsg.style.display = "block";
+
+  setTimeout(() => {
+    okMsg.style.display = "none";
+    okMsg.textContent = "✅ Profil enregistré.";
+  }, 2500);
+}
     okMsg.style.display = "none";
     warnMsg.style.display = "none";
     linkBox.style.display = "none";
