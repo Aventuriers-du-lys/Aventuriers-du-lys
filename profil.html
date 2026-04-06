@@ -630,7 +630,7 @@ async function save(){
   }
 
   async function genPublicLink(){
-    save();
+  await save();
     const data = collect();
     const enc = toB64UrlUtf8(JSON.stringify(data));
     const base = location.origin + location.pathname.replace(/profil\.html$/, "profil-public.html");
