@@ -280,7 +280,14 @@
   </footer>
 </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  const supabase = window.supabase.createClient(
+  "https://dgyimpjpvnhbdmzhyosk.supabase.co",
+  "sb_publishable_t69yJ4cEXQgivu1K14eCVA_mfTw9EPy"
+);
+
+console.log("Supabase connecté");
   document.getElementById("year").textContent = new Date().getFullYear();
 
   const tabPlayer = document.getElementById("tabPlayer");
