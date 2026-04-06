@@ -594,12 +594,14 @@ document.addEventListener("DOMContentLoaded", () => {
       data.pLevel = pLevel ? pLevel.value : "Débutant";
       data.pAvailability = pAvailability ? pAvailability.value.trim() : "";
     } else {
+      const gmCurrentGames = document.getElementById("gmCurrentGames");
       const gmExp = document.getElementById("gmExp");
       const gmCurrency = document.getElementById("gmCurrency");
       const gmRate = document.getElementById("gmRate");
       const gmPlatforms = document.getElementById("gmPlatforms");
       const gmSafety = document.getElementById("gmSafety");
 
+      data.gmCurrentGames = gmCurrentGames ? gmCurrentGames.value.trim() : "";
       data.gmExp = gmExp ? gmExp.value.trim() : "";
       data.gmCurrency = gmCurrency ? gmCurrency.value : "CAD";
       data.gmRate = gmRate ? gmRate.value.trim() : "";
