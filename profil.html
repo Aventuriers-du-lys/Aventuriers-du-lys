@@ -439,14 +439,127 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  async function setMode(newMode){
-  mode = newMode;
-  tabPlayer.classList.toggle("active", mode==="player");
-  tabGM.classList.toggle("active", mode==="gm");
-  rolePanel.innerHTML = (mode==="player") ? playerPanelHTML() : gmPanelHTML();
+  async function loadFromSupabase() {
+    if (!supabase) return null;
 
-  await load(); // 🔥 IMPORTANT
-}
+    try {
+      const { data: rows, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("browser_profile_id", getBrowserProfileId())
+        .limit(1);
+
+      if (error) {
+        console.log("Erreur lecture Supabase", error);
+        return null;
+      }
+
+      if (!rows || rows.length === 0) return null;
+
+      const row = rows[0];
+
+      return {
+        displayName: row.display_name || "",
+        lang: row.lang || "FR",
+        tz: row.tz || "America/Montreal",
+        bio: row.bio || "",
+        publicLink: row.public_link || "",
+        currentGames: row.current_games || "",
+        specialties: row.specialties || "",
+        systems: row.systems || "",
+        corporateOpen: row.corporate_open || "Non",
+        corporateRegions: row.corporate_regions || "",
+        mode: row.profile_mode || "player",
+        pSystems: row.p_systems || "",
+        pStyle: row.p_style || "Équilibré",
+        pLevel: row.p_level || "Débutant",
+        pAvailability: row.p_availability || "",
+        gmExp: row.gm_exp || "",
+        gmCurrency: row.gm_currency || "CAD",
+        gmRate: row.gm_rate || "",
+        gmPlatforms: row.gm_platforms || "",
+        gmSafety: row.gm_safety || ""
+      };
+    } catch (e) {
+      console.log("Exception lecture Supabase", e);
+      return null;
+    }
+  }
+
+  function loadFromLocalStorage() {
+    const raw = localStorage.getItem(key());
+    if (!raw) return null;
+
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      console.log("Erreur localStorage", e);
+      return null;
+    }
+  }
+
+  function applyDataToForm(data) {
+    if (!data) return;
+
+    displayName.value = data.displayName || "";
+    lang.value = data.lang || "FR";
+    tz.value = data.tz || "America/Montreal";
+    publicLink.value = data.publicLink || "";
+    bio.value = data.bio || "";
+    currentGames.value = data.currentGames || "";
+    gmSpecialties.value = data.specialties || "";
+    gmCorporate.value = data.corporateOpen || "Non";
+    gmRegions.value = data.corporateRegions || "";
+    gmSystems.value = data.systems || "";
+
+    if (mode === "player") {
+      const pSystems = document.getElementById("pSystems");
+      const pStyle = document.getElementById("pStyle");
+      const pLevel = document.getElementById("pLevel");
+      const pAvailability = document.getElementById("pAvailability");
+
+      if (pSystems) pSystems.value = data.pSystems || "";
+      if (pStyle) pStyle.value = data.pStyle || "Équilibré";
+      if (pLevel) pLevel.value = data.pLevel || "Débutant";
+      if (pAvailability) pAvailability.value = data.pAvailability || "";
+    } else {
+      const gmExp = document.getElementById("gmExp");
+      const gmCurrency = document.getElementById("gmCurrency");
+      const gmRate = document.getElementById("gmRate");
+      const gmPlatforms = document.getElementById("gmPlatforms");
+      const gmSafety = document.getElementById("gmSafety");
+
+      if (gmExp) gmExp.value = data.gmExp || "";
+      if (gmCurrency) gmCurrency.value = data.gmCurrency || "CAD";
+      if (gmRate) gmRate.value = data.gmRate || "";
+      if (gmPlatforms) gmPlatforms.value = data.gmPlatforms || "";
+      if (gmSafety) gmSafety.value = data.gmSafety || "";
+    }
+  }
+
+  async function load() {
+    okMsg.style.display = "none";
+    warnMsg.style.display = "none";
+    linkBox.style.display = "none";
+
+    let data = await loadFromSupabase();
+    if (!data) {
+      data = loadFromLocalStorage();
+      if (data) console.log("Chargé depuis localStorage");
+    } else {
+      console.log("Chargé depuis Supabase");
+    }
+
+    applyDataToForm(data);
+  }
+
+  async function setMode(newMode) {
+    mode = newMode;
+    tabPlayer.classList.toggle("active", mode === "player");
+    tabGM.classList.toggle("active", mode === "gm");
+    rolePanel.innerHTML = mode === "player" ? playerPanelHTML() : gmPanelHTML();
+    await load();
+  }
 
   function key() {
     return mode === "player" ? "adl_profile_player" : "adl_profile_gm";
@@ -514,135 +627,6 @@ document.addEventListener("DOMContentLoaded", () => {
       okMsg.style.display = "none";
       okMsg.textContent = "✅ Profil enregistré.";
     }, 2500);
-  }
-
-  async function load(){
-  okMsg.style.display = "none";
-  warnMsg.style.display = "none";
-  linkBox.style.display = "none";
-
-  let data = null;
-
-  // 1. On tente Supabase
-  if (supabase) {
-    try {
-      const { data: rows, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("browser_profile_id", getBrowserProfileId())
-        .limit(1);
-
-      if (!error && rows && rows.length > 0) {
-        const row = rows[0];
-
-        data = {
-          displayName: row.display_name,
-          lang: row.lang,
-          tz: row.tz,
-          bio: row.bio,
-          publicLink: row.public_link,
-          currentGames: row.current_games,
-          specialties: row.specialties,
-          systems: row.systems,
-          corporateOpen: row.corporate_open,
-          corporateRegions: row.corporate_regions,
-          mode: row.profile_mode,
-
-          pSystems: row.p_systems,
-          pStyle: row.p_style,
-          pLevel: row.p_level,
-          pAvailability: row.p_availability,
-
-          gmExp: row.gm_exp,
-          gmCurrency: row.gm_currency,
-          gmRate: row.gm_rate,
-          gmPlatforms: row.gm_platforms,
-          gmSafety: row.gm_safety
-        };
-
-        console.log("Chargé depuis Supabase");
-      }
-    } catch (e) {
-      console.log("Erreur lecture Supabase", e);
-    }
-  }
-
-  // 2. Sinon fallback localStorage
-  if (!data) {
-    const raw = localStorage.getItem(key());
-    if (!raw) return;
-    data = JSON.parse(raw);
-    console.log("Chargé depuis localStorage");
-  }
-
-  // 3. Injection dans le formulaire
-  displayName.value = data.displayName || "";
-  lang.value = data.lang || "FR";
-  tz.value = data.tz || "America/Montreal";
-  publicLink.value = data.publicLink || "";
-  bio.value = data.bio || "";
-  currentGames.value = data.currentGames || "";
-  gmSpecialties.value = data.specialties || "";
-  gmCorporate.value = data.corporateOpen || "Non";
-  gmRegions.value = data.corporateRegions || "";
-  gmSystems.value = data.systems || "";
-
-  if(mode === "player"){
-    const a = document.getElementById("pSystems"); if(a) a.value = data.pSystems || "";
-    const b = document.getElementById("pStyle"); if(b) b.value = data.pStyle || "Équilibré";
-    const c = document.getElementById("pLevel"); if(c) c.value = data.pLevel || "Débutant";
-    const d = document.getElementById("pAvailability"); if(d) d.value = data.pAvailability || "";
-  } else {
-    const a = document.getElementById("gmExp"); if(a) a.value = data.gmExp || "";
-    const b = document.getElementById("gmCurrency"); if(b) b.value = data.gmCurrency || "CAD";
-    const c = document.getElementById("gmRate"); if(c) c.value = data.gmRate || "";
-    const d = document.getElementById("gmPlatforms"); if(d) d.value = data.gmPlatforms || "";
-    const e = document.getElementById("gmSafety"); if(e) e.value = data.gmSafety || "";
-  }
-}
-    okMsg.style.display = "none";
-    warnMsg.style.display = "none";
-    linkBox.style.display = "none";
-
-    const raw = localStorage.getItem(key());
-    if (!raw) return;
-
-    const data = JSON.parse(raw);
-
-    displayName.value = data.displayName || "";
-    lang.value = data.lang || "FR";
-    tz.value = data.tz || "America/Montreal";
-    publicLink.value = data.publicLink || "";
-    bio.value = data.bio || "";
-    currentGames.value = data.currentGames || "";
-    gmSpecialties.value = data.specialties || "";
-    gmCorporate.value = data.corporateOpen || "Non";
-    gmRegions.value = data.corporateRegions || "";
-    gmSystems.value = data.systems || "";
-
-    if (mode === "player") {
-      const pSystems = document.getElementById("pSystems");
-      const pStyle = document.getElementById("pStyle");
-      const pLevel = document.getElementById("pLevel");
-      const pAvailability = document.getElementById("pAvailability");
-
-      if (pSystems) pSystems.value = data.pSystems || "";
-      if (pStyle) pStyle.value = data.pStyle || "Équilibré";
-      if (pLevel) pLevel.value = data.pLevel || "Débutant";
-      if (pAvailability) pAvailability.value = data.pAvailability || "";
-    } else {
-      const gmExp = document.getElementById("gmExp");
-      const gmCurrency = document.getElementById("gmCurrency");
-      const gmRate = document.getElementById("gmRate");
-      const gmPlatforms = document.getElementById("gmPlatforms");
-      const gmSafety = document.getElementById("gmSafety");
-
-      if (gmExp) gmExp.value = data.gmExp || "";
-      if (gmCurrency) gmCurrency.value = data.gmCurrency || "CAD";
-      if (gmRate) gmRate.value = data.gmRate || "";
-      if (gmPlatforms) gmPlatforms.value = data.gmPlatforms || "";
-      if (gmSafety) gmSafety.value = data.gmSafety || "";
-    }
   }
 
   function clearData() {
@@ -718,8 +702,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
-  tabPlayer.addEventListener("click", () => setMode("player"));
-  tabGM.addEventListener("click", () => setMode("gm"));
+  tabPlayer.addEventListener("click", () => { setMode("player"); });
+  tabGM.addEventListener("click", () => { setMode("gm"); });
   document.getElementById("saveBtn").addEventListener("click", async () => {
     await save();
   });
