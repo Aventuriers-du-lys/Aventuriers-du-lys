@@ -650,7 +650,9 @@ async function save(){
 
   tabPlayer.addEventListener("click", () => setMode("player"));
   tabGM.addEventListener("click", () => setMode("gm"));
-  document.getElementById("saveBtn").addEventListener("click", save);
+  document.getElementById("saveBtn").addEventListener("click", async () => {
+  await save();
+});
   document.getElementById("clearBtn").addEventListener("click", clearData);
   document.getElementById("genLinkBtn").addEventListener("click", genPublicLink);
 
