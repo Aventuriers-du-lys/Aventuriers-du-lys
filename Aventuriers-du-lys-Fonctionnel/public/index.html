@@ -1,0 +1,784 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="color-scheme" content="dark">
+<style>html,body{background:#050612;color:#e5e7eb}html{color-scheme:dark}</style>
+<link rel="stylesheet" href="/css/theme.css">
+<link rel="stylesheet" href="/css/header.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title data-i18n-title="meta.titleHome">Les Aventuriers du Lys - Trouver une partie de jeu de rôle</title>
+
+  <meta name="description" content="Plateforme permettant aux joueurs de trouver des parties de jeux de rôle et aux maîtres de jeu de proposer leurs campagnes.">
+  <meta name="keywords" content="jeu de rôle, JDR, D&D, maître de jeu, parties en ligne, RPG, Dungeons and Dragons">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Les Aventuriers du Lys - Trouver une partie de JDR">
+  <meta property="og:description" content="Plateforme reliant joueurs et maîtres de jeu pour organiser des parties de jeux de rôle en ligne.">
+  <meta property="og:url" content="https://aventuriers-du-lys.github.io/Aventuriers-du-lys/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Les Aventuriers du Lys - Trouver une partie de JDR">
+  <meta name="twitter:description" content="Plateforme reliant joueurs et maîtres de jeu pour organiser des parties de jeux de rôle en ligne.">
+
+  <style>
+    :root{
+      --bg0:#050612;
+      --panel:rgba(10,15,30,.72);
+      --panel2:rgba(15,23,42,.86);
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --line:rgba(148,163,184,.18);
+      --accent:#22d3ee;
+      --accent2:#a78bfa;
+      --gold:#fbbf24;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --radius:16px;
+      --radius2:22px;
+      --shadow: 0 18px 45px rgba(0,0,0,.55);
+      --max:1140px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:var(--font);
+      color:var(--text);
+      line-height:1.55;
+      background:
+        linear-gradient(rgba(5,6,18,.28), rgba(5,6,18,.65)),
+        url("table-fantasy.png"),
+        linear-gradient(180deg, #0b1230, var(--bg0));
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:18px}
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(5,6,18,.85), rgba(5,6,18,.55), transparent);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .sigil{
+      width:40px;height:40px;border-radius:999px;
+      background:
+        radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%),
+        linear-gradient(135deg, rgba(0,0,0,.2), rgba(0,0,0,0));
+      box-shadow: 0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+      border:1px solid rgba(148,163,184,.35);
+    }
+    .brand h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+    .brand p{font-size:12px;color:var(--muted);margin-top:-2px}
+    .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .chip{
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.28);
+      background:rgba(2,6,23,.48);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .chip:hover{border-color:rgba(34,211,238,.55);color:var(--text)}
+    .cta{
+      padding:9px 14px;border-radius:999px;
+      background:linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+      color:#06101f;font-weight:900;border:0;cursor:pointer;
+      box-shadow: 0 14px 30px rgba(34,211,238,.16);
+      font-size:13px;
+    }
+    .cta:hover{filter:brightness(1.06);transform:translateY(-1px)}
+    .langBtn{
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.28);
+      background:rgba(2,6,23,.55);
+      color:var(--text);
+      cursor:pointer;
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .hero{
+      margin-top:18px;
+      background:var(--panel);
+      border:1px solid rgba(148,163,184,.22);
+      border-radius:var(--radius2);
+      box-shadow:var(--shadow);
+      padding:18px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;inset:-40px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(251,191,36,.08), transparent 48%),
+        radial-gradient(circle at 60% 70%, rgba(255,255,255,.03), transparent 55%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 1px, transparent 1px, transparent 6px);
+      mix-blend-mode: overlay;
+      opacity:.55;
+      pointer-events:none;
+      transform: rotate(-2deg);
+    }
+    .hero > *{position:relative;z-index:1}
+    .kicker{
+      color:rgba(34,211,238,.95);
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:12px;
+      margin-bottom:10px;
+    }
+    h2{
+      font-family:var(--fontDisplay);
+      font-size:32px;line-height:1.12;margin-bottom:10px;
+      letter-spacing:.01em;
+    }
+    h2 span{
+      background:linear-gradient(to right, var(--gold), var(--accent2), var(--accent));
+      -webkit-background-clip:text;color:transparent;
+    }
+    .lead{color:var(--muted);font-size:14px;margin-bottom:14px;max-width:86ch}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px}
+    .badge{
+      font-size:12px;color:var(--muted);
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.45);
+    }
+    .note{color:var(--muted);font-size:13px}
+
+    .sectionTitle{
+      margin-top:14px;
+      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    }
+    .sectionTitle h3{font-size:18px}
+    .sectionTitle p{color:var(--muted);font-size:13px}
+
+    .filters{
+      display:grid;
+      grid-template-columns: repeat(7, minmax(0,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .card2{
+      background:var(--panel2);
+      border:1px solid rgba(148,163,184,.22);
+      border-radius:var(--radius2);
+      box-shadow: 0 12px 30px rgba(0,0,0,.40);
+      padding:18px;
+    }
+    .field label{
+      display:block;color:var(--muted);font-size:12px;margin:0 0 6px 2px;
+    }
+    select,input{
+      width:100%;
+      padding:10px 10px;
+      border-radius:12px;
+      border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.55);
+      color:var(--text);
+      outline:none;
+    }
+    input::placeholder{color:rgba(148,163,184,.6)}
+    .filters .wide{grid-column: span 2;}
+    .filters .btnRow{display:flex;gap:10px;align-items:flex-end}
+    .btn{
+      padding:10px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.25);
+      background:rgba(15,23,42,.9);color:var(--text);cursor:pointer;font-weight:800;
+    }
+    .btn:hover{border-color:rgba(34,211,238,.55);color:var(--accent)}
+    .btnPrimary{
+      padding:10px 12px;border-radius:12px;border:0;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#06101f;cursor:pointer;font-weight:950;
+    }
+
+    .list{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    .row{
+      border-radius:16px;
+      border:1px solid rgba(148,163,184,.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(167,139,250,.10), transparent 42%),
+        radial-gradient(circle at 100% 0%, rgba(34,211,238,.10), transparent 46%),
+        rgba(15,23,42,.82);
+      padding:12px;
+      display:grid;
+      grid-template-columns: 1.35fr 1.05fr .9fr .95fr;
+      gap:10px;
+      align-items:center;
+    }
+    .row:hover{border-color:rgba(34,211,238,.45)}
+    .title{display:flex;flex-direction:column;gap:2px}
+    .title strong{font-size:14px}
+    .title small{color:var(--muted);font-size:12px}
+
+    .meta{color:var(--muted);font-size:12px}
+    .meta strong{color:#dbeafe}
+
+    .pill{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.40);
+      color:var(--muted);font-size:12px;
+      width:max-content;
+      gap:6px;
+      margin-right:6px;
+      margin-top:6px;
+    }
+    .dot{width:7px;height:7px;border-radius:999px;display:inline-block}
+    .rowActions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+    .mini{
+      padding:8px 10px;border-radius:12px;border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.55);color:var(--text);cursor:pointer;font-weight:900;font-size:12px
+    }
+    .mini:hover{border-color:rgba(34,211,238,.55);color:var(--accent)}
+    .miniPrimary{
+      padding:8px 10px;border-radius:12px;border:0;
+      background:linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+      color:#06101f;cursor:pointer;font-weight:950;font-size:12px
+    }
+    .miniDisabled{
+      padding:8px 10px;border-radius:12px;border:1px solid rgba(148,163,184,.18);
+      background:rgba(2,6,23,.25);color:rgba(229,231,235,.45);
+      cursor:not-allowed;font-weight:900;font-size:12px
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      margin-top:24px;
+      padding:18px 0 30px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .modalBackdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,.55);
+      display:none;align-items:center;justify-content:center;
+      padding:18px;z-index:200;
+    }
+    .modal{
+      width:min(980px, 100%);
+      border-radius:22px;
+      border:1px solid rgba(148,163,184,.22);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(167,139,250,.12), transparent 50%),
+        radial-gradient(circle at 100% 0%, rgba(34,211,238,.12), transparent 55%),
+        rgba(15,23,42,.97);
+      box-shadow: 0 22px 60px rgba(0,0,0,.65);
+      overflow:hidden;
+    }
+    .modalHeader{
+      padding:14px 16px;
+      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(to bottom, rgba(251,191,36,.08), rgba(34,211,238,.08), transparent);
+    }
+    .modalHeader h4{
+      font-family:var(--fontDisplay);
+      font-size:16px;margin-bottom:4px
+    }
+    .modalHeader .sub{color:var(--muted);font-size:12px}
+    .close{
+      border:1px solid rgba(148,163,184,.25);
+      background:rgba(2,6,23,.45);
+      color:var(--text);
+      border-radius:12px;
+      padding:8px 10px;
+      cursor:pointer;
+      font-weight:950;
+      font-size:12px;
+    }
+    .modalBody{
+      padding:16px;
+      display:grid;
+      grid-template-columns: 1.2fr .95fr;
+      gap:14px;
+    }
+    .box{
+      padding:12px;border-radius:16px;
+      border:1px solid rgba(148,163,184,.22);
+      background:rgba(2,6,23,.35);
+    }
+    .box h5{font-size:13px;margin-bottom:8px;color:#dbeafe}
+    .box p{color:var(--muted);font-size:13px}
+    .kv{display:grid;grid-template-columns: 1fr 1fr;gap:10px;margin-top:10px}
+    .kv .k{color:var(--muted);font-size:12px}
+    .kv .v{font-size:12px}
+    .modalActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .divider{height:1px;background:var(--line);margin:10px 0}
+
+    @media (max-width: 980px){
+      .filters{grid-template-columns: repeat(2, minmax(0,1fr));}
+      .filters .wide{grid-column: span 2;}
+      .row{grid-template-columns:1fr;gap:8px}
+      .rowActions{justify-content:flex-start}
+      .modalBody{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body class="adl-theme">
+
+<div data-site-header></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker" data-i18n="home.kicker">Fantasy - Horreur - Gothique - Superhéros - Techno</div>
+    <h2 id="heroTitle">Trouvez une table, <span>réservez</span>, jouez.</h2>
+    <p class="lead" data-i18n="home.lead">
+      Plateforme pour trouver une table, publier une partie et réserver une place. Créez un compte pour réserver : les places sont synchronisées pour tous les joueurs connectés.
+    </p>
+    <div class="badges">
+      <div class="badge" data-i18n="home.badgePrice">Prix indiqué par joueur et par séance</div>
+      <div class="badge" data-i18n="home.badgeMinMax">Nombre de joueurs min. et max.</div>
+      <div class="badge" data-i18n="home.badgeCurrency">Paiement en CAD, USD ou EUR</div>
+      <div class="badge" data-i18n="home.badgeLang">Tables en français, anglais ou bilingues</div>
+      <div class="badge" data-i18n="home.badgeTz">Fuseau horaire affiché et filtrable</div>
+      <div class="badge" data-i18n="home.badgePlatforms">Plateformes au choix (Discord, Foundry…)</div>
+    </div>
+  </section>
+
+  <section id="explore">
+    <div class="sectionTitle">
+      <div>
+        <h3 data-i18n="home.exploreTitle">Explorer les parties</h3>
+        <p data-i18n="home.exploreSub">Filtrez, puis cliquez sur Voir ou Réserver.</p>
+      </div>
+      <div class="pill" id="countPill"><span class="dot" style="background:var(--accent)"></span>0</div>
+    </div>
+
+    <div class="filters card2">
+      <div class="field">
+        <label data-i18n="home.filterSystem">Système</label>
+        <select id="f_system">
+          <option value="all" data-i18n="home.all">Tous</option>
+          <option value="DND">D&D</option>
+          <option value="PF">Pathfinder</option>
+          <option value="VTM">VtM</option>
+          <option value="COC">Cthulhu</option>
+          <option value="HERO">Marvel/DC</option>
+          <option value="SR">Shadowrun</option>
+          <option value="OTHER" data-i18n="home.systemOther">Autre</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="home.filterFormat">Format</label>
+        <select id="f_format">
+          <option value="all" data-i18n="home.all">Tous</option>
+          <option value="ONE_SHOT" data-i18n="home.formatOneShot">One-shot</option>
+          <option value="CAMPAIGN" data-i18n="home.formatCampaign">Campagne</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="home.filterLang">Langue</label>
+        <select id="f_lang">
+          <option value="all" data-i18n="home.allF">Toutes</option>
+          <option value="FR">FR</option>
+          <option value="EN">EN</option>
+          <option value="BIL">BIL</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="home.filterCurrency">Devise</label>
+        <select id="f_currency">
+          <option value="all" data-i18n="home.allF">Toutes</option>
+          <option value="CAD">CAD</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="home.filterTz">Fuseau</label>
+        <select id="f_tz">
+          <option value="all" data-i18n="home.all">Tous</option>
+          <option value="America/Montreal">America/Montreal</option>
+          <option value="America/New_York">America/New_York</option>
+          <option value="Europe/Paris">Europe/Paris</option>
+          <option value="Europe/London">Europe/London</option>
+          <option value="UTC">UTC</option>
+        </select>
+      </div>
+      <div class="field wide">
+        <label data-i18n="home.filterSearch">Recherche</label>
+        <input id="f_q" data-i18n-placeholder="home.searchPlaceholder" placeholder="ex: gothique, enquête, cyberpunk, débutants..." />
+      </div>
+      <div class="btnRow">
+        <button type="button" class="btn" id="resetBtn" data-i18n="home.reset">Réinitialiser</button>
+        <button type="button" class="btnPrimary" id="applyBtn" data-i18n="home.apply">Appliquer</button>
+      </div>
+    </div>
+
+    <div class="list" id="list"></div>
+  </section>
+
+  <footer class="wrap">
+    © <span id="year"></span> <span data-i18n="home.footer">Les Aventuriers du Lys</span>
+    <a href="/conditions" data-i18n="nav.conditions">Conditions</a>
+  </footer>
+</main>
+
+<div class="modalBackdrop" id="modalBackdrop" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div>
+        <h4 id="m_title">Titre</h4>
+        <div class="sub" id="m_sub"></div>
+      </div>
+      <button type="button" class="close" id="closeModal" data-i18n="home.modalClose">Fermer</button>
+    </div>
+    <div class="modalBody">
+      <div class="box">
+        <h5 data-i18n="home.modalDesc">Description</h5>
+        <p id="m_desc"></p>
+        <div class="divider"></div>
+        <h5 data-i18n="home.modalExpect">À quoi s'attendre</h5>
+        <p id="m_expect"></p>
+      </div>
+
+      <div class="box">
+        <h5 data-i18n="home.modalDetails">Détails</h5>
+        <div class="kv">
+          <div><div class="k" data-i18n="home.modalDm">Maître scénariste</div><div class="v" id="m_dm"></div></div>
+          <div><div class="k" data-i18n="home.modalPrice">Prix</div><div class="v" id="m_price"></div></div>
+          <div><div class="k" data-i18n="home.modalWhen">Quand</div><div class="v" id="m_when"></div></div>
+          <div><div class="k" data-i18n="home.modalTz">Fuseau</div><div class="v" id="m_tz"></div></div>
+          <div><div class="k" data-i18n="home.modalDuration">Durée</div><div class="v" id="m_dur"></div></div>
+          <div><div class="k" data-i18n="home.modalPlayers">Joueurs</div><div class="v" id="m_seats"></div></div>
+          <div><div class="k" data-i18n="home.modalPlatforms">Plateformes</div><div class="v" id="m_plat"></div></div>
+        </div>
+
+        <div class="divider"></div>
+        <div id="m_tags"></div>
+        <div class="divider"></div>
+        <div id="m_status_row"></div>
+
+        <div class="modalActions">
+          <button type="button" class="miniPrimary" id="m_book" data-i18n="home.book">Réserver</button>
+          <button type="button" class="mini" id="m_cancel" data-i18n="home.cancel">Annuler</button>
+          <button type="button" class="mini" id="m_toggle" data-i18n="home.toggle">Fermer / Ouvrir (MJ)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/i18n.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+(async function () {
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  let games = [];
+  let currentModalId = null;
+
+  function isEn(){ return ADL.lang() === "en"; }
+
+  function gameField(g, base){
+    return isEn() ? (g[base + "_en"] || g[base + "_fr"] || "") : (g[base + "_fr"] || g[base + "_en"] || "");
+  }
+
+  function syncMeta(){
+    const desc = ADL.t("meta.descHome");
+    const meta = document.querySelector('meta[name="description"]');
+    if(meta) meta.setAttribute("content", desc);
+    const og = document.querySelector('meta[property="og:description"]');
+    if(og) og.setAttribute("content", desc);
+    const tw = document.querySelector('meta[name="twitter:description"]');
+    if(tw) tw.setAttribute("content", desc);
+  }
+
+  function renderHeroTitle(){
+    const el = document.getElementById("heroTitle");
+    el.innerHTML =
+      ADL.escapeHtml(ADL.t("home.headlineBefore")) +
+      " <span>" + ADL.escapeHtml(ADL.t("home.headlineHighlight")) + "</span>" +
+      ADL.escapeHtml(ADL.t("home.headlineAfter"));
+  }
+
+  function sysLabel(s){
+    if(s === "DND") return "D&D";
+    if(s === "PF") return "Pathfinder";
+    if(s === "VTM") return "VtM";
+    if(s === "COC") return "Cthulhu";
+    if(s === "HERO") return "Marvel/DC";
+    if(s === "SR") return "Shadowrun";
+    return ADL.t("home.systemOther");
+  }
+
+  function formatLabel(f){
+    if(f === "ONE_SHOT") return ADL.t("home.formatOneShot");
+    return ADL.t("home.formatCampaign");
+  }
+
+  function tagPill(tag){
+    const en = isEn();
+    const map = {
+      "Fantasy": ["var(--gold)", "Fantasy"],
+      "Horreur": ["var(--good)", en ? "Horror" : "Horreur"],
+      "Gothique": ["var(--accent2)", en ? "Gothic" : "Gothique"],
+      "Superhéros": ["#60a5fa", en ? "Superhero" : "Superhéros"],
+      "Tech": ["var(--accent)", en ? "Tech" : "Techno"],
+      "Cyberpunk": ["var(--accent)", "Cyberpunk"]
+    };
+    const [c, label] = map[tag] || ["rgba(148,163,184,.8)", tag];
+    return `<span class="pill"><span class="dot" style="background:${c}"></span>${ADL.escapeHtml(label)}</span>`;
+  }
+
+  function computeStatus(g){
+    if(!g.is_open) return "CLOSED";
+    if(g.booked >= g.max_players) return "FULL";
+    if(g.booked < g.min_players) return "WAIT";
+    return "OPEN";
+  }
+
+  function statusLabel(st){
+    if(st === "CLOSED") return ADL.t("home.statusClosed");
+    if(st === "FULL") return ADL.t("home.statusFull");
+    if(st === "WAIT") return ADL.t("home.statusWait");
+    return ADL.t("home.statusOpen");
+  }
+
+  function statusPill(g){
+    const st = computeStatus(g);
+    const label = statusLabel(st);
+    let color = "var(--accent)";
+    if(st === "CLOSED") color = "var(--bad)";
+    if(st === "FULL") color = "var(--warn)";
+    if(st === "WAIT") color = "var(--accent2)";
+    if(st === "OPEN") color = "var(--good)";
+    return `<span class="pill"><span class="dot" style="background:${color}"></span>${ADL.escapeHtml(label)}</span>`;
+  }
+
+  function canBook(g){ return g.is_open && g.booked < g.max_players && !g.booked_by_me; }
+  function canToggleOpen(g){
+    if(!ADL.user || !g) return false;
+    return g.owner_id === ADL.user.id || ADL.user.role === "admin";
+  }
+  function canCancel(g){ return !!g.booked_by_me; }
+
+  function matches(g, f){
+    if(f.system !== "all" && g.system !== f.system) return false;
+    if(f.format !== "all" && g.format !== f.format) return false;
+    if(f.lang !== "all" && g.lang !== f.lang) return false;
+    if(f.currency !== "all" && g.currency !== f.currency) return false;
+    if(f.tz !== "all" && g.tz !== f.tz) return false;
+
+    const q = f.q.trim().toLowerCase();
+    if(q){
+      const hay = [
+        g.title_fr, g.title_en, g.desc_fr, g.desc_en, g.expect_fr, g.expect_en,
+        (g.platforms || []).join(" "), (g.tags || []).join(" "), sysLabel(g.system), formatLabel(g.format), g.tz
+      ].join(" ").toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  }
+
+  function render(){
+    renderHeroTitle();
+    syncMeta();
+
+    const f = {
+      system: document.getElementById("f_system").value,
+      format: document.getElementById("f_format").value,
+      lang: document.getElementById("f_lang").value,
+      currency: document.getElementById("f_currency").value,
+      tz: document.getElementById("f_tz").value,
+      q: document.getElementById("f_q").value
+    };
+
+    const filtered = games.filter(g => matches(g, f));
+    document.getElementById("countPill").innerHTML =
+      `<span class="dot" style="background:var(--accent)"></span>${ADL.escapeHtml(ADL.t("home.count", { n: filtered.length }))}`;
+
+    const list = document.getElementById("list");
+
+    if(!games.length){
+      list.innerHTML = `<div class="card2 note">${ADL.escapeHtml(ADL.t("home.empty"))}</div>`;
+      return;
+    }
+
+    if(!filtered.length){
+      list.innerHTML = "";
+      return;
+    }
+
+    list.innerHTML = filtered.map(g => {
+      const title = gameField(g, "title");
+      const when = gameField(g, "when");
+      const price = `${g.price_per_player} ${g.currency} ${ADL.t("home.pricePPS")}`;
+      const tags = (g.tags || []).map(tagPill).join("");
+
+      const bookBtn = canBook(g)
+        ? `<button type="button" class="miniPrimary" data-action="book" data-id="${ADL.escapeHtml(g.id)}">${ADL.escapeHtml(ADL.t("home.book"))}</button>`
+        : `<button type="button" class="miniDisabled">${ADL.escapeHtml(ADL.t("home.book"))}</button>`;
+
+      const cancelBtn = canCancel(g)
+        ? `<button type="button" class="mini" data-action="cancel" data-id="${ADL.escapeHtml(g.id)}">${ADL.escapeHtml(ADL.t("home.cancel"))}</button>`
+        : `<button type="button" class="miniDisabled">${ADL.escapeHtml(ADL.t("home.cancel"))}</button>`;
+
+      return `
+        <div class="row">
+          <div class="title">
+            <strong>${ADL.escapeHtml(title)}</strong>
+            <small>${ADL.escapeHtml(formatLabel(g.format))} • ${ADL.escapeHtml(sysLabel(g.system))} • ${ADL.escapeHtml((g.platforms || []).join(", "))}</small>
+            <div>${tags}</div>
+          </div>
+          <div class="meta">
+            <strong>${ADL.escapeHtml(ADL.t("home.schedule"))}:</strong><br>${ADL.escapeHtml(when)}
+            <div style="margin-top:6px">${statusPill(g)} <span class="pill"><span class="dot" style="background:#60a5fa"></span>${ADL.escapeHtml(ADL.t("home.modalTz"))}: ${ADL.escapeHtml(g.tz)}</span></div>
+          </div>
+          <div class="meta">
+            <strong>${ADL.escapeHtml(ADL.t("home.cost"))}:</strong><br>${ADL.escapeHtml(price)}
+            <div style="margin-top:6px"><strong>${ADL.escapeHtml(ADL.t("home.seats"))}:</strong> ${g.booked}/${g.max_players} • <span style="color:var(--muted)">min ${g.min_players}</span></div>
+          </div>
+          <div class="rowActions">
+            <button type="button" class="mini" data-action="view" data-id="${ADL.escapeHtml(g.id)}">${ADL.escapeHtml(ADL.t("home.view"))}</button>
+            ${bookBtn}
+            ${cancelBtn}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function findGame(id){ return games.find(x => x.id === id); }
+
+  function upsertGame(updated){
+    const i = games.findIndex(x => x.id === updated.id);
+    if(i >= 0) games[i] = updated; else games.push(updated);
+  }
+
+  async function book(id){
+    if(!ADL.user){ location.href = "/compte?next=" + encodeURIComponent("/"); return; }
+    try{
+      const data = await ADL.api(`/games/${id}/book`, { method: "POST", body: {} });
+      upsertGame(data.game);
+      render();
+      if(currentModalId === id) openModal(id, true);
+    }catch(e){ alert(ADL.errorMessage(e)); }
+  }
+
+  async function cancel(id){
+    if(!ADL.user){ location.href = "/compte"; return; }
+    try{
+      const data = await ADL.api(`/games/${id}/cancel`, { method: "POST", body: {} });
+      upsertGame(data.game);
+      render();
+      if(currentModalId === id) openModal(id, true);
+    }catch(e){ alert(ADL.errorMessage(e)); }
+  }
+
+  async function toggleOpen(id){
+    if(!ADL.user){ location.href = "/compte"; return; }
+    try{
+      const data = await ADL.api(`/games/${id}/toggle`, { method: "POST", body: {} });
+      upsertGame(data.game);
+      render();
+      if(currentModalId === id) openModal(id, true);
+    }catch(e){ alert(ADL.errorMessage(e)); }
+  }
+
+  function openModal(id, focusBook){
+    const g = findGame(id);
+    if(!g) return;
+    currentModalId = id;
+
+    document.getElementById("m_title").textContent = gameField(g, "title");
+    document.getElementById("m_sub").textContent = `${sysLabel(g.system)} • ${formatLabel(g.format)} • ${g.lang}`;
+    document.getElementById("m_desc").textContent = gameField(g, "desc");
+    document.getElementById("m_expect").textContent = gameField(g, "expect");
+    document.getElementById("m_dm").textContent = g.dm;
+    document.getElementById("m_price").textContent = `${g.price_per_player} ${g.currency} ${ADL.t("home.pricePPS")}`;
+    document.getElementById("m_when").textContent = gameField(g, "when");
+    document.getElementById("m_tz").textContent = g.tz;
+    document.getElementById("m_dur").textContent = g.duration;
+    document.getElementById("m_seats").textContent = ADL.t("home.seatsLine", { b: g.booked, max: g.max_players, min: g.min_players });
+    document.getElementById("m_plat").textContent = (g.platforms || []).join(", ");
+    document.getElementById("m_tags").innerHTML = (g.tags || []).map(tagPill).join("");
+    document.getElementById("m_status_row").innerHTML =
+      `${statusPill(g)} <span class="pill"><span class="dot" style="background:rgba(148,163,184,.8)"></span>${ADL.escapeHtml(ADL.t("home.seatsLine", { b: g.booked, max: g.max_players, min: g.min_players }))}</span>`;
+
+    const bookBtn = document.getElementById("m_book");
+    const cancelBtn = document.getElementById("m_cancel");
+    const toggleBtn = document.getElementById("m_toggle");
+    bookBtn.onclick = () => book(id);
+    cancelBtn.onclick = () => cancel(id);
+    toggleBtn.onclick = () => toggleOpen(id);
+    bookBtn.className = canBook(g) ? "miniPrimary" : "miniDisabled";
+    bookBtn.disabled = !canBook(g);
+    cancelBtn.className = canCancel(g) ? "mini" : "miniDisabled";
+    cancelBtn.disabled = !canCancel(g);
+    const showToggle = canToggleOpen(g);
+    toggleBtn.style.display = showToggle ? "" : "none";
+    toggleBtn.disabled = !showToggle;
+    document.getElementById("modalBackdrop").style.display = "flex";
+    if(focusBook && canBook(g)) bookBtn.focus();
+  };
+
+  function closeModal(){
+    currentModalId = null;
+    document.getElementById("modalBackdrop").style.display = "none";
+  }
+
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+  document.getElementById("modalBackdrop").addEventListener("click", (e) => {
+    if(e.target.id === "modalBackdrop") closeModal();
+  });
+
+  document.getElementById("list").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action][data-id]");
+    if(!btn) return;
+    const id = btn.getAttribute("data-id");
+    const action = btn.getAttribute("data-action");
+    if(action === "book") book(id);
+    else if(action === "cancel") cancel(id);
+    else if(action === "view") openModal(id);
+  });
+
+  document.getElementById("applyBtn").addEventListener("click", render);
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    document.getElementById("f_system").value = "all";
+    document.getElementById("f_format").value = "all";
+    document.getElementById("f_lang").value = "all";
+    document.getElementById("f_currency").value = "all";
+    document.getElementById("f_tz").value = "all";
+    document.getElementById("f_q").value = "";
+    render();
+  });
+
+  ADL.onLangChange(() => {
+    ADL.applyI18n();
+    render();
+    if(currentModalId) openModal(currentModalId);
+  });
+
+  await ADL.readyI18n;
+  syncMeta();
+  renderHeroTitle();
+
+  try{
+    const data = await ADL.api("/games");
+    games = data.games || [];
+  }catch(e){
+    document.getElementById("list").innerHTML =
+      `<div class="card2 note">${ADL.escapeHtml(ADL.t("home.loadError"))}</div>`;
+    return;
+  }
+  render();
+})();
+</script>
+</body>
+</html>

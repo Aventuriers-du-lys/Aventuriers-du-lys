@@ -1,0 +1,194 @@
+/* Shared site header + fixed corner account widget */
+.adl-header{
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(14px);
+  background:linear-gradient(to bottom, rgba(5,6,18,.92), rgba(5,6,18,.62), transparent);
+  border-bottom:1px solid rgba(148,163,184,.18);
+}
+.adl-header .wrap{
+  max-width:1140px;margin:0 auto;padding:18px;
+  padding-right:88px; /* room for fixed account widget */
+}
+.adl-topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.adl-brand{
+  display:flex;align-items:center;gap:12px;min-width:0;text-decoration:none;color:inherit;
+}
+.adl-sigil{
+  width:40px;height:40px;border-radius:999px;flex-shrink:0;
+  background:
+    radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%);
+  box-shadow:0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+  border:1px solid rgba(148,163,184,.35);
+}
+.adl-brand h1{
+  font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin:0;
+  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+.adl-brand p{
+  font-size:12px;color:#94a3b8;margin:0;margin-top:-2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.adl-nav{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;
+}
+.adl-chip{
+  padding:8px 12px;border-radius:999px;
+  border:1px solid rgba(148,163,184,.28);
+  background:rgba(2,6,23,.48);
+  color:#94a3b8;font-size:13px;text-decoration:none;
+  display:inline-flex;align-items:center;
+}
+.adl-chip:hover{border-color:rgba(34,211,238,.55);color:#e5e7eb}
+.adl-chip.is-active{
+  border-color:rgba(34,211,238,.65);
+  color:#e5e7eb;
+  box-shadow:0 0 0 3px rgba(34,211,238,.10);
+  background:rgba(2,6,23,.72);
+}
+
+/* Fixed corner profile / account widget */
+.adl-account{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:200;
+}
+.adl-account-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px 6px 6px;border-radius:999px;
+  border:1px solid rgba(148,163,184,.4);
+  background:rgba(10,15,30,.92);
+  color:#e5e7eb;cursor:pointer;font-size:13px;font-weight:800;
+  box-shadow:0 10px 28px rgba(0,0,0,.45);
+  backdrop-filter:blur(12px);
+}
+.adl-account-btn:hover,
+.adl-account.is-open .adl-account-btn{
+  border-color:rgba(34,211,238,.6);
+  box-shadow:0 12px 32px rgba(34,211,238,.12), 0 10px 28px rgba(0,0,0,.45);
+}
+.adl-avatar{
+  width:32px;height:32px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#22d3ee,#a78bfa,#fbbf24);
+  color:#06101f;font-size:12px;font-weight:950;
+}
+.adl-account-caret{
+  opacity:.75;font-size:10px;
+  transition:transform .15s ease;
+}
+.adl-account.is-open .adl-account-caret{transform:rotate(180deg)}
+.adl-account-panel{
+  display:none;
+  position:absolute;right:0;top:calc(100% + 10px);
+  width:min(300px, calc(100vw - 28px));
+  padding:10px;
+  border-radius:18px;
+  border:1px solid rgba(148,163,184,.28);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(167,139,250,.14), transparent 50%),
+    rgba(10,15,30,.98);
+  box-shadow:0 22px 50px rgba(0,0,0,.6);
+  z-index:201;
+}
+.adl-account.is-open .adl-account-panel{display:block}
+.adl-account-head{
+  padding:8px 10px 12px;
+  border-bottom:1px solid rgba(148,163,184,.18);
+  margin-bottom:8px;
+}
+.adl-account-head strong{
+  display:block;font-size:14px;color:#e5e7eb;
+}
+.adl-account-head span{
+  display:block;font-size:12px;color:#94a3b8;margin-top:2px;
+}
+.adl-account-item{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  width:100%;
+  padding:10px 12px;border-radius:12px;
+  border:0;background:transparent;
+  color:#e5e7eb;font-size:13px;font-weight:700;
+  text-decoration:none;cursor:pointer;text-align:left;box-sizing:border-box;
+}
+.adl-account-item:hover{
+  background:rgba(34,211,238,.10);
+  color:#67e8f9;
+}
+.adl-account-item.is-primary{
+  justify-content:center;
+  margin-top:4px;
+  background:linear-gradient(135deg,#22d3ee,#a78bfa,#fbbf24);
+  color:#06101f;
+  font-weight:950;
+}
+.adl-account-item.is-primary:hover{
+  background:linear-gradient(135deg,#67e8f9,#c4b5fd,#fcd34d);
+  color:#06101f;
+}
+.adl-account-item.is-primary-outline{
+  justify-content:center;
+  margin-top:6px;
+  border:1px solid rgba(148,163,184,.35);
+  background:rgba(2,6,23,.45);
+  color:#e5e7eb;
+  font-weight:900;
+}
+.adl-account-item.is-primary-outline:hover{
+  border-color:rgba(34,211,238,.55);
+  background:rgba(34,211,238,.10);
+  color:#67e8f9;
+}
+.adl-account-item.is-danger:hover{
+  background:rgba(239,68,68,.12);
+  color:#fca5a5;
+}
+.adl-account-section{
+  margin-top:6px;
+  padding-top:8px;
+  border-top:1px solid rgba(148,163,184,.18);
+}
+.adl-account-section-label{
+  display:block;
+  padding:4px 12px 8px;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#94a3b8;
+}
+.adl-lang-row{
+  display:flex;gap:8px;padding:0 8px 8px;
+}
+.adl-lang-option{
+  flex:1;
+  padding:9px 10px;
+  border-radius:12px;
+  border:1px solid rgba(148,163,184,.25);
+  background:rgba(2,6,23,.45);
+  color:#e5e7eb;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+.adl-lang-option:hover{border-color:rgba(34,211,238,.45)}
+.adl-lang-option.is-active{
+  border-color:rgba(34,211,238,.7);
+  background:rgba(34,211,238,.14);
+  box-shadow:0 0 0 3px rgba(34,211,238,.1);
+}
+.adl-account-backdrop{
+  display:none;position:fixed;inset:0;z-index:199;
+  background:rgba(0,0,0,.25);
+}
+.adl-account.is-open .adl-account-backdrop{display:block}
+
+@media (max-width:900px){
+  .adl-header .wrap{padding-right:72px}
+  .adl-account-btn .adl-account-label{display:none}
+  .adl-account-btn{padding:6px}
+}
+@media (max-width:720px){
+  .adl-brand p{display:none}
+}

@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="color-scheme" content="dark">
+<style>html,body{background:#050612;color:#e5e7eb}html{color-scheme:dark}</style>
+<link rel="stylesheet" href="/css/theme.css">
+<link rel="stylesheet" href="/css/header.css">
+  <meta charset="UTF-8">
+  <title data-i18n-title="meta.titleCorporatif">Corporatif - Les Aventuriers du Lys</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="adl-theme">
+<div data-site-header></div>
+
+<main class="adl-wrap">
+  <section class="adl-card">
+    <div class="adl-kicker" data-i18n="corporate.kicker">Entreprises - Équipes</div>
+    <h1 class="adl-title"><span data-i18n="corporate.title">Services corporatifs</span></h1>
+    <p class="adl-lead" data-i18n="corporate.lead">
+      Offrez une expérience unique à votre équipe grâce aux jeux de rôle sur table.
+      Les Aventuriers du Lys vous permettent de faire appel à des maîtres de jeu expérimentés
+      pour des activités ponctuelles ou récurrentes.
+    </p>
+  </section>
+
+  <section class="adl-panel">
+    <h2 class="adl-title" style="font-size:20px" data-i18n="corporate.typesTitle">Types d'activités</h2>
+    <ul class="adl-list">
+      <li data-i18n="corporate.type1">Team building</li>
+      <li data-i18n="corporate.type2">Activités sociales</li>
+      <li data-i18n="corporate.type3">Événements corporatifs</li>
+      <li data-i18n="corporate.type4">Sessions en ligne ou en présentiel</li>
+    </ul>
+  </section>
+
+  <section class="adl-panel">
+    <h2 class="adl-title" style="font-size:20px" data-i18n="corporate.formTitle">Faire une demande</h2>
+    <form id="corpForm">
+      <div class="adl-field">
+        <label data-i18n="corporate.company">Nom de l'entreprise</label>
+        <input name="Entreprise" id="Entreprise" required>
+      </div>
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="corporate.contact">Nom du responsable</label>
+          <input name="Responsable" id="Responsable">
+        </div>
+        <div class="adl-field">
+          <label data-i18n="corporate.email">Courriel</label>
+          <input name="Courriel" id="Courriel" type="email">
+        </div>
+      </div>
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="corporate.phone">Téléphone</label>
+          <input name="Téléphone" id="Telephone">
+        </div>
+        <div class="adl-field">
+          <label data-i18n="corporate.participants">Nombre de participants</label>
+          <input name="Participants" id="Participants">
+        </div>
+      </div>
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="corporate.activityType">Type d'activité</label>
+          <select name="Type" id="Type">
+            <option value="Team building" data-i18n="corporate.actTeam">Team building</option>
+            <option value="Événement ponctuel" data-i18n="corporate.actOnce">Événement ponctuel</option>
+            <option value="Activité récurrente" data-i18n="corporate.actRecurring">Activité récurrente</option>
+          </select>
+        </div>
+        <div class="adl-field">
+          <label data-i18n="corporate.format">Format</label>
+          <select name="Format" id="Format">
+            <option value="En ligne" data-i18n="corporate.fmtOnline">En ligne</option>
+            <option value="Présentiel" data-i18n="corporate.fmtOnsite">Présentiel</option>
+            <option value="Hybride" data-i18n="corporate.fmtHybrid">Hybride</option>
+          </select>
+        </div>
+      </div>
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="corporate.date">Date souhaitée</label>
+          <input name="Date" id="Date">
+        </div>
+        <div class="adl-field">
+          <label data-i18n="corporate.budget">Budget approximatif</label>
+          <input name="Budget" id="Budget">
+        </div>
+      </div>
+      <div class="adl-field">
+        <label data-i18n="corporate.description">Description</label>
+        <textarea name="Description" id="Description"></textarea>
+      </div>
+      <button type="submit" class="adl-btn-primary" data-i18n="corporate.submit">Envoyer la demande</button>
+    </form>
+    <div class="adl-msg" id="msg"></div>
+  </section>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/i18n.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+(async function () {
+  await ADL.readyI18n;
+
+  document.getElementById('corpForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('msg');
+    try {
+      const data = await ADL.api('/contact/corporate', {
+        method: 'POST',
+        body: {
+          Entreprise: document.getElementById('Entreprise').value,
+          Responsable: document.getElementById('Responsable').value,
+          Courriel: document.getElementById('Courriel').value,
+          Téléphone: document.getElementById('Telephone').value,
+          Type: document.getElementById('Type').value,
+          Format: document.getElementById('Format').value,
+          Participants: document.getElementById('Participants').value,
+          Date: document.getElementById('Date').value,
+          Budget: document.getElementById('Budget').value,
+          Description: document.getElementById('Description').value
+        }
+      });
+      msg.className = 'adl-msg ok';
+      msg.textContent = ADL.t(data.messageCode || 'corporate.success');
+      e.target.reset();
+      ADL.applyI18n();
+    } catch (err) {
+      msg.className = 'adl-msg err';
+      msg.textContent = ADL.errorMessage(err);
+    }
+  });
+})();
+</script>
+</body>
+</html>

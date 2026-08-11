@@ -1,0 +1,546 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="color-scheme" content="dark">
+<style>html,body{background:#050612;color:#e5e7eb}html{color-scheme:dark}</style>
+<link rel="stylesheet" href="/css/theme.css">
+<link rel="stylesheet" href="/css/header.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title data-i18n-title="meta.titleProfil">Profil - Les Aventuriers du Lys</title>
+<style>
+  :root{
+    --bg0:#050612; --text:#e5e7eb; --muted:#94a3b8; --line:rgba(148,163,184,.18);
+    --accent:#22d3ee; --accent2:#a78bfa; --gold:#fbbf24;
+    --panel:rgba(10,15,30,.78); --panel2:rgba(15,23,42,.88);
+    --radius2:22px; --shadow: 0 18px 45px rgba(0,0,0,.55);
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font);
+    color:var(--text);
+    line-height:1.55;
+    background:
+      linear-gradient(rgba(5,6,18,.28), rgba(5,6,18,.70)),
+      url("table-fantasy.png"),
+      linear-gradient(180deg, #0b1230, var(--bg0));
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter: blur(14px);
+    background: linear-gradient(to bottom, rgba(5,6,18,.85), rgba(5,6,18,.55), transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .sigil{
+    width:40px;height:40px;border-radius:999px;
+    background:
+      radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%);
+    box-shadow: 0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+    border:1px solid rgba(148,163,184,.35);
+  }
+  .brand h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+  .brand p{font-size:12px;color:var(--muted);margin-top:-2px}
+
+  .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .chip{
+    padding:8px 12px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.28);
+    background:rgba(2,6,23,.48);
+    color:var(--muted);
+    font-size:13px;
+  }
+  .chip:hover{border-color:rgba(34,211,238,.55);color:var(--text)}
+  .langBtn{
+    padding:8px 12px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.28);
+    background:rgba(2,6,23,.55);
+    color:var(--text);cursor:pointer;font-size:13px;font-weight:900;
+  }
+
+  .card{
+    margin-top:18px;
+    background:var(--panel);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    box-shadow:var(--shadow);
+    padding:18px;
+    overflow:hidden;
+    position:relative;
+  }
+  .card::after{
+    content:"";
+    position:absolute;inset:-40px;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(251,191,36,.08), transparent 48%),
+      radial-gradient(circle at 60% 70%, rgba(255,255,255,.03), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 1px, transparent 1px, transparent 6px);
+    mix-blend-mode: overlay;
+    opacity:.55;
+    pointer-events:none;
+    transform: rotate(-2deg);
+  }
+  .card > *{position:relative;z-index:1}
+
+  .kicker{
+    color:rgba(34,211,238,.95);
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:12px;
+    margin-bottom:10px;
+  }
+  h2{
+    font-family:var(--fontDisplay);
+    font-size:28px;line-height:1.12;margin-bottom:10px;
+  }
+  h2 span[data-i18n$="Highlight"]{
+    background:linear-gradient(to right, var(--gold), var(--accent2), var(--accent));
+    -webkit-background-clip:text;color:transparent;
+  }
+  .lead{color:var(--muted);font-size:14px;margin-bottom:12px;max-width:90ch}
+
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .tab{
+    padding:10px 12px;border-radius:999px;border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.45);color:var(--text);cursor:pointer;font-weight:900;font-size:13px
+  }
+  .tab.active{
+    border-color:rgba(34,211,238,.65);
+    box-shadow: 0 0 0 3px rgba(34,211,238,.10);
+  }
+
+  .grid{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
+  }
+  .panel{
+    background:var(--panel2);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    padding:16px;
+  }
+  .panel h3{font-size:16px;margin-bottom:10px}
+  label{
+    display:block;color:var(--muted);font-size:12px;margin:10px 0 6px 2px;
+  }
+  input, select, textarea{
+    width:100%;
+    padding:10px;
+    border-radius:12px;
+    border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.55);
+    color:var(--text);
+    outline:none;
+  }
+  textarea{min-height:110px;resize:vertical}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .actions{
+    display:flex;gap:10px;flex-wrap:wrap;margin-top:0;
+  }
+  .actionsBar{
+    margin-top:14px;
+    background:var(--panel2);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    padding:16px;
+  }
+  .btn{
+    padding:10px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.55);color:var(--text);cursor:pointer;font-weight:900
+  }
+  .btn:hover{border-color:rgba(34,211,238,.55);color:var(--accent)}
+  .btnPrimary{
+    padding:10px 12px;border-radius:12px;border:0;
+    background:linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+    color:#06101f;cursor:pointer;font-weight:950
+  }
+  .note{color:var(--muted);font-size:13px;margin-top:10px}
+  .ok{margin-top:10px;color:#bbf7d0;font-size:13px;display:none}
+  .warn{margin-top:10px;color:#fde68a;font-size:13px;display:none}
+  .linkBox{
+    margin-top:10px;
+    padding:10px;
+    border-radius:12px;
+    border:1px solid rgba(148,163,184,.22);
+    background:rgba(2,6,23,.35);
+    color:var(--muted);
+    font-size:12px;
+    word-break: break-all;
+    display:none;
+  }
+
+  @media (max-width: 900px){
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body class="adl-theme">
+
+<div data-site-header></div>
+
+<main class="wrap">
+  <section class="card">
+    <div class="kicker" data-i18n="profil.kicker">Joueur - Maître scénariste</div>
+    <h2><span data-i18n="profil.titleBefore">Crée ton</span> <span data-i18n="profil.titleHighlight">profil</span></h2>
+    <p class="lead" data-i18n="profil.lead">
+      Générez un lien public qui affiche votre fiche. Optionnel : ajoutez un lien personnel (site, Linktree, etc.). Connexion requise : vos données sont sauvegardées sur le serveur.
+    </p>
+
+    <div class="tabs">
+      <button class="tab active" id="tabPlayer" type="button" data-i18n="profil.tabPlayer">Profil Joueur</button>
+      <button class="tab" id="tabGM" type="button" data-i18n="profil.tabGm">Profil Maître scénariste</button>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="panel">
+      <h3 data-i18n="profil.general">Infos générales</h3>
+
+      <label data-i18n="profil.displayName">Pseudo / nom public</label>
+      <input id="displayName" data-i18n-placeholder="profil.displayPlaceholder" placeholder="Votre pseudo public" />
+
+      <div class="row2">
+        <div>
+          <label data-i18n="profil.lang">Langue</label>
+          <select id="lang">
+            <option value="FR">FR</option>
+            <option value="EN">EN</option>
+            <option value="BIL">BIL</option>
+          </select>
+        </div>
+        <div>
+          <label data-i18n="profil.tz">Fuseau horaire</label>
+          <select id="tz">
+            <option>America/Montreal</option>
+            <option>America/New_York</option>
+            <option>Europe/Paris</option>
+            <option>Europe/London</option>
+            <option>UTC</option>
+          </select>
+        </div>
+      </div>
+
+      <label data-i18n="profil.publicLink">Lien personnel (optionnel)</label>
+      <input id="publicLink" data-i18n-placeholder="profil.publicLinkPlaceholder" placeholder="ex: https://votresite.com" />
+
+      <label data-i18n="profil.bio">Bio</label>
+      <textarea id="bio" data-i18n-placeholder="profil.bioPlaceholder" placeholder="Quelques lignes sur votre style de jeu, vos préférences, etc."></textarea>
+
+      <label data-i18n="profil.currentGames">Parties en cours (optionnel) - une ligne par partie</label>
+      <textarea id="currentGames" data-i18n-placeholder="profil.currentGamesPlaceholder" placeholder="[MJ] D&amp;D 5e - Mercredi 19:00"></textarea>
+    </div>
+
+    <div class="panel" id="rolePanel"></div>
+  </section>
+
+  <section class="actionsBar">
+    <div class="actions">
+      <button class="btnPrimary" id="saveBtn" type="button" data-i18n="profil.save">Enregistrer</button>
+      <button class="btn" id="clearBtn" type="button" data-i18n="profil.clear">Effacer</button>
+      <button class="btn" id="genLinkBtn" type="button" data-i18n="profil.genLink">Générer lien public</button>
+      <button class="btn" id="openPublicBtn" type="button" data-i18n="profil.openPublic">Voir mon profil public</button>
+      <button class="btn" id="copyPublicBtn" type="button" data-i18n="profil.copyLink">Copier le lien</button>
+    </div>
+
+    <div class="ok" id="okMsg"></div>
+    <div class="warn" id="warnMsg"></div>
+
+    <div class="linkBox" id="linkBox"></div>
+
+    <div class="note" data-i18n="profil.note">
+      Votre profil est sauvegardé sur le serveur. Le lien public pointe vers votre fiche.
+    </div>
+  </section>
+
+  <footer class="wrap" style="margin-top:18px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding:18px 0 30px;">
+    © <span id="year"></span> <span data-i18n="profil.footer">Les Aventuriers du Lys</span>
+    <a href="/conditions" data-i18n="nav.conditions">Conditions</a>
+  </footer>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/i18n.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  await ADL.readyI18n;
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const user = await ADL.me();
+  if (!user) {
+    location.href = "/compte?next=" + encodeURIComponent("/profil");
+    return;
+  }
+
+  let lastPublicUrl = "";
+  let mode = "player";
+  let cachedProfile = null;
+
+  const tabPlayer = document.getElementById("tabPlayer");
+  const tabGM = document.getElementById("tabGM");
+  const rolePanel = document.getElementById("rolePanel");
+  const displayName = document.getElementById("displayName");
+  const lang = document.getElementById("lang");
+  const tz = document.getElementById("tz");
+  const publicLink = document.getElementById("publicLink");
+  const bio = document.getElementById("bio");
+  const currentGames = document.getElementById("currentGames");
+  const okMsg = document.getElementById("okMsg");
+  const warnMsg = document.getElementById("warnMsg");
+  const linkBox = document.getElementById("linkBox");
+
+  function gmPanelHTML() {
+    return `
+    <h3>${ADL.escapeHtml(ADL.t('profil.gmTitle'))}</h3>
+    <label>${ADL.escapeHtml(ADL.t('profil.gmCurrent'))}</label>
+    <textarea id="gmCurrentGames" placeholder="${ADL.escapeHtml(ADL.t('profil.currentGamesPlaceholder'))}"></textarea>
+    <label>${ADL.escapeHtml(ADL.t('profil.gmSpecialties'))}</label>
+    <input id="gmSpecialties" placeholder="${ADL.escapeHtml(ADL.t('profil.gmSpecialtiesPh'))}" />
+    <label>${ADL.escapeHtml(ADL.t('profil.gmCorporate'))}</label>
+    <select id="gmCorporate"><option value="Non">${ADL.escapeHtml(ADL.t('profil.no'))}</option><option value="Oui">${ADL.escapeHtml(ADL.t('profil.yes'))}</option></select>
+    <label>${ADL.escapeHtml(ADL.t('profil.gmRegions'))}</label>
+    <input id="gmRegions" placeholder="${ADL.escapeHtml(ADL.t('profil.gmRegionsPh'))}" />
+    <label>${ADL.escapeHtml(ADL.t('profil.gmSystems'))}</label>
+    <input id="gmSystems" placeholder="${ADL.escapeHtml(ADL.t('profil.gmSystemsPh'))}" />
+    <label>${ADL.escapeHtml(ADL.t('profil.gmExp'))}</label>
+    <input id="gmExp" placeholder="${ADL.escapeHtml(ADL.t('profil.gmExpPh'))}" />
+    <div class="row2">
+      <div>
+        <label>${ADL.escapeHtml(ADL.t('profil.gmCurrency'))}</label>
+        <select id="gmCurrency"><option>CAD</option><option>USD</option><option>EUR</option></select>
+      </div>
+      <div>
+        <label>${ADL.escapeHtml(ADL.t('profil.gmRate'))}</label>
+        <input id="gmRate" placeholder="${ADL.escapeHtml(ADL.t('profil.gmRatePh'))}" />
+      </div>
+    </div>
+    <label>${ADL.escapeHtml(ADL.t('profil.gmPlatforms'))}</label>
+    <input id="gmPlatforms" placeholder="${ADL.escapeHtml(ADL.t('profil.gmPlatformsPh'))}" />
+    <label>${ADL.escapeHtml(ADL.t('profil.gmSafety'))}</label>
+    <textarea id="gmSafety" placeholder="${ADL.escapeHtml(ADL.t('profil.gmSafetyPh'))}"></textarea>
+  `;
+  }
+
+  function playerPanelHTML() {
+    return `
+      <h3>${ADL.escapeHtml(ADL.t('profil.playerTitle'))}</h3>
+      <label>${ADL.escapeHtml(ADL.t('profil.pSystems'))}</label>
+      <input id="pSystems" placeholder="${ADL.escapeHtml(ADL.t('profil.pSystemsPh'))}" />
+      <div class="row2">
+        <div>
+          <label>${ADL.escapeHtml(ADL.t('profil.pStyle'))}</label>
+          <select id="pStyle">
+            <option value="Équilibré">${ADL.escapeHtml(ADL.t('profil.styleBalanced'))}</option>
+            <option value="Roleplay dominant">${ADL.escapeHtml(ADL.t('profil.styleRp'))}</option>
+            <option value="Combat dominant">${ADL.escapeHtml(ADL.t('profil.styleCombat'))}</option>
+            <option value="Enquête / intrigue">${ADL.escapeHtml(ADL.t('profil.styleInvest'))}</option>
+          </select>
+        </div>
+        <div>
+          <label>${ADL.escapeHtml(ADL.t('profil.pLevel'))}</label>
+          <select id="pLevel">
+            <option value="Débutant">${ADL.escapeHtml(ADL.t('profil.levelBeginner'))}</option>
+            <option value="Intermédiaire">${ADL.escapeHtml(ADL.t('profil.levelMid'))}</option>
+            <option value="Expérimenté">${ADL.escapeHtml(ADL.t('profil.levelPro'))}</option>
+          </select>
+        </div>
+      </div>
+      <label>${ADL.escapeHtml(ADL.t('profil.pAvailability'))}</label>
+      <textarea id="pAvailability" placeholder="${ADL.escapeHtml(ADL.t('profil.pAvailabilityPh'))}"></textarea>
+    `;
+  }
+
+  function applyDataToForm(data) {
+    if (!data) return;
+    displayName.value = data.displayName || user.display_name || "";
+    lang.value = data.lang || "FR";
+    tz.value = data.tz || "America/Montreal";
+    publicLink.value = data.publicLink || "";
+    bio.value = data.bio || "";
+    currentGames.value = data.currentGames || "";
+
+    if (mode === "player") {
+      const pSystems = document.getElementById("pSystems");
+      const pStyle = document.getElementById("pStyle");
+      const pLevel = document.getElementById("pLevel");
+      const pAvailability = document.getElementById("pAvailability");
+      if (pSystems) pSystems.value = data.pSystems || "";
+      if (pStyle) pStyle.value = data.pStyle || "Équilibré";
+      if (pLevel) pLevel.value = data.pLevel || "Débutant";
+      if (pAvailability) pAvailability.value = data.pAvailability || "";
+    } else {
+      const gmCurrentGames = document.getElementById("gmCurrentGames");
+      const gmSpecialties = document.getElementById("gmSpecialties");
+      const gmCorporate = document.getElementById("gmCorporate");
+      const gmRegions = document.getElementById("gmRegions");
+      const gmSystems = document.getElementById("gmSystems");
+      const gmExp = document.getElementById("gmExp");
+      const gmCurrency = document.getElementById("gmCurrency");
+      const gmRate = document.getElementById("gmRate");
+      const gmPlatforms = document.getElementById("gmPlatforms");
+      const gmSafety = document.getElementById("gmSafety");
+      if (gmCurrentGames) gmCurrentGames.value = data.gmCurrentGames || "";
+      if (gmSpecialties) gmSpecialties.value = data.specialties || "";
+      if (gmCorporate) gmCorporate.value = data.corporateOpen || "Non";
+      if (gmRegions) gmRegions.value = data.corporateRegions || "";
+      if (gmSystems) gmSystems.value = data.systems || "";
+      if (gmExp) gmExp.value = data.gmExp || "";
+      if (gmCurrency) gmCurrency.value = data.gmCurrency || "CAD";
+      if (gmRate) gmRate.value = data.gmRate || "";
+      if (gmPlatforms) gmPlatforms.value = data.gmPlatforms || "";
+      if (gmSafety) gmSafety.value = data.gmSafety || "";
+    }
+  }
+
+  function collect() {
+    const data = {
+      displayName: displayName.value.trim(),
+      lang: lang.value,
+      tz: tz.value,
+      publicLink: publicLink.value.trim(),
+      bio: bio.value.trim(),
+      currentGames: currentGames.value.trim(),
+      mode
+    };
+    if (mode === "player") {
+      data.pSystems = document.getElementById("pSystems")?.value.trim() || "";
+      data.pStyle = document.getElementById("pStyle")?.value || "Équilibré";
+      data.pLevel = document.getElementById("pLevel")?.value || "Débutant";
+      data.pAvailability = document.getElementById("pAvailability")?.value.trim() || "";
+    } else {
+      data.gmCurrentGames = document.getElementById("gmCurrentGames")?.value.trim() || "";
+      data.specialties = document.getElementById("gmSpecialties")?.value.trim() || "";
+      data.corporateOpen = document.getElementById("gmCorporate")?.value || "Non";
+      data.corporateRegions = document.getElementById("gmRegions")?.value.trim() || "";
+      data.systems = document.getElementById("gmSystems")?.value.trim() || "";
+      data.gmExp = document.getElementById("gmExp")?.value.trim() || "";
+      data.gmCurrency = document.getElementById("gmCurrency")?.value || "CAD";
+      data.gmRate = document.getElementById("gmRate")?.value.trim() || "";
+      data.gmPlatforms = document.getElementById("gmPlatforms")?.value.trim() || "";
+      data.gmSafety = document.getElementById("gmSafety")?.value.trim() || "";
+    }
+    return data;
+  }
+
+  function paintRolePanel(data) {
+    rolePanel.innerHTML = mode === "player" ? playerPanelHTML() : gmPanelHTML();
+    applyDataToForm(data);
+  }
+
+  async function load() {
+    okMsg.style.display = "none";
+    warnMsg.style.display = "none";
+    try {
+      const data = await ADL.api("/profiles/me");
+      cachedProfile = data.profile || null;
+      if (cachedProfile?.mode) mode = cachedProfile.mode;
+      tabPlayer.classList.toggle("active", mode === "player");
+      tabGM.classList.toggle("active", mode === "gm");
+      paintRolePanel(cachedProfile);
+    } catch (e) {
+      cachedProfile = { displayName: user.display_name || "" };
+      paintRolePanel(cachedProfile);
+    }
+  }
+
+  async function setMode(newMode) {
+    const current = collect();
+    cachedProfile = { ...(cachedProfile || {}), ...current, mode: newMode };
+    mode = newMode;
+    tabPlayer.classList.toggle("active", mode === "player");
+    tabGM.classList.toggle("active", mode === "gm");
+    paintRolePanel(cachedProfile);
+  }
+
+  async function save() {
+    okMsg.style.display = "none";
+    warnMsg.style.display = "none";
+    linkBox.style.display = "none";
+    try {
+      const payload = collect();
+      await ADL.api("/profiles/me", { method: "PUT", body: payload });
+      cachedProfile = { ...(cachedProfile || {}), ...payload };
+      okMsg.textContent = ADL.t('profil.saved');
+      okMsg.style.display = "block";
+      setTimeout(() => { okMsg.style.display = "none"; }, 2500);
+    } catch (e) {
+      warnMsg.textContent = ADL.errorMessage(e);
+      warnMsg.style.display = "block";
+    }
+  }
+
+  function clearData() {
+    displayName.value = "";
+    lang.value = "FR";
+    tz.value = "America/Montreal";
+    publicLink.value = "";
+    bio.value = "";
+    currentGames.value = "";
+    cachedProfile = { mode };
+    paintRolePanel(cachedProfile);
+    okMsg.textContent = ADL.t('profil.cleared');
+    okMsg.style.display = "block";
+  }
+
+  async function genPublicLink() {
+    await save();
+    const url = location.origin + "//profil-public?id=" + encodeURIComponent(user.id);
+    lastPublicUrl = url;
+    linkBox.textContent = url;
+    linkBox.style.display = "block";
+    try {
+      await navigator.clipboard.writeText(url);
+      okMsg.textContent = ADL.t('profil.linkCopied');
+    } catch {
+      okMsg.textContent = ADL.t('profil.linkReady');
+    }
+    okMsg.style.display = "block";
+  }
+
+  tabPlayer.addEventListener("click", () => setMode("player"));
+  tabGM.addEventListener("click", () => setMode("gm"));
+  document.getElementById("saveBtn").addEventListener("click", save);
+  document.getElementById("clearBtn").addEventListener("click", clearData);
+  document.getElementById("genLinkBtn").addEventListener("click", genPublicLink);
+  document.getElementById("openPublicBtn").addEventListener("click", () => {
+    if (!lastPublicUrl) lastPublicUrl = location.origin + "//profil-public?id=" + encodeURIComponent(user.id);
+    window.open(lastPublicUrl, "_blank", "noopener");
+  });
+  document.getElementById("copyPublicBtn").addEventListener("click", async () => {
+    if (!lastPublicUrl) lastPublicUrl = location.origin + "//profil-public?id=" + encodeURIComponent(user.id);
+    try {
+      await navigator.clipboard.writeText(lastPublicUrl);
+      okMsg.textContent = ADL.t('profil.linkCopied');
+      okMsg.style.display = "block";
+    } catch {
+      okMsg.textContent = ADL.t('profil.linkReady');
+      okMsg.style.display = "block";
+      linkBox.textContent = lastPublicUrl;
+      linkBox.style.display = "block";
+    }
+  });
+
+  ADL.onLangChange(() => {
+    const current = collect();
+    cachedProfile = { ...(cachedProfile || {}), ...current };
+    paintRolePanel(cachedProfile);
+    ADL.applyI18n();
+  });
+
+  await load();
+});
+</script>
+</body>
+</html>

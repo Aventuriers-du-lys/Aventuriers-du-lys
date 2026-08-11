@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="color-scheme" content="dark">
+<style>html,body{background:#050612;color:#e5e7eb}html{color-scheme:dark}</style>
+<link rel="stylesheet" href="/css/theme.css">
+<link rel="stylesheet" href="/css/header.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title data-i18n-title="meta.titleProfilPublic">Profil public - Les Aventuriers du Lys</title>
+<style>
+  :root{
+    --bg0:#050612; --text:#e5e7eb; --muted:#94a3b8; --line:rgba(148,163,184,.18);
+    --accent:#22d3ee; --accent2:#a78bfa; --gold:#fbbf24;
+    --panel:rgba(10,15,30,.78); --panel2:rgba(15,23,42,.90);
+    --radius2:22px; --shadow:0 18px 45px rgba(0,0,0,.55);
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    --fontDisplay: ui-serif, Georgia, "Times New Roman", Times, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font);
+    color:var(--text);
+    line-height:1.55;
+    background:
+      linear-gradient(rgba(5,6,18,.26), rgba(5,6,18,.78)),
+      url("table-fantasy.png"),
+      linear-gradient(180deg, #0b1230, var(--bg0));
+    background-size:cover;background-position:center;background-attachment:fixed;
+    min-height:100vh;
+  }
+  a{color:inherit}
+  .wrap{max-width:980px;margin:0 auto;padding:18px}
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter: blur(14px);
+    background: linear-gradient(to bottom, rgba(5,6,18,.85), rgba(5,6,18,.55), transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .sigil{
+    width:40px;height:40px;border-radius:999px;
+    background: radial-gradient(circle at 35% 25%, #ffffff, rgba(251,191,36,.85) 38%, rgba(167,139,250,.55) 62%, rgba(34,211,238,.35) 85%);
+    box-shadow: 0 0 18px rgba(34,211,238,.22), 0 0 24px rgba(167,139,250,.12);
+    border:1px solid rgba(148,163,184,.35);
+  }
+  .brand h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+  .brand p{font-size:12px;color:var(--muted);margin-top:-2px}
+  .nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+  .chip{
+    padding:8px 12px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.28);
+    background:rgba(2,6,23,.48);
+    color:var(--muted);font-size:13px;text-decoration:none;
+  }
+  .chip:hover{border-color:rgba(34,211,238,.55);color:var(--text)}
+  .langBtn{
+    padding:8px 12px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.28);
+    background:rgba(2,6,23,.55);
+    color:var(--text);cursor:pointer;font-size:13px;font-weight:900;
+  }
+  .card{
+    margin-top:18px;
+    background:var(--panel);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    box-shadow:var(--shadow);
+    padding:18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::after{
+    content:"";
+    position:absolute;inset:-40px;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(251,191,36,.08), transparent 48%),
+      radial-gradient(circle at 60% 70%, rgba(255,255,255,.03), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 1px, transparent 1px, transparent 6px);
+    mix-blend-mode: overlay; opacity:.55; pointer-events:none; transform: rotate(-2deg);
+  }
+  .card > *{position:relative;z-index:1}
+  .kicker{color:rgba(34,211,238,.95);text-transform:uppercase;letter-spacing:.18em;font-size:12px;margin-bottom:10px}
+  h2{font-family:var(--fontDisplay);font-size:30px;line-height:1.12;margin-bottom:10px}
+  h2 span{background:linear-gradient(to right, var(--gold), var(--accent2), var(--accent));-webkit-background-clip:text;color:transparent}
+  .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}
+  .panel{
+    background:var(--panel2);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:var(--radius2);
+    padding:16px;
+  }
+  .panel h3{font-size:16px;margin-bottom:10px}
+  .muted{color:var(--muted);font-size:13px}
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .k{color:var(--muted);font-size:12px}
+  .v{font-size:13px}
+  .pill{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:6px 10px;border-radius:999px;
+    border:1px solid rgba(148,163,184,.25);
+    background:rgba(2,6,23,.40);
+    color:var(--muted);font-size:12px;
+    width:max-content;gap:6px;margin-right:6px;margin-top:6px;
+  }
+  .dot{width:7px;height:7px;border-radius:999px;display:inline-block}
+  @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body class="adl-theme">
+<div data-site-header></div>
+
+<main class="wrap">
+  <section class="card">
+    <div class="kicker" id="kicker">Profil</div>
+    <h2 id="name">Profil <span>public</span></h2>
+    <p class="muted" id="bio">-</p>
+
+    <div class="grid">
+      <div class="panel">
+        <h3 data-i18n="profilPublic.details">Détails</h3>
+        <div class="kv" id="kv"></div>
+        <div style="margin-top:10px" id="tags"></div>
+        <div style="margin-top:14px">
+  <h3 data-i18n="profilPublic.games">Parties en cours</h3>
+  <div class="muted" id="gamesPublic">-</div>
+</div>
+      </div>
+
+      <div class="panel">
+        <h3 data-i18n="profilPublic.link">Lien</h3>
+        <p class="muted" data-i18n="profilPublic.linkHint">Si le créateur du profil a fourni un lien personnel, il apparaît ici.</p>
+        <div style="margin-top:10px" id="linkArea"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/i18n.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+(async function () {
+  await ADL.readyI18n;
+
+  let currentProfile = null;
+
+  function empty(){
+    return ADL.t('profilPublic.empty') || ADL.t('common.dash');
+  }
+
+  function b64UrlToB64(s){ return s.replace(/-/g,'+').replace(/_/g,'/'); }
+  function decodeB64UrlUtf8(b64url){
+    const b64 = b64UrlToB64(b64url);
+    const pad = '='.repeat((4 - (b64.length % 4)) % 4);
+    const bin = atob(b64 + pad);
+    const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
+  }
+
+  function pill(label, color){
+    return `<span class="pill"><span class="dot" style="background:${color}"></span>${ADL.escapeHtml(label)}</span>`;
+  }
+
+  function yesNoLabel(v){
+    if (v === 'Oui' || v === 'Yes') return ADL.t('profil.yes');
+    if (v === 'Non' || v === 'No') return ADL.t('profil.no');
+    return v || empty();
+  }
+
+  function styleLabel(v){
+    const map = {
+      'Équilibré': 'profil.styleBalanced',
+      'Roleplay dominant': 'profil.styleRp',
+      'Combat dominant': 'profil.styleCombat',
+      'Enquête / intrigue': 'profil.styleInvest',
+      'Balanced': 'profil.styleBalanced',
+      'Roleplay-focused': 'profil.styleRp',
+      'Combat-focused': 'profil.styleCombat',
+      'Investigation / intrigue': 'profil.styleInvest'
+    };
+    return map[v] ? ADL.t(map[v]) : (v || empty());
+  }
+
+  function levelLabel(v){
+    const map = {
+      'Débutant': 'profil.levelBeginner',
+      'Intermédiaire': 'profil.levelMid',
+      'Expérimenté': 'profil.levelPro',
+      'Beginner': 'profil.levelBeginner',
+      'Intermediate': 'profil.levelMid',
+      'Experienced': 'profil.levelPro'
+    };
+    return map[v] ? ADL.t(map[v]) : (v || empty());
+  }
+
+  function render(data){
+    currentProfile = data;
+    const name = data.displayName?.trim() || ADL.t('brand.taglinePublic');
+    const mode = data.mode || "player";
+
+    document.getElementById("kicker").textContent = mode === "gm" ? ADL.t('profilPublic.gm') : ADL.t('profilPublic.player');
+    document.getElementById("name").innerHTML = `${ADL.escapeHtml(name)} - <span>${ADL.escapeHtml(ADL.t('profilPublic.titleSuffix'))}</span>`;
+    document.getElementById("bio").textContent = (data.bio && data.bio.trim()) ? data.bio.trim() : empty();
+
+    const kv = [];
+    kv.push({k: ADL.t('profilPublic.lang'), v: data.lang || empty()});
+    kv.push({k: ADL.t('profilPublic.tz'), v: data.tz || empty()});
+
+    if(mode==="player"){
+      kv.push({k: ADL.t('profilPublic.systems'), v: data.pSystems || empty()});
+      kv.push({k: ADL.t('profilPublic.style'), v: styleLabel(data.pStyle)});
+      kv.push({k: ADL.t('profilPublic.experience'), v: levelLabel(data.pLevel)});
+      kv.push({k: ADL.t('profilPublic.availability'), v: data.pAvailability || empty()});
+    } else {
+      kv.push({k: ADL.t('profilPublic.specialties'), v: data.specialties || empty()});
+      kv.push({k: ADL.t('profilPublic.systems'), v: data.systems || empty()});
+      kv.push({k: ADL.t('profilPublic.experience'), v: data.gmExp || empty()});
+      kv.push({k: ADL.t('profilPublic.rate'), v:(data.gmRate && data.gmCurrency) ? `${data.gmRate} ${data.gmCurrency}` : empty()});
+      kv.push({k: ADL.t('profilPublic.platforms'), v: data.gmPlatforms || empty()});
+      kv.push({k: ADL.t('profilPublic.corporate'), v: yesNoLabel(data.corporateOpen)});
+      kv.push({k: ADL.t('profilPublic.regions'), v: data.corporateRegions || empty()});
+      kv.push({k: ADL.t('profilPublic.safety'), v: data.gmSafety || empty()});
+    }
+
+    document.getElementById("kv").innerHTML = kv.map(x=>`
+      <div><div class="k">${ADL.escapeHtml(x.k)}</div><div class="v">${ADL.escapeHtml(x.v)}</div></div>
+    `).join("");
+
+    const tags = [];
+    tags.push(pill(mode==="gm" ? ADL.t('profilPublic.gm') : ADL.t('profilPublic.player'), "var(--accent)"));
+    if(data.lang) tags.push(pill(data.lang, "var(--accent2)"));
+    if(data.tz) tags.push(pill(data.tz, "var(--gold)"));
+    document.getElementById("tags").innerHTML = tags.join("");
+
+    const games = (data.currentGames || data.gmCurrentGames || "").trim();
+    const el = document.getElementById("gamesPublic");
+    if(el){
+      if(!games){
+        el.textContent = empty();
+      } else {
+        const lines = games.split("\n").map(x=>x.trim()).filter(Boolean);
+        el.innerHTML = "<ul style='margin-left:18px;margin-top:8px'>" +
+          lines.map(l=>`<li>${ADL.escapeHtml(l)}</li>`).join("") +
+          "</ul>";
+      }
+    }
+
+    const link = (data.publicLink || "").trim();
+    const linkArea = document.getElementById("linkArea");
+    if(link){
+      const safe = sanitizeUrl(link);
+      linkArea.innerHTML = safe
+        ? `<a class="chip" style="display:inline-block" href="${safe}" target="_blank" rel="noopener">${ADL.escapeHtml(ADL.t('profilPublic.openLink'))}</a>`
+        : `<span class="muted">${ADL.escapeHtml(ADL.t('profilPublic.invalidLink'))}</span>`;
+    } else {
+      linkArea.innerHTML = `<span class="muted">${ADL.escapeHtml(empty())}</span>`;
+    }
+
+    ADL.applyI18n();
+  }
+
+  function sanitizeUrl(u){
+    try{
+      const url = new URL(u.startsWith("http") ? u : ("https://" + u));
+      if(url.protocol === "http:" || url.protocol === "https:") return url.toString();
+      return null;
+    }catch(e){ return null; }
+  }
+
+  async function boot(){
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+    const dataParam = params.get("data");
+
+    if(id){
+      try{
+        const data = await ADL.api('/profiles/' + encodeURIComponent(id));
+        render(data.profile);
+      }catch{
+        render({displayName: ADL.t('brand.taglinePublic'), bio: ADL.t('profilPublic.missing'), mode:"player"});
+      }
+      return;
+    }
+
+    if(dataParam){
+      try{
+        const json = decodeB64UrlUtf8(dataParam);
+        render(JSON.parse(json));
+      }catch(e){
+        render({displayName: ADL.t('brand.taglinePublic'), bio: ADL.t('profilPublic.missing'), mode:"player"});
+      }
+      return;
+    }
+
+    render({displayName: ADL.t('brand.taglinePublic'), bio: ADL.t('profilPublic.noData'), mode:"player"});
+  }
+
+  ADL.onLangChange(() => {
+    if (currentProfile) render(currentProfile);
+    else ADL.applyI18n();
+  });
+
+  await boot();
+})();
+</script>
+</body>
+</html>

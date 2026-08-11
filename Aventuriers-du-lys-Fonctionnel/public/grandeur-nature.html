@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="color-scheme" content="dark">
+<style>html,body{background:#050612;color:#e5e7eb}html{color-scheme:dark}</style>
+<link rel="stylesheet" href="/css/theme.css">
+<link rel="stylesheet" href="/css/header.css">
+  <meta charset="UTF-8">
+  <title data-i18n-title="meta.titleGrandeurNature">Grandeur Nature - Les Aventuriers du Lys</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="adl-theme">
+<div data-site-header></div>
+
+<main class="adl-wrap">
+  <section class="adl-card">
+    <div class="adl-kicker" data-i18n="larp.kicker">Communauté - Événements</div>
+    <h1 class="adl-title"><span data-i18n="larp.title">Événements Grandeur Nature</span></h1>
+    <p class="adl-lead" data-i18n="larp.lead">
+      Découvrez des événements de jeu de rôle grandeur nature organisés par différentes communautés.
+      Vous êtes organisateur ? Publiez votre événement pour rejoindre de nouveaux joueurs.
+    </p>
+  </section>
+
+  <section id="events"></section>
+
+  <section class="adl-panel">
+    <h2 class="adl-title" style="font-size:20px" data-i18n="larp.formTitle">Publier un événement</h2>
+    <form id="gnForm">
+      <div class="adl-field">
+        <label data-i18n="larp.name">Nom de l'événement</label>
+        <input name="Nom" id="Nom" required>
+      </div>
+      <div class="adl-field">
+        <label data-i18n="larp.place">Lieu</label>
+        <input name="Lieu" id="Lieu">
+      </div>
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="larp.date">Date</label>
+          <input name="Date" id="Date">
+        </div>
+        <div class="adl-field">
+          <label data-i18n="larp.participants">Nombre de participants</label>
+          <input name="Participants" id="Participants">
+        </div>
+      </div>
+      <div class="adl-field">
+        <label data-i18n="larp.tags">Tags (séparés par des virgules)</label>
+        <input name="Tags" id="Tags" data-i18n-placeholder="larp.tagsPh" placeholder="Fantasy, Survie">
+      </div>
+      <div class="adl-field">
+        <label data-i18n="larp.description">Description</label>
+        <textarea name="Description" id="Description"></textarea>
+      </div>
+      <button type="submit" class="adl-btn-primary" data-i18n="larp.submit">Soumettre l'événement</button>
+    </form>
+    <div class="adl-msg" id="msg"></div>
+    <p class="adl-note" style="margin-top:12px" data-i18n="larp.needLogin">Connexion requise pour publier.</p>
+  </section>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/i18n.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+(async function () {
+  await ADL.readyI18n;
+
+  async function loadEvents(){
+    const box = document.getElementById('events');
+    try{
+      const data = await ADL.api('/events');
+      const events = data.events || [];
+      if (!events.length) {
+        box.innerHTML = `<div class="adl-panel adl-note">${ADL.escapeHtml(ADL.t('larp.empty'))}</div>`;
+        return;
+      }
+      box.innerHTML = events.map(e => `
+        <article class="adl-event">
+          <h3>${ADL.escapeHtml(e.name)}</h3>
+          <div class="adl-meta">${ADL.escapeHtml([e.place, e.event_date, e.participants].filter(Boolean).join(' • '))}</div>
+          <p>${ADL.escapeHtml(e.description || '')}</p>
+          ${(e.tags||[]).map(t => `<span class="adl-badge adl-badge-accent">${ADL.escapeHtml(t)}</span>`).join('')}
+        </article>
+      `).join('');
+    }catch(err){
+      box.innerHTML = `<div class="adl-panel adl-note">${ADL.escapeHtml(ADL.t('larp.loadError'))}</div>`;
+    }
+  }
+
+  document.getElementById('gnForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('msg');
+    const user = await ADL.me();
+    if(!user){
+      location.href = '/compte?next=' + encodeURIComponent('/grandeur-nature');
+      return;
+    }
+    try{
+      await ADL.api('/events', {
+        method: 'POST',
+        body: {
+          Nom: document.getElementById('Nom').value,
+          Lieu: document.getElementById('Lieu').value,
+          Date: document.getElementById('Date').value,
+          Participants: document.getElementById('Participants').value,
+          tags: document.getElementById('Tags').value,
+          Description: document.getElementById('Description').value
+        }
+      });
+      msg.className = 'adl-msg ok';
+      msg.textContent = ADL.t('larp.success');
+      e.target.reset();
+      ADL.applyI18n();
+      loadEvents();
+    }catch(err){
+      msg.className = 'adl-msg err';
+      msg.textContent = ADL.errorMessage(err);
+    }
+  });
+
+  ADL.onLangChange(() => {
+    loadEvents();
+    ADL.applyI18n();
+  });
+
+  await loadEvents();
+})();
+</script>
+</body>
+</html>

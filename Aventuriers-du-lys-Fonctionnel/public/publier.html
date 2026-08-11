@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="color-scheme" content="dark">
+<style>html,body{background:#050612;color:#e5e7eb}html{color-scheme:dark}</style>
+<link rel="stylesheet" href="/css/theme.css">
+<link rel="stylesheet" href="/css/header.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title data-i18n-title="meta.titlePublier">Publier une partie - Les Aventuriers du Lys</title>
+</head>
+<body class="adl-theme">
+
+<div data-site-header></div>
+
+<main class="adl-wrap">
+  <section class="adl-card">
+    <div class="adl-kicker" data-i18n="publier.kicker">Maîtres de jeu</div>
+    <h1 class="adl-title"><span data-i18n="publier.title">Publier une partie</span></h1>
+    <p class="adl-lead" data-i18n="publier.lead">Connectez-vous pour publier. La partie apparaîtra sur l'accueil.</p>
+  </section>
+
+  <section class="adl-panel">
+    <form id="publishForm">
+      <div class="adl-field">
+        <label data-i18n="publier.gmName">Pseudo du MJ</label>
+        <input name="PseudoMJ" id="PseudoMJ" data-i18n-placeholder="publier.gmNamePh" placeholder="Votre pseudo" required />
+      </div>
+
+      <div class="adl-field">
+        <label data-i18n="publier.gameTitle">Titre de la partie</label>
+        <input name="Titre" id="Titre" data-i18n-placeholder="publier.gameTitlePh" placeholder="Titre de votre partie" required />
+      </div>
+
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="publier.system">Système</label>
+          <select name="Système" id="Systeme">
+            <option>D&D</option>
+            <option>Pathfinder</option>
+            <option>VtM</option>
+            <option>Cthulhu</option>
+            <option>Marvel/DC</option>
+            <option>Cyberpunk</option>
+            <option>Shadowrun</option>
+            <option data-i18n="home.systemOther">Autre</option>
+          </select>
+        </div>
+        <div class="adl-field">
+          <label data-i18n="publier.tableLang">Langue de la table</label>
+          <select name="Langue" id="Langue">
+            <option>FR</option>
+            <option>EN</option>
+            <option>BIL</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="adl-field">
+        <label data-i18n="publier.price">Prix par joueur / séance</label>
+        <div class="adl-row2">
+          <select name="Montant" id="Montant">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="15">15</option>
+            <option value="18">18</option>
+            <option value="20" selected>20</option>
+            <option value="22">22</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="35">35</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+          </select>
+          <select name="Devise" id="Devise">
+            <option value="CAD" selected>CAD</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="publier.startDate">Date de début</label>
+          <input type="date" name="DateDébut" id="DateDebut" />
+        </div>
+        <div class="adl-field">
+          <label data-i18n="publier.time">Heure</label>
+          <input type="time" name="Heure" id="Heure" />
+        </div>
+      </div>
+
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="publier.frequency">Fréquence</label>
+          <select name="Fréquence" id="Frequence">
+            <option value="one-shot" data-i18n="listings.freqOneShot">One-shot</option>
+            <option value="hebdomadaire" data-i18n="listings.freqWeekly">Hebdomadaire</option>
+            <option value="bi-hebdo" data-i18n="listings.freqBiWeekly">Bi-hebdo (1 semaine sur 2)</option>
+            <option value="mensuel" data-i18n="listings.freqMonthly">Mensuel</option>
+            <option value="ponctuel" data-i18n="listings.freqIrregular">Ponctuel / irrégulier</option>
+          </select>
+        </div>
+        <div class="adl-field">
+          <label data-i18n="publier.timezone">Fuseau horaire</label>
+          <select name="Timezone" id="Timezone">
+            <option value="America/Montreal" selected>America/Montreal (Québec)</option>
+            <option value="America/New_York">America/New_York</option>
+            <option value="America/Toronto">America/Toronto</option>
+            <option value="America/Chicago">America/Chicago</option>
+            <option value="America/Denver">America/Denver</option>
+            <option value="America/Los_Angeles">America/Los_Angeles</option>
+            <option value="Europe/Paris">Europe/Paris</option>
+            <option value="Europe/London">Europe/London</option>
+            <option value="UTC">UTC</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="adl-row2">
+        <div class="adl-field">
+          <label data-i18n="publier.minPlayers">Min joueurs</label>
+          <input type="number" id="minPlayers" value="3" min="1" max="12" />
+        </div>
+        <div class="adl-field">
+          <label data-i18n="publier.maxPlayers">Max joueurs</label>
+          <input type="number" id="maxPlayers" value="5" min="1" max="12" />
+        </div>
+      </div>
+
+      <div class="adl-field">
+        <label data-i18n="publier.platforms">Plateformes utilisées</label>
+        <input name="Plateformes" id="Plateformes" data-i18n-placeholder="publier.platformsPh" placeholder="ex: Discord + Foundry" />
+      </div>
+
+      <div class="adl-field">
+        <label data-i18n="publier.description">Description</label>
+        <textarea name="Description" id="Description" rows="6" data-i18n-placeholder="publier.descriptionPh" placeholder="Pitch, ton, niveau, durée, places..." required></textarea>
+      </div>
+
+      <button type="submit" class="adl-btn-primary" data-i18n="publier.submit">Publier la partie</button>
+    </form>
+    <div class="adl-msg" id="msg"></div>
+  </section>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/i18n.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+(async function(){
+  await ADL.readyI18n;
+
+  const user = await ADL.me();
+  if(!user){
+    location.href = '/compte?next=' + encodeURIComponent('/publier') + '&mode=register';
+    return;
+  }
+  document.getElementById('PseudoMJ').value = user.display_name || '';
+
+  const msg = document.getElementById('msg');
+  document.getElementById('publishForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.className = 'adl-msg';
+    try {
+      await ADL.api('/games', {
+        method: 'POST',
+        body: {
+          PseudoMJ: document.getElementById('PseudoMJ').value,
+          Titre: document.getElementById('Titre').value,
+          Système: document.getElementById('Systeme').value,
+          Langue: document.getElementById('Langue').value,
+          Montant: document.getElementById('Montant').value,
+          Devise: document.getElementById('Devise').value,
+          DateDébut: document.getElementById('DateDebut').value,
+          Heure: document.getElementById('Heure').value,
+          Fréquence: document.getElementById('Frequence').value,
+          Timezone: document.getElementById('Timezone').value,
+          Plateformes: document.getElementById('Plateformes').value,
+          Description: document.getElementById('Description').value,
+          min_players: Number(document.getElementById('minPlayers').value),
+          max_players: Number(document.getElementById('maxPlayers').value)
+        }
+      });
+      msg.className = 'adl-msg ok';
+      msg.textContent = ADL.t('publier.success');
+      setTimeout(() => location.href = '/', 900);
+    } catch (err) {
+      msg.className = 'adl-msg err';
+      msg.textContent = ADL.errorMessage(err);
+    }
+  });
+})();
+</script>
+</body>
+</html>

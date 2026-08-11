@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="color-scheme" content="dark">
+<style>html,body{background:#050612;color:#e5e7eb}html{color-scheme:dark}</style>
+<link rel="stylesheet" href="/css/theme.css">
+<link rel="stylesheet" href="/css/header.css">
+  <meta charset="UTF-8">
+  <title data-i18n-title="meta.titleProfil">Profil - Les Aventuriers du Lys</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:Arial,sans-serif;background:#0b0f1a;color:#94a3b8;margin:0;padding:40px;text-align:center}
+    a{color:#22d3ee}
+  </style>
+</head>
+<body class="adl-theme">
+<div data-site-header></div>
+  <p data-i18n="common.loading">Chargement…</p>
+  <p><a href="/profil" data-i18n="nav.profile">Profil</a></p>
+  <script src="/js/api.js"></script>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/nav.js"></script>
+  <script>
+  (async function () {
+    await ADL.readyI18n;
+    const id = new URLSearchParams(location.search).get('id');
+    if (id) {
+      location.replace('/profil-public?id=' + encodeURIComponent(id));
+    } else {
+      location.replace('/profil');
+    }
+  })();
+  </script>
+</body>
+</html>
